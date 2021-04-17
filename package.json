@@ -1,0 +1,24 @@
+{
+  "name": "keep-fit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodeman index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mouhebbenchiekh/keep-fit.git"
+  },
+  "author": "Mrabet Chouaib && Mouheb Ben Chiekh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mouhebbenchiekh/keep-fit/issues"
+  },
+  "homepage": "https://github.com/mouhebbenchiekh/keep-fit#readme",
+  "dependencies": {
+    "add-gitignore": "^1.1.1",
+    "express": "^4.17.1",
+    "nodeman": "^1.1.2"
+  }
+}
