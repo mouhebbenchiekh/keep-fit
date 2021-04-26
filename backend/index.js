@@ -23,4 +23,4 @@ app.use('/api/user', authRoute);
 app.use('/api/private', privateRoute);
 
 
-app.listen(3000, () => console.log('Server Up and running'));
+app.listen(5000, () => console.log('Server Up and running'));
