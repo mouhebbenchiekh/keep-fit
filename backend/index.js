@@ -15,6 +15,12 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => {
 });
 
 
+//cors allow 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 // Middlewares :
 app.use(express.json());
 

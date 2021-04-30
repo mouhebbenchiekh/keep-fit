@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,44 +20,56 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
+//context api 
+
+import {Context} from "Reducer/Store";
+
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/login.jpg";
-import { login } from "Reducer/endpoints";
+import { register } from "Reducer/endpoints";
 import { Redirect, useHistory } from "react-router";
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  var hist=useHistory();
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
-  const classes = useStyles();
-  const { ...rest } = props;
 
+  var hist=useHistory();
+  const [state,dispatch]=useContext(Context);
+
+  const [name,setName]=useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
 
   const handelSubmit=()=>{
-    
-    const user ={email:email,
-    password:password}
-    axios.post(login,JSON.stringify(user),{
-      headers:{
-        "Content-Type":"application/json"
-      }
-    }).then(
-      res=>{console.log(res)
-        localStorage.setItem("token",res.data)
-        hist.push("/profile-page")
-        
-      }
-    ).catch(err=>console.log(err))
+     const user={name:name,
+    email:email,
+password:password}
+console.log(JSON.stringify(user));
+axios.post(register,JSON.stringify(user),{headers: { 
+  'Content-Type' : 'application/json' 
+}}).then(
+  res=>{
+    console.log(res)
+  
+    hist.push("/profile-page")
+ 
+   
 
-    
+}
+
+
+).catch(err=>console.log(err))
+
+
+
   }
+  const classes = useStyles();
+  const { ...rest } = props;
   return (
     <div>
       <Header
@@ -81,7 +93,7 @@ export default function LoginPage(props) {
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login</h4>
+                    <h4>Sign up</h4>
                     <div className={classes.socialLine}>
                       <Button
                         justIcon
@@ -115,11 +127,25 @@ export default function LoginPage(props) {
                   <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
                     <CustomInput
+                      labelText="First Name..."
+                      id="first"
+                      handelchange={e=>{setName(e.target.value)}}
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <People className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                    <CustomInput
                       labelText="Email..."
                       id="email"
-                      handelchange={(e)=> {setEmail(e.target.value)
-
-                      }}
+                      handelchange={e=>{setEmail(e.target.value)}}
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -135,7 +161,7 @@ export default function LoginPage(props) {
                     <CustomInput
                       labelText="Password"
                       id="pass"
-                      handelchange={(e)=>{setPassword(e.target.value)}}
+                      handelchange={e=>setPassword(e.target.value)}
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -153,7 +179,7 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg" onClick={()=>{handelSubmit()}} >
+                    <Button simple color="primary" size="lg" onClick={()=>{handelSubmit()}}>
                       Get started
                     </Button>
                   </CardFooter>

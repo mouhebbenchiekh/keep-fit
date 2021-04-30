@@ -29,62 +29,64 @@ export default function HeaderLinks(props) {
     
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
+          
           color="transparent"
           target="_blank"
           className={classes.navLink}
         >
+          <Link to="/" style={{color:"inherit"}}>
            results
+           </Link>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
+          
           color="transparent"
           target="_blank"
           className={classes.navLink}
         >
-           events
+           <Link to="/" style={{color:"inherit"}}>events</Link>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
+          
           color="transparent"
           target="_blank"
           className={classes.navLink}
         >
-           reserve
+          <Link to="/" style={{color:"inherit"}}>reserve</Link>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
+         
           color="transparent"
           target="_blank"
           className={classes.navLink}
         >
-           subscribe 
+          <Link to="/"style={{color:"inherit"}}> subscribe </Link>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
+         
           color="transparent"
           target="_blank"
           className={classes.navLink}
         >
-           coaches 
+          <Link to="/" style={{color:"inherit"}}> coaches </Link>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
+          
           color="transparent"
-          target="_blank"
+          target="/profile-page"
           className={classes.navLink}
         >
-           login 
+          <Link to="/login-page" style={{color:"inherit"}}> login</Link> 
         </Button>
       </ListItem>
       
