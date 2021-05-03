@@ -1,3 +1,5 @@
+// Related to Register and Login
+
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
