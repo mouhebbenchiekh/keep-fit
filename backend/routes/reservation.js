@@ -16,7 +16,7 @@ var Facility = mongoose.model('Facility');
  * Create a new reservation by logged-id customer
  * Required data: token, facility, reservationFrom   : deleted noOfPersons
  */
-router.post('/', auth.required, function (req, res, next) { // remove auth.required
+router.post('/',  function (req, res, next) { // remove auth.required
     Customer.findById(req.user.id).then(function (customer) {
         if (!customer) return res.sendStatus(401);
 
@@ -109,7 +109,7 @@ router.post('/', auth.required, function (req, res, next) { // remove auth.requi
  * Get all reservations of the logged-in customer
  * Required data: Authentication token for customer
  */
-router.get('/', auth.required, function (req, res, next) { // remove auth.required
+router.get('/',  function (req, res, next) { // remove auth.required
     Customer.findById(req.user.id).then(function (customer) {
         if (!customer) return res.sendStatus(401);
 
@@ -131,7 +131,7 @@ router.get('/', auth.required, function (req, res, next) { // remove auth.requir
  * Get reservation of the logged-in customer by reservationId
  * Required data: Authentication token
  */
-router.get('/:reservationId', auth.required, function (req, res, next) {
+router.get('/:reservationId',  function (req, res, next) {
     // if regEx of params do not match procceed to next function
     var regExObjectId = /^[a-f\d]{24}$/i;
     if (!regExObjectId.test(req.params.reservationId)) return next();

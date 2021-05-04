@@ -13,7 +13,7 @@ var Facility = mongoose.model('Facility');
  * required data: Authentication token
  * optional data on query string: id, email, phone (Atleast one is required)
  */
-router.get('/:facilityId/customer', auth.required, function(req, res, next) { // remove auth.required
+router.get('/:facilityId/customer', function(req, res, next) { // remove auth.required
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();

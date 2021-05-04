@@ -7,21 +7,20 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var ReservationSchema = new mongoose.Schema({
     customer: {
         type: ObjectId,
-        required: [true, "can't be blank"]
+ //       required: [true, "can't be blank"]
     },
     facility: {
         type: ObjectId,
         ref: 'Facility',
-        required: [true, "Can't be blank"],
+ //       required: [true, "Can't be blank"],
     },
     court: {
         type: { type: ObjectId, ref: 'Court' },
-        default: undefined,
-        required: [true, "can't be blank"]
+//        required: [true, "can't be blank"]
     },
     reservationFrom: {
         type: Date,
-        required: [true, "can't be blank"],
+  //      required: [true, "can't be blank"],
     },
     reservationStatus: {
         type: String,

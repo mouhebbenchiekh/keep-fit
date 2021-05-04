@@ -17,7 +17,7 @@ var Facility = mongoose.model('Facility');
  *	- reservationId // ignore this reservation id while checking availability
  */
 //TODO restrict acess
-router.get('/:facilityId', auth.required, function(req, res, next) { // remove auth.required
+router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 	// Check user is admin of the facility or not
 	Facility.findOne({
 		admin: req.user.id,

@@ -18,7 +18,7 @@ var Court = mongoose.model('Court');
  * permission - facility owner
  * required data - Authentication token
  */ 
-router.get('/:facilityId/:reservationId', auth.required, function(req, res, next) {
+router.get('/:facilityId/:reservationId',  function(req, res, next) {
 	console.log('Getting reservation..');
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
@@ -49,7 +49,7 @@ router.get('/:facilityId/:reservationId', auth.required, function(req, res, next
  * optional data
  *	-  reservationFrom, reservationStatus, court (objectId),           removed : noOfPersons,
  */ 
-router.put('/:facilityId/:reservationId', auth.required, function(req, res, next) {  // remove auth.required
+router.put('/:facilityId/:reservationId',  function(req, res, next) {  // remove auth.required
 	console.log('\nProcessing updation request: ');
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
@@ -144,7 +144,7 @@ router.put('/:facilityId/:reservationId', auth.required, function(req, res, next
  *	-	user: {name, email} (optional data required in case of new customer)
  *	-	court (type: ObjectId)
  */ 
-router.post('/:facilityId', auth.required, function(req, res, next) {  // remove auth.required
+router.post('/:facilityId',  function(req, res, next) {  // remove auth.required
 	console.log('\nProcessing reservation request: ');
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
@@ -240,7 +240,7 @@ router.post('/:facilityId', auth.required, function(req, res, next) {  // remove
  * permission - facility owner
  * required data - Authentication token, reservationStatus
  */
-router.put('/:facilityId/:reservationId/status', auth.required, function(req, res, next) {  //remove auth.required
+router.put('/:facilityId/:reservationId/status', function(req, res, next) {  //remove auth.required
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();

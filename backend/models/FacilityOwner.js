@@ -15,7 +15,7 @@ var FacilityOwnerSchema = new mongoose.Schema({
         required: [true, "can't be blank"]
     },
     cin: {
-        type : Integer,
+        type : Number,
         required: [true, "can't be blank"],
         unique: true,
         match: [/[0-9]{8}$/, 'is invalid']

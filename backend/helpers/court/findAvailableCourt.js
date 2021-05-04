@@ -6,7 +6,7 @@ var Reservation = mongoose.model('Reservation');
 var config = require('../../config');
 var throwError = require('../throwError');
 
-var findAvailbleCourt = function(payload, next) {
+var findAvailableCourt = function(payload, next) {
 	return new Promise(function(resolve,reject){
 		// Find the occupied courts of the facility at the given time
 		Reservation.find(

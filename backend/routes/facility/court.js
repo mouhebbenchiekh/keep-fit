@@ -14,7 +14,7 @@ var FacilityOwner = mongoose.model('FacilityOwner');
  * required data: Authentication token, facility.id, courts, courtIdentifier, capacity
  * optional data: description
  */
-router.post('/:facilityId', auth.required, function(req, res, next) {
+router.post('/:facilityId',  function(req, res, next) { // removed auth.required,
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();
@@ -70,7 +70,7 @@ router.post('/:facilityId', auth.required, function(req, res, next) {
  * required data: Authentication token, court.id
  * optional data: courtIdentifier, capacity, description
  */
-router.put('/', auth.required, function(req, res, next) {    // remove auth.required
+router.put('/', function(req, res, next) {    // remove auth.required
 	FacilityOwner.findById(req.user.id).then(function(facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
@@ -108,7 +108,7 @@ router.put('/', auth.required, function(req, res, next) {    // remove auth.requ
 /*
  * Read data of a court of a particular facility
  */
-router.get('/:facilityId/:courtId', auth.required, function(req, res, next) {
+router.get('/:facilityId/:courtId',  function(req, res, next) {
 	// Check user is admin of the facility or not
 	Facility.findOne({
 		admin: req.user.id,

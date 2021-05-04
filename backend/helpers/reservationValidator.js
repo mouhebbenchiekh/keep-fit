@@ -4,8 +4,8 @@ var helpers = require('./utility');
 
 var Court = mongoose.model('Court');
 var Facility = mongoose.model('Facility');
-var getDay = helpers.time.getDay;
-var getTime = helpers.time.get;
+//var getDay = helpers.time.getDay;
+//var getTime = helpers.time.get;
 
 // Instantiate object to export
 var reservationValidator = {};

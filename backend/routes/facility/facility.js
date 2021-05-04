@@ -12,7 +12,7 @@ var FacilityOwner = mongoose.model('FacilityOwner');
  * required data: name, address, business hours
  * optional data: description
  */
-router.post('/', auth.required, function (req, res, next) { // remove auth.required
+router.post('/',  function (req, res, next) { // remove auth.required
 	FacilityOwner.findById(req.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
@@ -36,7 +36,7 @@ router.post('/', auth.required, function (req, res, next) { // remove auth.requi
  * Get facilitys own by facilityOwner
  * required data: Authentication token
  */
-router.get('/', auth.required, function (req, res, next) { // remove auth.required
+router.get('/',  function (req, res, next) { // remove auth.required
 	FacilityOwner.findById(req.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
@@ -56,7 +56,7 @@ router.get('/', auth.required, function (req, res, next) { // remove auth.requir
  * required data: Authentication token
  * optional data: name, address, description, businessHours
  */
-router.put('/', auth.required, function (req, res, next) { // remove auth.required
+router.put('/', function (req, res, next) { // remove auth.required
 	FacilityOwner.findById(req.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
