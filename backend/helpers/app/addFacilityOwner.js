@@ -11,8 +11,10 @@ var config = require('../../config');
 
 var FacilityOwner = require('../../models/FacilityOwner');
 
+
+
 // Connect database
-mongoose.connect(config.mongodb.URL, config.mongodb.option) // Change configurations
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }) // Change configurations
 .then(function() {
 	console.log('\x1b[32m%s\x1b[0m', 'Database Connection Established!');
 

@@ -29,7 +29,7 @@ var findAvailbleCourt = function(payload, next) {
 				{
 					'facility': payload.facility,
 				},
-				'_id capacity'              // ?? change this 
+				'_id'              
 			).then(function(allCourts) {
 				console.log('All Courts: ', allCourts);
 				if (!allCourts.length) throwError.noTable('Court not available');
@@ -41,9 +41,8 @@ var findAvailbleCourt = function(payload, next) {
 					.includes(JSON.parse(JSON.stringify(x._id)))));
 
 				if (!availableCourts.length) throwError.noTable('Court not available');
-				console.log('Available courtes', availableCourts);
+				console.log('Available courts', availableCourts);
 
-				// Select one table with minimum capacity
 				let len = availableCourts.length;
 				let court = '';
 

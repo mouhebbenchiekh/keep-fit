@@ -11,15 +11,15 @@ var utility = require('../utility');
 var listCourts = function(availability, facility, query, next) {
 	return new Promise(async function(resolve,reject){
 		// List all courts
-		if (availability == 'all') {
+		if (availability == 'all') { //??
 			resolve(await listAllCourts(facility, query))	
 		}
 
 		let facilityOpen = undefined;
 
-		// find facility is open or close at the given time
-		if (availability != 'all') {
-			// Find the facility is open or close at that time
+		// find out if the facility is open or close at the given time
+		if (availability != 'all') { //??
+			// Find out if the facility is open or close at that time
 			await Facility.findById(facility, 'businessHours')
 			.then(function(data) {
 				let businessHours = (data.businessHours[utility.time.getDay(query.date)]);
