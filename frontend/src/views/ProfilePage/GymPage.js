@@ -3,12 +3,14 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import Chip from '@material-ui/core/Chip';
+
 // @material-ui/icons
 
-
-import EventIcon from '@material-ui/icons/Event';
-import MapIcon from '@material-ui/icons/Map';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import SportsIcon from '@material-ui/icons/Sports';
+import MapIcon from '@material-ui/icons/Map';
+
 
 // core components
 import Header from "components/Header/Header.js";
@@ -20,7 +22,7 @@ import HeaderLinks from "components/Header/HeaderLinks.js";
 import NavPills from "components/NavPills/NavPills.js";
 import Parallax from "components/Parallax/Parallax.js";
 
-import profile from "assets/img/football.jpg";
+import profile from "assets/img/faces/oxygene.png";
 
 import studio1 from "assets/img/examples/studio-1.jpg";
 import studio2 from "assets/img/examples/studio-2.jpg";
@@ -51,7 +53,7 @@ const schedulerData = [
 
 const useStyles = makeStyles(styles);
 
-export default function ParkPage(props) {
+export default function GymPage(props) {
   const classes = useStyles();
   const { ...rest } = props;
   const imageClasses = classNames(
@@ -84,9 +86,9 @@ export default function ParkPage(props) {
                     <img src={profile} alt="..." className={imageClasses} />
                   </div>
                   <div className={classes.name}>
-                    <h3 className={classes.title}>Stade Videtto</h3>
+                    <h3 className={classes.title}>Oxygene GYM</h3>
                     <h5 style={{color:"green"}}>Price: 80dt</h5>
-                    <h6>Football</h6>
+                    
                     <Button justIcon link className={classes.margin5}>
                       <i className={"fab fa-twitter"} />
                     </Button>
@@ -147,22 +149,33 @@ export default function ParkPage(props) {
                       )
                     },
                     {
-                      tabButton: "Schedule",
-                      tabIcon: EventIcon,
+                      tabButton: "Activities",
+                      tabIcon: SportsIcon,
                       tabContent: (
                         <GridContainer justify="center">
-                          <Scheduler
-                            data={schedulerData}
-                          >
-                            <ViewState
-                              currentDate={currentDate}
-                            />
-                            <DayView
-                              startDayHour={9}
-                              endDayHour={14}
-                            />
-                            <Appointments />
-                          </Scheduler>
+                          <GridItem xs={6} sm={6} md={4} lg={2}>
+                            <Chip label="Musculation" style={{marginTop:"10px"}}/>
+                          </GridItem>
+                          <GridItem xs={6} sm={6} md={4} lg={2}>
+                            <Chip label="Musculation" style={{marginTop:"10px"}}/>
+                          </GridItem>
+                          <GridItem xs={6} sm={6} md={4} lg={2}>
+                            <Chip label="Musculation" style={{marginTop:"10px"}}/>
+                          </GridItem>
+                          <GridItem xs={6} sm={6} md={4} lg={2}>
+                            <Chip label="Musculation" style={{marginTop:"10px"}}/>
+                          </GridItem>
+                          <GridItem xs={6} sm={6} md={4} lg={2}>
+                            <Chip label="Musculation" style={{marginTop:"10px"}}/>
+                          </GridItem>
+                          <GridItem xs={6} sm={6} md={4} lg={2}>
+                            <Chip label="Musculation" style={{marginTop:"10px"}}/>
+                          </GridItem>
+                          <GridItem xs={6} sm={6} md={4} lg={2}>
+                            <Chip label="Musculation" style={{marginTop:"10px"}}/>
+                          </GridItem>
+                         
+                          
                         </GridContainer>
                       )
                     },

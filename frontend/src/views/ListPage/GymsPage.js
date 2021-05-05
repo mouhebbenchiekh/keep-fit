@@ -11,7 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Parallax from "components/Parallax/Parallax";
 import MediaCard from "components/Card/mediaCard";
-import photo from "assets/img/football.jpg";
+import team1 from "assets/img/faces/california.png";
+import team2 from "assets/img/faces/redsquare.png";
+import team3 from "assets/img/faces/oxygene.png";
 
 const useStyles = makeStyles((theme)=>({
  main:{
@@ -55,7 +57,11 @@ const top100Films=[
     {title:'basketball',year:'2020'}
 ];
 
-const ParksPage=(props)=>{
+const location=["tunis","sousse","sfax","nabeul"
+
+]
+
+const GymsPage=(props)=>{
     const classes = useStyles();
   const { ...rest } = props;
 
@@ -80,9 +86,9 @@ const ParksPage=(props)=>{
                     <Autocomplete
                             className={classes.margin20}
                             id="combo-box-demo"
-                            options={top100Films}
-                            getOptionLabel={(option) => option.title}
-                            renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                            options={location}
+                            //getOptionLabel={(option) => option.title}
+                            renderInput={(params) => <TextField {...params} label="Location" variant="outlined" />}
                         />
           </GridItem>
           <GridItem xs={12} sm={12} md={6} lg={3}>
@@ -91,7 +97,7 @@ const ParksPage=(props)=>{
                         id="combo-box-demo"
                         options={top100Films}
                         getOptionLabel={(option) => option.title}
-                        renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                        renderInput={(params) => <TextField {...params} label="Name" variant="outlined" />}
                     />
           </GridItem>
           <GridItem xs={12} sm={12} md={6} lg={6}>
@@ -107,7 +113,7 @@ const ParksPage=(props)=>{
                             <TextField
                                 {...params}
                                 variant="outlined"
-                                label="filterSelectedOptions"
+                                label="Activity"
                                 placeholder="Favorites"
                             />
                         )}
@@ -117,22 +123,22 @@ const ParksPage=(props)=>{
 
       <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={6} lg={4}>
-              <MediaCard im={photo} name="Videtto" price="80dt" type="Football"/>
+              <MediaCard im={team1} name="California" price="150dt" type="Tunis"/>
           </GridItem>
           <GridItem xs={12} sm={12} md={6} lg={4}>
-              <MediaCard im={photo}name="Videtto" price="80dt" type="Football" />
+              <MediaCard im={team2} name="Redsquare" price="120dt" type="Tunis"/>
           </GridItem>
           <GridItem xs={12} sm={12} md={6} lg={4}>
-              <MediaCard im={photo} name="Videtto" price="80dt" type="Football"/>
+              <MediaCard im={team3} name="Oxygene" price="80dt" type="Sousse"/>
           </GridItem>
           <GridItem xs={12} sm={12} md={6} lg={4}>
-              <MediaCard im={photo} name="Videtto" price="80dt" type="Football"/>
+              <MediaCard im={team2} name="Redsquare" price="120dt" type="Tunis"/>
           </GridItem>
           <GridItem xs={12} sm={12} md={6} lg={4}>
-              <MediaCard im={photo} name="Videtto" price="80dt" type="Football"/>
+              <MediaCard im={team3} name="Oxygene" price="80dt" type="Sousse"/>
           </GridItem>
           <GridItem xs={12} sm={12} md={6} lg={4}>
-              <MediaCard im={photo} name="Videtto" price="80dt" type="Football"/>
+              <MediaCard im={team1} name="California" price="150dt" type="Tunis"/>
           </GridItem>
       </GridContainer>
       </div>
@@ -141,4 +147,4 @@ const ParksPage=(props)=>{
     )
 }
 
-export default ParksPage;
+export default GymsPage;

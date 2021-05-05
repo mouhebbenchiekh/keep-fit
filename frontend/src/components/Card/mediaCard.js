@@ -8,7 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Info from 'components/Typography/Info';
-import photo from "assets/img/football.jpg";
+
 
 const useStyles = makeStyles({
   root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MediaCard() {
+export default function MediaCard(props) {
   const classes = useStyles();
 
   return (
@@ -28,18 +28,20 @@ export default function MediaCard() {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={photo}
+          image={props.im}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Videtto
+
+            {props.name}
+           
           </Typography>
           <Typography variant="h6" color="info" component="h2">
-           Football
+            {props.type}
           </Typography>
           <Typography variant="subtitle1">
-              <Info>80 dt</Info>
+              <Info> {props.price}</Info>
           </Typography>
         </CardContent>
       </CardActionArea>
