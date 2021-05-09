@@ -7,9 +7,12 @@
 
  
 var mongoose = require('mongoose');
-var config = require('../../config');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 var FacilityOwner = require('../../models/FacilityOwner');
+
 
 
 
@@ -22,10 +25,11 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }) // Change co
 
 	user.firstName = 'Super';
 	user.lastName = 'Admin';
+	user.cin='12345678';
 	user.email = 'admin@admin.com';
 	user.phone = '1234567890';
-	user.setPassword('password');
-
+	//user.setPassword('password'); don't use this function for now
+	user.password= 'testpassword';
 	user.save().then(function() {
 	}).catch(function(err) {console.log(err)});
 })

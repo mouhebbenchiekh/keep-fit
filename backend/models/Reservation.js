@@ -21,7 +21,7 @@ var ReservationSchema = new mongoose.Schema({
     reservationFrom: {
         type: Date,
   //      required: [true, "can't be blank"],
-    },
+    }, // add to
     reservationStatus: {
         type: String,
         default: 'pending',

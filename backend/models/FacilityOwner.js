@@ -40,5 +40,8 @@ var FacilityOwnerSchema = new mongoose.Schema({
 
 FacilityOwnerSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
+
+
+
 var FacilityOwner = mongoose.model('FacilityOwner', FacilityOwnerSchema);
 module.exports = FacilityOwner;
