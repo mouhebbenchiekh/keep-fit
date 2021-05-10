@@ -459,34 +459,59 @@ exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8
 
 * body example :
 
-{
-    	"user": {
-		"id": "6098fba05bf6c24ee4534acb"
-	},
-    "courts":[
-        {
-            "courtIdentifier":"court 1 facility 1",
-            "description": "Football court"
-        },
-                {
-            "courtIdentifier":"court 2 facility 1",
-            "description": "Tennis court"
-        }
-    ]
-}
+	{
+			"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+		"courts":[
+			{
+				"courtIdentifier":"court 1 facility 1",
+				"description": "Football court"
+			},
+					{
+				"courtIdentifier":"court 2 facility 1",
+				"description": "Tennis court"
+			}
+		]
+	}
 
 
-returns : 
+* returns : 
 
-{
-    "courts": [
-        {
-            "id": "6099a7f5086fcd1e705b4ba5",
-            "description": "Football court"
-        },
-        {
-            "id": "6099a7f5086fcd1e705b4ba6",
-            "description": "Tennis court"
-        }
-    ]
-}
+	{
+		"courts": [
+			{
+				"id": "6099a7f5086fcd1e705b4ba5",
+				"description": "Football court"
+			},
+			{
+				"id": "6099a7f5086fcd1e705b4ba6",
+				"description": "Tennis court"
+			}
+		]
+	}
+
+---------------------------------------------------
+######## http://localhost:5000/facility/court/:facilityId/:courtId
+
+
+exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8/6099a7f5086fcd1e705b4ba5
+
+---------------------------------------------------
+######## GET :  Returns data of a court of a particular facility			
+
+* body example :
+	{
+			"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		}
+	}
+
+* returns : 
+
+	{
+		"court": {
+			"id": "6099a7f5086fcd1e705b4ba5",
+			"description": "Football court"
+		}
+	}	

@@ -70,6 +70,7 @@ router.post('/:facilityId',  function(req, res, next) { // removed auth.required
 	}).catch(next);
 });
 
+
 /*
  * Update single court info by facilityOwner
  * required data: Authentication token, court.id
@@ -110,13 +111,15 @@ router.put('/', function(req, res, next) {    // remove auth.required
 	}).catch(next);
 });
 
+
+// WORKS
 /*
  * Read data of a court of a particular facility
  */
 router.get('/:facilityId/:courtId',  function(req, res, next) {
 	// Check user is admin of the facility or not
 	Facility.findOne({
-		admin: req.user.id,
+		admin: { "$all":  req.body.user.id},
 		_id: req.params.facilityId
 	}).then(function(facility) {
 		if (!facility) return res.sendStatus(401);
