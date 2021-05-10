@@ -9,8 +9,11 @@ var FacilityOwner = mongoose.model('FacilityOwner');
 
 /*
  * Create new facility by facility owner
- * required data: name, address, business hours
- * optional data: description
+ * required data: 
+ * 	admin id
+ * 	facility address
+ *  description
+ *  business hours
  */
 router.post('/',  function (req, res, next) { // remove auth.required
 	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
