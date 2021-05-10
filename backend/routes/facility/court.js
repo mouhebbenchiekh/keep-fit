@@ -114,7 +114,7 @@ router.put('/', function(req, res, next) {    // remove auth.required
 
 // WORKS
 /*
- * Read data of a court of a particular facility
+ * Return data of a court of a particular facility
  */
 router.get('/:facilityId/:courtId',  function(req, res, next) {
 	// Check user is admin of the facility or not

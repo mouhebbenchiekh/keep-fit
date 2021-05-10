@@ -509,9 +509,10 @@ exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8/6099a7f5
 
 * returns : 
 
-	{
+	{ 
 		"court": {
 			"id": "6099a7f5086fcd1e705b4ba5",
 			"description": "Football court"
-		}
+		} 
+		
 	}	
