@@ -39,7 +39,7 @@ router.post('/',  function (req, res, next) { // remove auth.required
 
 // WORKS
 /*
- * Get facilitys own by facilityOwner
+ * Get facilities owned by facilityOwner
  * required data: 
  * 	facility owner id 
  */
@@ -97,6 +97,10 @@ router.put('/', function (req, res, next) { // remove auth.required
 			if (typeof data.businessHours !== 'undefined')
 				facility.businessHours = data.businessHours;
 
+		// i tried using findOneAndUpdate	 : didn't work		
+		//		let fac = new Facility(facility);
+		//		fac.findOneAndUpdate({ id: req.body.facility.id },
+		//			{ name: data.name, address: data.address, description: data.description, businessHours: data.businessHours })
 
 			
 			facility.save().then(function () {

@@ -222,7 +222,8 @@ node helpers/app/addFacilityOwner.js
 ---------------------------------------------------
 ######## http://localhost:5000/facility
 ---------------------------------------------------
-######## POST :
+######## POST :  Create new facility by  the owner
+
 * body example: 
 
 {
@@ -309,7 +310,7 @@ node helpers/app/addFacilityOwner.js
 	}
 }
 
-######## GET :
+######## GET : Get facilities owned by facilityOwner
 * body example: 
 
 {
@@ -398,3 +399,11 @@ node helpers/app/addFacilityOwner.js
         }
     ]
 }
+
+
+---------------------------------------------------
+######## http://localhost:5000/facilitys
+
+---------------------------------------------------
+######## GET : returns the list of verfied facilities 
+Returns for example : 

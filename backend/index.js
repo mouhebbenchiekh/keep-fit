@@ -19,12 +19,6 @@ var app = express();
 
 // Middlewares
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Authorization, Accept");
-  res.header("Access-Control-Allow-methods", "POST, GET, PUT, DELETE");
-  next();
-});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
@@ -46,13 +40,13 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true })
 app.use(require('./routes'));
 
 // Catch 404 and forward to error handler
-/*
+
 app.use(function(req, res, next) {
 	var err = new Error('Not found');
 	err.status = 404;
 	next(err);
 });
-*/
+
 
 
 

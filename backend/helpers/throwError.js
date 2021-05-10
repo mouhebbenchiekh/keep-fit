@@ -7,14 +7,14 @@ throwError.validationError = function(msg) {
 	throw err;
 };
 
-/*
+
 throwError.unauthorized = function(msg) {
 	var err = new Error(msg);
 	err.name = 'Unauthorized';
 	err.status = 401;
 	throw err;
 };
-*/
+
 throwError.userNotFound = function(msg) {
 	msg = msg ? msg : 'User not found';
 	var err = new Error(msg);

@@ -5,7 +5,7 @@
 
  */
 
- 
+
 var mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
@@ -18,22 +18,22 @@ var FacilityOwner = require('../../models/FacilityOwner');
 
 // Connect database
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }) // Change configurations
-.then(function() {
-	console.log('\x1b[32m%s\x1b[0m', 'Database Connection Established!');
+	.then(function () {
+		console.log('\x1b[32m%s\x1b[0m', 'Database Connection Established!');
 
-	var user = new FacilityOwner;
+		var user = new FacilityOwner;
 
-	user.firstName = 'Super';
-	user.lastName = 'Admin';
-	user.cin='12345678';
-	user.email = 'admin@admin.com';
-	user.phone = '1234567890';
-	//user.setPassword('password'); don't use this function for now : you need to add methods in the facilityowner in order to use
-	user.password= 'testpassword';
-	user.save().then(function() {
-	}).catch(function(err) {console.log(err)});
-})
-.catch(function(err) {
-	console.log('\x1b[31m%s\x1b[0m', 'Error in Database Connection!');
-	console.log(err);
-});
+		user.firstName = 'Super';
+		user.lastName = 'Admin';
+		user.cin = '12345678';
+		user.email = 'admin@admin.com';
+		user.phone = '1234567890';
+		//user.setPassword('password'); don't use this function for now : you need to add methods in the facilityowner in order to use
+		user.password = 'testpassword';
+		user.save().then(function () {
+		}).catch(function (err) { console.log(err) });
+	})
+	.catch(function (err) {
+		console.log('\x1b[31m%s\x1b[0m', 'Error in Database Connection!');
+		console.log(err);
+	});
