@@ -10,7 +10,7 @@ var FacilityOwner = mongoose.model('FacilityOwner');
 /*
  * Create new facility by facility owner
  * required data: 
- * 	admin id
+ * 	facility owner id
  * 	facility address
  *  description
  *  business hours
@@ -44,6 +44,7 @@ router.post('/',  function (req, res, next) { // remove auth.required
  * 	facility owner id 
  */
 router.get('/',  function (req, res, next) { // remove auth.required
+	
 	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
@@ -58,22 +59,30 @@ router.get('/',  function (req, res, next) { // remove auth.required
 	}).catch(next);
 });
 
+
+
+// DOSEN'T WORK
+
 /*
  * Update facility details
- * required data: Authentication token
- * optional data: name, address, description, businessHours
+ *  required data: 
+ * 		facility owner id
+ * 		facility address
+ *  	description
+ *  	business hours
  */
-router.put('/', function (req, res, next) { // remove auth.required
-	FacilityOwner.findById(req.user.id).then(function (facilityOwner) {
-		if (!facilityOwner) return res.sendStatus(401);
 
+router.put('/', function (req, res, next) { // remove auth.required
+	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
+		if (!facilityOwner) return res.sendStatus(401);
+		
 		let data = req.body.facility;
 		if (!data || !(data.name || data.address || data.description || data.businessHours)) {
 			return res.status(400).json({ errors: 'Provide data to update' });
 		}
 
 		Facility.findOne({
-			admin: req.user.id,
+			admin: req.body.user.id,
 			_id: req.body.facility.id
 		}).then(function (facility) {
 			if (!facility) return res.sendStatus(401);
@@ -86,8 +95,10 @@ router.put('/', function (req, res, next) { // remove auth.required
 			if (typeof data.description !== 'undefined')
 				facility.description = data.description;
 			if (typeof data.businessHours !== 'undefined')
-				facility.setBusinessHours(data.businessHours);
+				facility.businessHours = data.businessHours;
 
+
+			
 			facility.save().then(function () {
 				return res.json({ facility: facility.viewByOwnerJSON() });
 			}).catch(next);
