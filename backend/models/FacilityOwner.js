@@ -15,11 +15,15 @@ var FacilityOwnerSchema = new mongoose.Schema({
         required: [true, "can't be blank"]
     },
     cin: {
-        type : Number,
+        type: Number,
         required: [true, "can't be blank"],
         unique: true,
         match: [/[0-9]{8}$/, 'is invalid']
 
+    },
+    password: {
+        type: String,
+        required: [true, "can't be blank"],
     }
     ,
     email: {
@@ -40,7 +44,7 @@ var FacilityOwnerSchema = new mongoose.Schema({
 
 FacilityOwnerSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
-
+// methods to add 
 
 
 var FacilityOwner = mongoose.model('FacilityOwner', FacilityOwnerSchema);

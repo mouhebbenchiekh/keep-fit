@@ -26,7 +26,6 @@ var FacilitySchema = new mongoose.Schema({
 		type: [{type: ObjectId, ref: 'FacilityOwner'}],
 		required: [true, "can't be blank"]
 	},
-	verified: Boolean,
 	businessHours: {
 		sunday: timeSchema,
 		monday: timeSchema,
@@ -35,6 +34,10 @@ var FacilitySchema = new mongoose.Schema({
 		thursday: timeSchema,
 		friday: timeSchema,
 		saturday: timeSchema
+	},
+	verified : {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -45,11 +48,10 @@ FacilitySchema.methods.setBusinessHours = function(data) {
 	const days = Object.keys(businessHours);
 
 	days.forEach(function(day) {
+		console.log("test");
 		if (!data[day]) return;
 
-		if (!helpers.time.validate(data[day].start)
-					|| !helpers.time.validate(data[day].end)
-					|| data[day].start > data[day].end) {
+		if (!helpers.time.validate(data[day].start) || !helpers.time.validate(data[day].end) || data[day].start > data[day].end) {
 			throwError.validationError('Invalid business hours');
 		}
 

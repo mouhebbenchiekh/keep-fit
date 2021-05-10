@@ -13,18 +13,19 @@ var FacilityOwner = mongoose.model('FacilityOwner');
  * optional data: description
  */
 router.post('/',  function (req, res, next) { // remove auth.required
-	FacilityOwner.findById(req.user.id).then(function (facilityOwner) {
+	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
 		if (!req.body.facility) return res.sendStatus(400);
 
 		var facility = new Facility();
 
-		facility.admin = req.user.id;
+		facility.admin = req.body.user.id;
 		facility.name = req.body.facility.name;
 		facility.address = req.body.facility.address;
 		facility.description = req.body.facility.description;
-		facility.setBusinessHours(req.body.facility.businessHours);
+	//	facility.setBusinessHours(req.body.facility.businessHours);   // didn't work ??
+		facility.businessHours = req.body.facility.businessHours;
 
 		facility.save().then(function () {
 			return res.json({ facility: facility.viewByOwnerJSON() });
