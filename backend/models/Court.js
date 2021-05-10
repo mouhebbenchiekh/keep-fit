@@ -8,7 +8,7 @@ var CourtSchema = new mongoose.Schema({
 		ref: 'Facility',
 		required: [true, "can't be blank"]
 	},
-	CourtIdentifier: {
+	courtIdentifier: {
 		type: String,
 		required: [true, "can't be blank"]
 	},
@@ -20,7 +20,7 @@ var CourtSchema = new mongoose.Schema({
 CourtSchema.methods.viewJSON = function() {
 	return {
 		id: this._id,
-		CourtIdentifier: this.tableIdentifier,
+		courtIdentifier: this.tableIdentifier,
 		description: this.description
 	};
 };

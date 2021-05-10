@@ -9,24 +9,28 @@ var Court = mongoose.model('Court');
 var Facility = mongoose.model('Facility');
 var FacilityOwner = mongoose.model('FacilityOwner');
 
+// WORKS
 /*
  * Add court(s) to their facility by facilityOwner
- * required data: Authentication token, facility.id, courts, courtIdentifier, capacity
- * optional data: description
+ * required data: 
+ * 	facility.id
+ *  court(s),
+ * 
+ * optional data: 
+ * 	description
  */
 router.post('/:facilityId',  function(req, res, next) { // removed auth.required,
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();
-
-	FacilityOwner.findById(req.user.id).then(function(facilityOwner) {
+	FacilityOwner.findById(req.body.user.id).then(function(facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
 		if (!req.body.courts || !(req.body.courts instanceof Array))
 			return res.sendStatus(400);
 
 		Facility.findOne({
-			admin: req.user.id,
+			admin: req.body.user.id,
 			_id: req.params.facilityId
 		}).then(function(facility) {
 			if (!facility) return res.sendStatus(401);
@@ -40,16 +44,17 @@ router.post('/:facilityId',  function(req, res, next) { // removed auth.required
 					var err = new Error('Invalid input');
 					err.name = 'ValidationError';
 					throw err;
+					
 				}
 
 				let data = {
 					facility: req.params.facilityId,
 					courtIdentifier: court.courtIdentifier,
-					//capacity: court.capacity,
 					description: court.description
 				};
 
 				courts.push(data);
+				console.log(courts);
 			});
 
 			Court.insertMany(courts).then(function(courts) {

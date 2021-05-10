@@ -166,7 +166,7 @@ set business hours to {start: 0, end: 0} for closed day
 /facility/court/:facilityId
 
     - POST : Add court(s) to their facility by FacilityOwner
-            - required data: Authentication token, courts, courtIdentifier, capacity
+            - required data: Authentication token, courts, courtIdentifier
             - optional data: description
 
 
@@ -406,4 +406,87 @@ node helpers/app/addFacilityOwner.js
 
 ---------------------------------------------------
 ######## GET : returns the list of verfied facilities 
+
 Returns for example : 
+{
+    "facilitys": [
+        {
+            "id": "60991d691e07392a646f04f8",
+            "name": "Facility1",
+            "address": "tunis",
+            "description": "",
+            "businessHours": {
+                "sunday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "wednesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "thursday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 1845
+                }
+            }
+        }
+    ]
+}
+
+---------------------------------------------------
+######## http://localhost:5000/facility/court/:facilityId
+
+exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8
+
+---------------------------------------------------
+######## POST :  Add court(s) to their facility by facility Owner			
+
+* body example :
+
+{
+    	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+    "courts":[
+        {
+            "courtIdentifier":"court 1 facility 1",
+            "description": "Football court"
+        },
+                {
+            "courtIdentifier":"court 2 facility 1",
+            "description": "Tennis court"
+        }
+    ]
+}
+
+
+returns : 
+
+{
+    "courts": [
+        {
+            "id": "6099a7f5086fcd1e705b4ba5",
+            "description": "Football court"
+        },
+        {
+            "id": "6099a7f5086fcd1e705b4ba6",
+            "description": "Tennis court"
+        }
+    ]
+}
