@@ -211,3 +211,190 @@ set business hours to {start: 0, end: 0} for closed day
  Directly access database to create  new facility owner 
 ---------------------------------------------------------
 node helpers/app/addFacilityOwner.js
+
+
+
+
+---------------------------------------------------
+                	API routes : 
+---------------------------------------------------
+
+---------------------------------------------------
+######## http://localhost:5000/facility
+---------------------------------------------------
+######## POST :
+* body example: 
+
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+
+	"facility": {
+		"name": "Facility2",
+		"address": "gabes",
+		"description": "tennis courts",
+		"businessHours": {
+			"monday": {
+			"start": "0",
+			"end": "0"
+			},
+			"sunday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"tuesday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"wednesday": {
+				"start": "0730",
+				"end": "2145"
+			},			
+			"thursday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"friday": {
+				"start": "1030",
+				"end": "2145"
+			},
+			"saturday": {
+				"start": "1030",
+				"end": "2145"
+			}
+		}
+	}
+}
+
+* Returns :
+
+{
+	"facility": {
+		"id": "6099277e9d15872de8c37356",
+		"name": "Facility2",
+		"address": "gabes",
+		"description": "tennis courts",
+		"businessHours": {
+			"monday": {
+				"start": 0,
+				"end": 0
+			},
+			"sunday": {
+				"start": 730,
+				"end": 2145
+			},
+			"tuesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"wednesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"thursday": {
+				"start": 730,
+				"end": 2145
+			},
+			"friday": {
+				"start": 1030,
+				"end": 2145
+			},
+			"saturday": {
+				"start": 1030,
+				"end": 2145
+			}
+		},
+		"verified": false
+	}
+}
+
+######## GET :
+* body example: 
+
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	}
+}
+
+
+* Returns  :
+{
+    "facilitys": [
+        {
+            "id": "60991d691e07392a646f04f8",
+            "name": "Facility1",
+            "address": "tunis",
+            "description": "",
+            "businessHours": {
+                "sunday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "wednesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "thursday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 1845
+                }
+            },
+            "verified": false
+        },
+        {
+            "id": "6099277e9d15872de8c37356",
+            "name": "Facility2",
+            "address": "gabes",
+            "description": "tennis courts",
+            "businessHours": {
+                "sunday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "wednesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "thursday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 2145
+                }
+            },
+            "verified": false
+        }
+    ]
+}

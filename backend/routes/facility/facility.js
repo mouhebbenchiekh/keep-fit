@@ -6,7 +6,7 @@ var router = require('express').Router();
 var Facility = mongoose.model('Facility');
 var FacilityOwner = mongoose.model('FacilityOwner');
 
-
+// WORKS
 /*
  * Create new facility by facility owner
  * required data: 
@@ -36,15 +36,18 @@ router.post('/',  function (req, res, next) { // remove auth.required
 	}).catch(next);
 });
 
+
+// WORKS
 /*
  * Get facilitys own by facilityOwner
- * required data: Authentication token
+ * required data: 
+ * 	facility owner id 
  */
 router.get('/',  function (req, res, next) { // remove auth.required
-	FacilityOwner.findById(req.user.id).then(function (facilityOwner) {
+	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
-		Facility.find({ admin: req.user.id }).then(function (facilitys) {
+		Facility.find({ admin: req.body.user.id }).then(function (facilitys) {
 			var facilitysDetails = [];
 			facilitys.forEach(function (facility) {
 				facilitysDetails.push(facility.viewByOwnerJSON());
