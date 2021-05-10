@@ -1,0 +1,400 @@
+---------------------------------------------------
+                Payload Syntax : 
+---------------------------------------------------
+{
+	'user': {
+		'name': '',
+		'firstName': '',
+		'lastName': '',
+		'phone': '',
+		'email': '',
+		'password': ''
+	},
+	'facility': {
+		'id': '',
+		'name': '',
+		'address': '',
+		'businessHours': {
+			'monday': {
+				'start': '1030',
+				'end': '2345'
+			},
+			...
+			...
+		}
+	},
+	'courts': [
+		'courtIdentifier': '',
+		'description': ''
+	],
+	'court': {
+		'id': '',
+		'courtIdentifier': '',
+		'description': ''
+	},
+	'reservation': {
+		'facility': ObjectId,
+		'courts': ObjectId,
+		'reservationFrom': Date
+		'customer': ObjectId,
+	}
+}
+
+---------------------------------------------------
+                Database Schema : 
+---------------------------------------------------
+
+- each collection will have _id by default
+
+* FacilityOwner: {
+	firstName: String,
+	lastName: String,
+	email: String,
+	phone: String,
+	password: String,
+	facilitys: [facility ObjectId] 
+}
+
+* Customer: {
+	email: String,
+	password: String, // add this when you add the authentication to the reservation process 
+	name: String,
+	phone: String
+}
+
+* Facility: {
+	name: String,
+	Address: String,
+	description: String,
+	admin: [FacilityOwner ObjectId]
+	verified: Boolean
+	businessHours: {
+		Monday: {
+			start: Time,
+			end: Time
+		},
+		...
+		...
+	}
+}
+
+* Court: {
+	facility: ObjectId,
+	courtIdentifier: String,	// example :  Court No 12
+	description: String
+}
+
+* Reservation: {
+	facility: ObjectId,
+	court: court ObjectId,
+	reservationFrom: DateTime,
+	customer: Customer ObjectId,
+	reservationStatus: pending / confirmed / canceled
+	reservationStatusUpdatedBy: customer / FacilityOwner
+}
+
+
+---------------------------------------------------
+                	API routes : 
+---------------------------------------------------
+
+/facility
+
+    - POST : Create new facility by FacilityOwner
+            - required data: name, address, business hours
+            - optional data: description 
+
+    - GET : Get facilities owned by the FacilityOwner
+            - required data: Authentication token           // TO add 
+
+    - PUT : Update facility details by FacilityOwner
+            - required data: Authentication token           // TO add 
+            - optional data: name, address, description, businessHours
+
+set business hours to {start: 0, end: 0} for closed day
+
+/facility/:facilityId/customer
+
+    - GET : customer details by phone / customer id/ email
+            - permission: facility owner, if the customer has reservation in the facility
+            - required data: Authentication token           // TO add 
+            - optional data in querystring: id, phone, email (Atleast one is required)
+
+/facility/reservations/:facilityId
+
+    - GET : reservations of a facility
+            - required data: Authentication token           // TO add
+            - optional data on query string
+                - phone, customerId, email, reservationStatus, court
+                - before, after (type: date, to filter by date)   // TO add
+                - skip (type: int, skip n results), limit(type: int, show only n rusult)
+                - sortby (type: array of array, ex: [['reservationFrom', -1], ['reservationStatus', 1]])
+                - countOnly (type: boolean) // To get only the counts of reservations
+
+/facility/reservation/:facilityId/
+
+    - POST : create new reservation to own facility by facility owner
+            - required data : Authentication token ( to add ) , user: {phone}, reservation: reservationFrom
+            - optional data
+                user: {name, email} (optional data required in case of new customer)
+                court (type: objectId)
+
+
+/facility/reservation/:facilityId/:reservationId
+
+    - GET : get reservation of a facility by reservationId
+        required data: Authentication token                 // TO add
+
+    - PUT : update reservation of a facility by reservationId
+        required data: Authentication token (to add), reservationFrom
+        optional data: court (type: objectId)
+
+---
+/facility/reservation/:facilityId/:reservationId/status
+
+    - PUT : Change reservationStatus
+        - Confirm / Cancel a reservation
+        - required data: Authentication token, reservationStatus
+
+
+/facilitys
+
+        GET : list all verfied facilities for public view
+            - permission: public
+
+
+/facility/court/:facilityId
+
+    - POST : Add court(s) to their facility by FacilityOwner
+            - required data: Authentication token, courts, courtIdentifier, capacity
+            - optional data: description
+
+
+/facility/court/:facilityId/:courtId
+
+    - GET : Read court details
+         - required data: Authorization token // to add
+
+/facility/court
+
+    - PUT : Update single court details
+        - required data: Authentication token (to add ), court.id
+        - optional data: courtIdentifier, description
+
+
+/facility/courts/:facilityId
+
+    - GET : List courts for particular facility
+        - required data: Authorization token
+        - optional data in query string:
+            - availability = 'available' / 'unavailable' / 'status'. To filter courts on given date
+            - date, in mili-second format. Find out reservation status on this time
+
+/reservation
+
+    - POST : Create reservation in case its available
+        - Required data: token, facility, reservationFrom
+        - Permision: login customer
+    
+    - Get : Get all the reservations by user Id
+        required data: Authentication token
+        permission Customer
+
+
+/reservation/:reservationId
+	- permission :  customer, self
+		- required data: Authentication token
+
+
+---------------------------------------------------------
+                Additional helper app :
+ Directly access database to create  new facility owner 
+---------------------------------------------------------
+node helpers/app/addFacilityOwner.js
+
+
+
+
+---------------------------------------------------
+                	API routes : 
+---------------------------------------------------
+
+---------------------------------------------------
+######## http://localhost:5000/facility
+---------------------------------------------------
+######## POST :
+* body example: 
+
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+
+	"facility": {
+		"name": "Facility2",
+		"address": "gabes",
+		"description": "tennis courts",
+		"businessHours": {
+			"monday": {
+			"start": "0",
+			"end": "0"
+			},
+			"sunday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"tuesday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"wednesday": {
+				"start": "0730",
+				"end": "2145"
+			},			
+			"thursday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"friday": {
+				"start": "1030",
+				"end": "2145"
+			},
+			"saturday": {
+				"start": "1030",
+				"end": "2145"
+			}
+		}
+	}
+}
+
+* Returns :
+
+{
+	"facility": {
+		"id": "6099277e9d15872de8c37356",
+		"name": "Facility2",
+		"address": "gabes",
+		"description": "tennis courts",
+		"businessHours": {
+			"monday": {
+				"start": 0,
+				"end": 0
+			},
+			"sunday": {
+				"start": 730,
+				"end": 2145
+			},
+			"tuesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"wednesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"thursday": {
+				"start": 730,
+				"end": 2145
+			},
+			"friday": {
+				"start": 1030,
+				"end": 2145
+			},
+			"saturday": {
+				"start": 1030,
+				"end": 2145
+			}
+		},
+		"verified": false
+	}
+}
+
+######## GET :
+* body example: 
+
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	}
+}
+
+
+* Returns  :
+{
+    "facilitys": [
+        {
+            "id": "60991d691e07392a646f04f8",
+            "name": "Facility1",
+            "address": "tunis",
+            "description": "",
+            "businessHours": {
+                "sunday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "wednesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "thursday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 1845
+                }
+            },
+            "verified": false
+        },
+        {
+            "id": "6099277e9d15872de8c37356",
+            "name": "Facility2",
+            "address": "gabes",
+            "description": "tennis courts",
+            "businessHours": {
+                "sunday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "wednesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "thursday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 2145
+                }
+            },
+            "verified": false
+        }
+    ]
+}
