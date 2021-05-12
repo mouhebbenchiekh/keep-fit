@@ -70,6 +70,25 @@ router.post('/:facilityId',  function(req, res, next) { // removed auth.required
 	}).catch(next);
 });
 
+// WORKS
+/*
+ * Return data of a court of a particular facility
+ */
+router.get('/:facilityId/:courtId',  function(req, res, next) {
+	// Check user is admin of the facility or not
+	Facility.findOne({
+		admin: { "$all":  req.body.user.id},
+		_id: req.params.facilityId
+	}).then(function(facility) {
+		if (!facility) return res.sendStatus(401);
+
+		Court.findById(req.params.courtId).then(function(court) {
+			return res.json({court: court.viewJSON()});
+		}).catch(next);
+	}).catch(next)
+});
+
+
 
 /*
  * Update single court info by facilityOwner
@@ -112,22 +131,5 @@ router.put('/', function(req, res, next) {    // remove auth.required
 });
 
 
-// WORKS
-/*
- * Return data of a court of a particular facility
- */
-router.get('/:facilityId/:courtId',  function(req, res, next) {
-	// Check user is admin of the facility or not
-	Facility.findOne({
-		admin: { "$all":  req.body.user.id},
-		_id: req.params.facilityId
-	}).then(function(facility) {
-		if (!facility) return res.sendStatus(401);
-
-		Court.findById(req.params.courtId).then(function(court) {
-			return res.json({court: court.viewJSON()});
-		}).catch(next);
-	}).catch(next)
-});
 
 module.exports = router;

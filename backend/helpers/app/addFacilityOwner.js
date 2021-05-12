@@ -23,11 +23,11 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }) // Change co
 
 		var user = new FacilityOwner;
 
-		user.firstName = 'Super';
-		user.lastName = 'Admin';
-		user.cin = '12345678';
-		user.email = 'admin@admin.com';
-		user.phone = '1234567890';
+		user.firstName = 'Super2';
+		user.lastName = 'Admin2';
+		user.cin = '11111111';
+		user.email = 'admin2@admin.com';
+		user.phone = '22018181';
 		//user.setPassword('password'); don't use this function for now : you need to add methods in the facilityowner in order to use
 		user.password = 'testpassword';
 		user.save().then(function () {

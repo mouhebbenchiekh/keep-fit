@@ -11,14 +11,14 @@ var utility = require('../utility');
 var listCourts = function(availability, facility, query, next) {
 	return new Promise(async function(resolve,reject){
 		// List all courts
-		if (availability == 'all') { //??
+		if (availability == 'all') { 
 			resolve(await listAllCourts(facility, query))	
 		}
 
 		let facilityOpen = undefined;
 
 		// find out if the facility is open or close at the given time
-		if (availability != 'all') { //??
+		if (availability != 'all') { 
 			// Find out if the facility is open or close at that time
 			await Facility.findById(facility, 'businessHours')
 			.then(function(data) {
@@ -58,8 +58,8 @@ var listCourts = function(availability, facility, query, next) {
 
 					//return occupied courts with desired keys
 					let list = [];
-					reservations.forEach(function(booking) {
-						list.push(booking.courts[0].viewJSON());
+					reservations.forEach(function(reservation) {
+						list.push(reservation.courts[0].viewJSON());
 					});
 
 					resolve(list);
@@ -70,7 +70,7 @@ var listCourts = function(availability, facility, query, next) {
 
 					let occupiedCourts = reservations.map(a => a.courts[0].id);
 
-					// To provide booking status of courts
+					// To provide reservation status of courts
 					if (availability == 'status') {
 						let allCourtsWithStatus = allCourts;
 						allCourtsWithStatus.map(x => {

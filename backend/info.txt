@@ -116,7 +116,7 @@ set business hours to {start: 0, end: 0} for closed day
 /facility/:facilityId/customer
 
     - GET : customer details by phone / customer id/ email
-            - permission: facility owner, if the customer has reservation in the facility
+            - permission: facility owner and  the customer if he has reservation in the facility
             - required data: Authentication token           // TO add 
             - optional data in querystring: id, phone, email (Atleast one is required)
 
@@ -127,9 +127,9 @@ set business hours to {start: 0, end: 0} for closed day
             - optional data on query string
                 - phone, customerId, email, reservationStatus, court
                 - before, after (type: date, to filter by date)   // TO add
-                - skip (type: int, skip n results), limit(type: int, show only n rusult)
-                - sortby (type: array of array, ex: [['reservationFrom', -1], ['reservationStatus', 1]])
-                - countOnly (type: boolean) // To get only the counts of reservations
+                - skip (type: int, skip n results), limit(type: int, show only n rusult) // TO add
+                - sortby (type: array of array, ex: [['reservationFrom', -1], ['reservationStatus', 1]]) // TO add
+                - countOnly (type: boolean) // To get only the counts of reservations // TO add
 
 /facility/reservation/:facilityId/
 
@@ -166,14 +166,14 @@ set business hours to {start: 0, end: 0} for closed day
 /facility/court/:facilityId
 
     - POST : Add court(s) to their facility by FacilityOwner
-            - required data: Authentication token, courts, courtIdentifier
+            - required data:  courts, courtIdentifier   // to add Authentication token
             - optional data: description
 
 
 /facility/court/:facilityId/:courtId
 
     - GET : Read court details
-         - required data: Authorization token // to add
+         - required data: Authorization token 			// to add
 
 /facility/court
 
@@ -185,7 +185,7 @@ set business hours to {start: 0, end: 0} for closed day
 /facility/courts/:facilityId
 
     - GET : List courts for particular facility
-        - required data: Authorization token
+        - required data: Authorization token		// to add
         - optional data in query string:
             - availability = 'available' / 'unavailable' / 'status'. To filter courts on given date
             - date, in mili-second format. Find out reservation status on this time
@@ -193,8 +193,8 @@ set business hours to {start: 0, end: 0} for closed day
 /reservation
 
     - POST : Create reservation in case its available
-        - Required data: token, facility, reservationFrom
-        - Permision: login customer
+        - Required data:  facility, reservationFrom  	// to add token
+        - Permision: login customer   // to add
     
     - Get : Get all the reservations by user Id
         required data: Authentication token
@@ -203,7 +203,20 @@ set business hours to {start: 0, end: 0} for closed day
 
 /reservation/:reservationId
 	- permission :  customer, self
-		- required data: Authentication token
+		- required data: Authentication token 		// to add
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---------------------------------------------------------

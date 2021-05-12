@@ -14,7 +14,7 @@ var Facility = mongoose.model('Facility');
 
 /*
  * Create a new reservation by logged-id customer
- * Required data: token, facility, reservationFrom   : deleted noOfPersons
+ * Required data: token, facility, reservationFrom   
  */
 router.post('/',  function (req, res, next) { // remove auth.required
     Customer.findById(req.user.id).then(function (customer) {

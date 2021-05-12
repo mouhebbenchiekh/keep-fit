@@ -23,10 +23,26 @@ var CustomerSchema = new mongoose.Schema({
 		unique: true,
 		match: [/((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})$/, 'is invalid']
 	},
-}, 
+}, // to add password stuff
 {timestamps: true});
 
 CustomerSchema.plugin(uniqueValidator, {message: 'is already taken.'});
+
+
+
+CustomerSchema.methods.toAuthJSON = function() {
+	return {
+		name: this.name,
+		email: this.email,
+	};
+};
+
+CustomerSchema.methods.getUserJSON = function() { return {
+		name: this.name,
+		email: this.email,
+		phone: this.phone
+	};
+};
 
 var Customer = mongoose.model('Customer', CustomerSchema);
 module.exports = Customer;
