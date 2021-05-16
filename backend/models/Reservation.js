@@ -18,10 +18,10 @@ var ReservationSchema = new mongoose.Schema({
         type: { type: ObjectId, ref: 'Court' },
       //  required: [true, "can't be blank"]
     },
-  /*  reservationFrom: {
+    reservationFrom: {
         type: Date,
         required: [true, "can't be blank"],
-    },*/ // add to
+    }, // add to
     reservationStatus: {
         type: String,
         default: 'pending',
@@ -37,7 +37,7 @@ var ReservationSchema = new mongoose.Schema({
         type: String,
         validate: {
             validator: function (value) {
-                validStrings = ['customer', 'facilityOwner', 'Admin'];
+                validStrings = ['customer', 'facilityOwner', 'admin'];
                 return (validStrings.indexOf(value.toLowerCase()) !== -1);
             },
             message: 'invalid string'

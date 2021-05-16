@@ -8,9 +8,13 @@ var Facility = mongoose.model('Facility');
 var Customer = mongoose.model('Customer');
 var Reservation = mongoose.model('Reservation');
 
+
+// Works but needs more testing with different querys
 /* Get reservations of a facility
  * permission - facility owner
- * required data - Authentication token
+ * required data - facility owner
+ * 
+ * 
  * optional data on query string
  * - phone, email, customerId, reservationStatus, court, before, after
  * - skip (type: int, skip n results), limit(type: int, show only n rusult)
@@ -25,7 +29,7 @@ router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 	// Authorize if user is the admin of the facility
 	Facility.findOne({
 		_id: req.params.facilityId,
-		admin: req.user.id
+		admin: req.body.user.id
 	}).then(async function(facility) {
 		if (!facility) throwError.unauthorized();
 
@@ -35,13 +39,13 @@ router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 		// Check optional parameters to apply search filter
 		// if customer id present do not look for email and phone
 		// else if email and/or phone is present obtain customer id from email and/or phone
-		if (req.query.customerId) {
-			query.customer = req.query.customerId;
-		} else if (req.query.phone || req.query.email) {
+		if (req.body.query.customerId) {
+			query.customer = req.body.query.customerId;
+		} else if (req.body.query.phone || req.body.query.email) {
 			let customerQuery = {};
 
-			if (req.query.phone) customerQuery.phone = req.query.phone;
-			if (req.query.email) customerQuery.email = req.query.email;
+			if (req.body.query.phone) customerQuery.phone = req.body.query.phone;
+			if (req.body.query.email) customerQuery.email = req.body.query.email;
 
 			await Customer.findOne(customerQuery).then(function(customer) {
 				if (!customer) query.customer = null;
@@ -50,45 +54,48 @@ router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 		}
 
 		// filter allowed court if court id is present
-		if (req.query.court) {
-			if (!regExObjectId.test(req.query.court))
+		if (req.body.query.court) {
+			if (!regExObjectId.test(req.body.query.court))
 				throwError.validationError('Invalid court id');
 			query.courts = req.query.court;
 		}
 
-		// Filter reservation status
-		if (req.query.reservationStatus)
-			query.reservationStatus = req.query.reservationStatus;
 
-		// Filter reservation time
-		if (req.query.before) {
-			query.reservationFrom = {};
-			query.reservationFrom.$lt = req.query.before;
+		// when i add it it doesn't work
+		// Filter reservation status
+		if (req.body.query.reservationStatus){
+			query.reservationStatus = req.body.query.reservationStatus;
+			console.log(query.reservationStatus);
 		}
-		if (req.query.after) {
+		// Filter reservation time
+		if (req.body.query.before) {
+			query.reservationFrom = {};
+			query.reservationFrom.$lt = req.body.query.before;
+		}
+		if (req.body.query.after) {
 			query.reservationFrom = query.reservationFrom ? query.reservationFrom : {};
-			query.reservationFrom.$gt = req.query.after;
+			query.reservationFrom.$gt = req.body.query.after;
 		}
 
 		// Initialize object for database query options
 		var option = {};
 
 		// Starting row
-		option.skip = (parseInt(req.query.skip)) ? parseInt(req.query.skip) : 0;
+		option.skip = (parseInt(req.body.query.skip)) ? parseInt(req.body.query.skip) : 0;
 
 		// No of rows
-		option.limit = (parseInt(req.query.limit)) ? parseInt(req.query.limit) : 25;
+		option.limit = (parseInt(req.body.query.limit)) ? parseInt(req.body.query.limit) : 25;
 
 		// Default sort
 		let sort = [];
 
 		// Validate userdata for sorting
-		if (typeof(req.query.sortby) == 'object' && req.query.sortby instanceof Array) {
-			req.query.sortby.forEach(function(pair) {
+		if (typeof(req.body.query.sortby) == 'object' && req.body.query.sortby instanceof Array) {
+			req.body.query.sortby.forEach(function(pair) {
 				if (typeof(pair) == 'object' && pair instanceof Array) {
 
 					pair[0] = (typeof(pair[0]) == 'string'
-							&& ['reservationFrom', 'reservationStatus'] // removed  'noOfPersons' from  ['reservationFrom', 'reservationStatus', 'noOfPersons'] 
+							&& ['reservationFrom', 'reservationStatus'] 
 							.indexOf(pair[0]) != -1)
 						? pair[0]
 						: false;
@@ -106,12 +113,12 @@ router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 		// If no valid argument for sorting, assign default
 		sort = sort.length ? sort : [['reservationFrom', 1]];
 
-		console.log(query)
+		console.log("query : ",query)
 		console.log(option)
 		console.log(sort)
 
 		// To get only the counts
-		if (req.query.countOnly) {
+		if (req.body.query.countOnly) {
 			Reservation.countDocuments(query).then(function(count) {
 				res.json({count: count});
 			}).catch(next);
@@ -120,7 +127,7 @@ router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 		}else {
 			Reservation.find(query, null, option)
 			.sort(sort)
-			.populate('courts', 'courtIdentifier')
+			.populate('courts', 'courtIdentifier') // check populate ??
 			.then(function(reservations) {
 				Reservation.countDocuments(query).then(function(count) {
 					console.log(count);

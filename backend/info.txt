@@ -751,3 +751,87 @@ more testing when u fix reservation
         "verified": true
     }
 }
+
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservations/:facilityId
+
+exemple http://localhost:5000/facility/reservations/60991d691e07392a646f04f8
+---------------------------------------------------
+#GET
+
+* body 1 : 
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "query":{
+            "customerId":"609beadbc2d01863c2a6ff7e"
+        }
+	}
+
+* response 1 : 
+	{
+		"reservations": [
+			{
+				"court": "6099a7f5086fcd1e705b4ba5",
+				"reservationStatus": "pending",
+				"_id": "609be40801c05d6b876f8b5e",
+				"customer": "609beadbc2d01863c2a6ff7e",
+				"facility": "60991d691e07392a646f04f8"
+			}
+		],
+		"count": 1
+	}
+
+
+* body 2 :
+
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "query":{
+            "customerId":"609beadbc2d01863c2a6ff7e",
+            "court":"6099a7f5086fcd1e705b4ba5",
+            "reservationStatus": "pending"
+        }
+	}
+
+
+* response 2 :
+
+{
+    "reservations": [],
+    "count": 0
+}
+
+
+* body 3 :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "query":{
+            "customerId":"609beadbc2d01863c2a6ff7e",
+            "court":"6099a7f5086fcd1e705b4ba5",
+            "reservationStatus": "confirmed"
+        }
+	}
+
+
+* response 3 :
+	{
+		"reservations": [
+			{
+				"court": "6099a7f5086fcd1e705b4ba5",
+				"reservationStatus": "confirmed",
+				"_id": "609be40801c05d6b876f8b5e",
+				"customer": "609beadbc2d01863c2a6ff7e",
+				"facility": "60991d691e07392a646f04f8",
+				"reservationFrom": "2021-05-19T11:19:33.967Z",
+				"ReservationStatusUpdatedBy": "admin"
+			}
+		],
+		"count": 1
+	}
