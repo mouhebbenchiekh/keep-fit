@@ -17,6 +17,6 @@ router.use('/reservation', require('./reservation'));
 
 // Access customer details who has reservation
 // '/facility/:facility/:phone'
-router.use('/', require('./customer'));
+router.use('/customer', require('./customer'));
 
 module.exports = router;

@@ -6,30 +6,35 @@ var Customer = mongoose.model('Customer');
 var Reservation = mongoose.model('Reservation');
 var Facility = mongoose.model('Facility');
 
+
+// WORKS : 
 /*
  * Read customer data by customer id / email / phone no
  * permission: facility owner, if the customer(s) have reservation in his/her facility(s)
  * required data: Authentication token
  * optional data on query string: id, email, phone (Atleast one is required)
  */
-router.get('/:facilityId/customer', function (req, res, next) { // remove auth.required
+router.get('/:facilityId', function (req, res, next) { // remove auth.required
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();
 
 	// Authorize if user is the admin of the facility
-	Facility.find({
+	Facility.findOne({
 		_id: req.params.facilityId,
 		admin: req.body.user.id
 	}).then(function (facility) {
+
 		if (!facility) {
+
 			return res.sendStatus(401);
 		}
+
 		// Create the database query object depending upon parameter passed
 		let query = {};
 		if (req.body.query.phone) query.phone = req.body.query.phone;
 		if (req.body.query.email) query.email = req.body.query.email;
-		if (req.body.query.id) query._id = req.body.query.id;
+		if (req.body.query.id) query._id = req.body.query.id;   // customer id
 
 		if (!Object.keys(query).length) return res.sendStatus(400);
 
@@ -43,8 +48,10 @@ router.get('/:facilityId/customer', function (req, res, next) { // remove auth.r
 				facility: req.params.facilityId,
 				customer: customer._id
 			}).then(function (reservations) {
-				if (!reservations.length) return res.sendStatus(401);
 
+				if (!reservations) {
+					return res.sendStatus(401);
+				}
 				return res.json({ customer: customer.getUserJSON() })
 			}).catch(next);
 		}).catch(next);

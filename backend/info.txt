@@ -835,3 +835,33 @@ exemple http://localhost:5000/facility/reservations/60991d691e07392a646f04f8
 		],
 		"count": 1
 	}
+
+
+---------------------------------------------------
+######## http://localhost:5000/facility/customer/:facilityId
+
+exemple http://localhost:5000/facility/customer/60991d691e07392a646f04f8
+---------------------------------------------------
+
+# GET : get customer data by customer id / email / phone 
+
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "query":{
+            "id":"609bcebb01c05d6b876f8b5d"
+        }
+	}
+
+* Response :
+
+{
+    "customer": {
+        "name": "nametest",
+        "email": "testingemail@gmai.com",
+        "phone": "51276519"
+    }
+}
+
