@@ -693,3 +693,61 @@ more testing when u fix reservation
         "description": "update test"
     }
 }
+
+---------------------------------------------------
+######## http://localhost:5000/facility
+---------------------------------------------------
+######## PUT :  Update facility info by facilityOwner			
+
+* body example :
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+	"facility":{
+		"id":"60991d691e07392a646f04f8",
+		"description":"test update"
+	}
+
+}
+
+* Response :
+{
+    "facility": {
+        "id": "60991d691e07392a646f04f8",
+        "name": "Facility1",
+        "address": "tunis",
+        "description": "test update",
+        "businessHours": {
+            "sunday": {
+                "start": 1030,
+                "end": 2345
+            },
+            "monday": {
+                "start": 1030,
+                "end": 2345
+            },
+            "tuesday": {
+                "start": 1030,
+                "end": 1845
+            },
+            "wednesday": {
+                "start": 1030,
+                "end": 1845
+            },
+            "thursday": {
+                "start": 1030,
+                "end": 1845
+            },
+            "friday": {
+                "start": 1030,
+                "end": 1845
+            },
+            "saturday": {
+                "start": 1030,
+                "end": 1845
+            }
+        },
+        "verified": true
+    }
+}

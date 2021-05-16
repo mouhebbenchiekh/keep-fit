@@ -61,7 +61,7 @@ router.get('/',  function (req, res, next) { // remove auth.required
 
 
 
-// DOSEN'T WORK
+// WORKS
 
 /*
  * Update facility details
@@ -72,7 +72,7 @@ router.get('/',  function (req, res, next) { // remove auth.required
  *  	business hours
  */
 
-router.put('/', function (req, res, next) { // remove auth.required
+router.put('/', function (req, res, next) { 
 	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 		
