@@ -20,7 +20,7 @@ var CourtSchema = new mongoose.Schema({
 CourtSchema.methods.viewJSON = function() {
 	return {
 		id: this._id,
-		courtIdentifier: this.tableIdentifier,
+		courtIdentifier: this.courtIdentifier,
 		description: this.description
 	};
 };

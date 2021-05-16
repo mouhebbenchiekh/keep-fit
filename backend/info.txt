@@ -529,3 +529,140 @@ exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8/6099a7f5
 		} 
 		
 	}	
+
+
+---------------------------------------------------
+######## http://localhost:5000/facility/courts/:facilityId/
+
+
+exemple : http://localhost:5000/facility/courts/60991d691e07392a646f04f8
+
+more testing when u fix reservation
+---------------------------------------------------
+######## GET :  
+
+* Body 1 : get all courts of the facility with the id (facilityId)
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+	"query":{
+		"availability":"",
+		"date":""
+	}
+
+}
+
+
+* Response 1 :
+{
+    "courts": [
+        {
+            "id": "6099a7f5086fcd1e705b4ba5",
+            "courtIdentifier": "court 1 facility 1",
+            "description": "Football court"
+        },
+        {
+            "id": "6099a7f5086fcd1e705b4ba6",
+            "courtIdentifier": "court 2 facility 1",
+            "description": "Tennis court"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc3",
+            "courtIdentifier": "court 3 facility 1",
+            "description": "basket court"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc4",
+            "courtIdentifier": "court 5 facility 1",
+            "description": "Tennis court"
+        }
+    ]
+}
+
+// All of this is related to the date : some facilities are close certain days
+// if you don't insert date the date will be date.now()
+// otherwise if you want to insert date it should have mili-second format
+
+* Body 2 : get all courts of the facility with the id (facilityId)
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+	"query":{
+		"availability":"unavailable",
+		"date":""
+	}
+
+}
+
+* Response 2 :
+{
+    "courts": [
+        {
+            "id": "6099a7f5086fcd1e705b4ba5",
+            "courtIdentifier": "court 1 facility 1",
+            "description": "Football court"
+        },
+        {
+            "id": "6099a7f5086fcd1e705b4ba6",
+            "courtIdentifier": "court 2 facility 1",
+            "description": "Tennis court"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc3",
+            "courtIdentifier": "court 3 facility 1",
+            "description": "basket court"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc4",
+            "courtIdentifier": "court 5 facility 1",
+            "description": "Tennis court"
+        }
+    ]
+}
+
+
+* Body 3 :
+
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+	"query":{
+		"availability":"status",
+		"date":""
+	}
+
+}
+
+* Response 3 :
+{
+    "courts": [
+        {
+            "id": "6099a7f5086fcd1e705b4ba5",
+            "courtIdentifier": "court 1 facility 1",
+            "description": "Football court",
+            "availability": "available"
+        },
+        {
+            "id": "6099a7f5086fcd1e705b4ba6",
+            "courtIdentifier": "court 2 facility 1",
+            "description": "Tennis court",
+            "availability": "available"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc3",
+            "courtIdentifier": "court 3 facility 1",
+            "description": "basket court",
+            "availability": "available"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc4",
+            "courtIdentifier": "court 5 facility 1",
+            "description": "Tennis court",
+            "availability": "available"
+        }
+    ]
+} 
+

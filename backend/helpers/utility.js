@@ -23,8 +23,8 @@ let days = [
 	'sunday'];
 
 time.getDay = function(date) {
-	date = new Date(date)
-	return (days[date.getDay()]);
+	x = new Date(date)
+	return (days[x.getDay()]);
 }
 
 /*

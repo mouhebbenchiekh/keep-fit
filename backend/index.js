@@ -48,8 +48,6 @@ app.use(function(req, res, next) {
 });
 
 
-
-
 // Start the server when database ready
 app.on('databaseReady', function() {
 	var server = app.listen(config.port, function(err, a) {

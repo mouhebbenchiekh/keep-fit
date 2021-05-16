@@ -7,16 +7,21 @@ var listCourts = require('../../helpers/court/listCourts');
 var Court = mongoose.model('Court');
 var Facility = mongoose.model('Facility');
 
+
+// Works
 /*
- * List all courts for particular facilitys
- * required data: none 
- * optional data in query string: 
- *	-	availability='available' / 'unavailable' / 'status'. To filter courts on given date
+ ** required data: none : will list all courts of the facility
+ * 
+ ** optional data in query string: 
+ *	- availability='available' : List available courts 
+				   /'unavailable' : List unavailable courts 
+				   / 'status' : List all courts and show availability
  *	-	date, in mili-second format. Find out reservation status on this time
- *	- reservationId // ignore this reservation id while checking availability
+
+ *	-   reservationId // ignore this reservation id while checking availability
  */
-//TODO restrict acess
-router.get('/:facilityId',  function(req, res, next) { // remove auth.required
+
+ router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 	// Check user is admin of the facility or not
 	Facility.findOne({
 		admin: req.body.user.id,
@@ -28,10 +33,14 @@ router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 		let availability = (typeof(req.body.query.availability) == 'string'
 				&& ['available', 'unavailable', 'status'].indexOf(req.body.query.availability) != -1)
 			? req.body.query.availability : false;
-
+		
+				
 		let query = {}
+		
 		query.reservationId = req.body.query.reservationId;
 		query.date = parseInt(req.body.query.date) ? parseInt(req.body.query.date) : (Date.now());
+
+	
 
 		if (!availability) {
 			// Return all courts
