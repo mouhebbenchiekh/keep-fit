@@ -666,3 +666,30 @@ more testing when u fix reservation
     ]
 } 
 
+...
+---------------------------------------------------
+######## http://localhost:5000/facility/court
+---------------------------------------------------
+######## PUT :  Update single court info by facilityOwner			
+
+* Body example : 
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "court":{
+            "id":"6099a7f5086fcd1e705b4ba5",
+            "courtIdentifier":"court 1 facility 1 updated",
+            "description":"update test"
+        }
+
+	}
+
+* Response : 
+ {
+    "court": {
+        "id": "6099a7f5086fcd1e705b4ba5",
+        "courtIdentifier": "court 1 facility 1 updated",
+        "description": "update test"
+    }
+}

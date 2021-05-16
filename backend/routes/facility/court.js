@@ -89,18 +89,18 @@ router.get('/:facilityId/:courtId',  function(req, res, next) {
 });
 
 
-
+// Works 
 /*
  * Update single court info by facilityOwner
- * required data: Authentication token, court.id
- * optional data: courtIdentifier, capacity, description
+ * required data: facilityOwner id, court.id
+ * optional data: courtIdentifier, description
  */
 router.put('/', function(req, res, next) {    // remove auth.required
-	FacilityOwner.findById(req.user.id).then(function(facilityOwner) {
+	FacilityOwner.findById(req.body.user.id).then(function(facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
 		let data = req.body.court;
-		if (!data || !data.id || !(data.courtIdentifier || data.description)) // removed || data.capacity
+		if (!data || !data.id || !(data.courtIdentifier || data.description)) 
 			return res.sendStatus(400);
 
 		// find the court id is valid
@@ -110,15 +110,14 @@ router.put('/', function(req, res, next) {    // remove auth.required
 			// check the court belongs to a facility and user is admin
 			Facility.findOne({
 				_id: court.facility,
-				admin: req.user.id
+				admin: req.body.user.id
 			}).then(function(facility) {
 				if (!facility) return res.sendStatus(401);
 
 				// Update the field that were passed
 				if (typeof data.courtIdentifier !== 'undefined')
 					court.courtIdentifier = data.courtIdentifier;
-			//	if (typeof data.capacity !== 'undefined')
-			//		court.capacity = data.capacity;
+
 				if (typeof data.description !== 'undefined')
 					court.description = data.description;
 
