@@ -94,127 +94,6 @@
 }
 
 
----------------------------------------------------
-                	API routes : 
----------------------------------------------------
-
-/facility
-
-    - POST : Create new facility by FacilityOwner
-            - required data: name, address, business hours
-            - optional data: description 
-
-    - GET : Get facilities owned by the FacilityOwner
-            - required data: Authentication token           // TO add 
-
-    - PUT : Update facility details by FacilityOwner
-            - required data: Authentication token           // TO add 
-            - optional data: name, address, description, businessHours
-
-set business hours to {start: 0, end: 0} for closed day
-
-/facility/:facilityId/customer
-
-    - GET : customer details by phone / customer id/ email
-            - permission: facility owner and  the customer if he has reservation in the facility
-            - required data: Authentication token           // TO add 
-            - optional data in querystring: id, phone, email (Atleast one is required)
-
-/facility/reservations/:facilityId
-
-    - GET : reservations of a facility
-            - required data: Authentication token           // TO add
-            - optional data on query string
-                - phone, customerId, email, reservationStatus, court
-                - before, after (type: date, to filter by date)   // TO add
-                - skip (type: int, skip n results), limit(type: int, show only n rusult) // TO add
-                - sortby (type: array of array, ex: [['reservationFrom', -1], ['reservationStatus', 1]]) // TO add
-                - countOnly (type: boolean) // To get only the counts of reservations // TO add
-
-/facility/reservation/:facilityId/
-
-    - POST : create new reservation to own facility by facility owner
-            - required data : Authentication token ( to add ) , user: {phone}, reservation: reservationFrom
-            - optional data
-                user: {name, email} (optional data required in case of new customer)
-                court (type: objectId)
-
-
-/facility/reservation/:facilityId/:reservationId
-
-    - GET : get reservation of a facility by reservationId
-        required data: Authentication token                 // TO add
-
-    - PUT : update reservation of a facility by reservationId
-        required data: Authentication token (to add), reservationFrom
-        optional data: court (type: objectId)
-
----
-/facility/reservation/:facilityId/:reservationId/status
-
-    - PUT : Change reservationStatus
-        - Confirm / Cancel a reservation
-        - required data: Authentication token, reservationStatus
-
-
-/facilitys
-
-        GET : list all verfied facilities for public view
-            - permission: public
-
-
-/facility/court/:facilityId
-
-    - POST : Add court(s) to their facility by FacilityOwner
-            - required data:  courts, courtIdentifier   // to add Authentication token
-            - optional data: description
-
-
-/facility/court/:facilityId/:courtId
-
-    - GET : Read court details
-         - required data: Authorization token 			// to add
-
-/facility/court
-
-    - PUT : Update single court details
-        - required data: Authentication token (to add ), court.id
-        - optional data: courtIdentifier, description
-
-
-/facility/courts/:facilityId
-
-    - GET : List courts for particular facility
-        - required data: Authorization token		// to add
-        - optional data in query string:
-            - availability = 'available' / 'unavailable' / 'status'. To filter courts on given date
-            - date, in mili-second format. Find out reservation status on this time
-
-/reservation
-
-    - POST : Create reservation in case its available
-        - Required data:  facility, reservationFrom  	// to add token
-        - Permision: login customer   // to add
-    
-    - Get : Get all the reservations by user Id
-        required data: Authentication token
-        permission Customer
-
-
-/reservation/:reservationId
-	- permission :  customer, self
-		- required data: Authentication token 		// to add
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -229,7 +108,7 @@ node helpers/app/addFacilityOwner.js
 
 
 ---------------------------------------------------
-                	API routes : 
+                     ENDPOINTS : 
 ---------------------------------------------------
 
 ---------------------------------------------------
@@ -998,7 +877,7 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/
 
 
 ---------------------------------------------------
-######## http://localhost:5000/facility/reservation//:facilityId/:reservationId/status
+######## http://localhost:5000/facility/reservation/:facilityId/:reservationId/status
 
 exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609be40801c05d6b876f8b5e/status
 ---------------------------------------------------
@@ -1029,3 +908,131 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
         "reservationStatus": "canceled"
     }
 }
+
+
+
+
+
+
+
+
+---------------------------------------------------
+                	API routes : needs some update after modifications made
+---------------------------------------------------
+
+/facility
+
+    - POST : Create new facility by FacilityOwner
+            - required data: name, address, business hours
+            - optional data: description 
+
+    - GET : Get facilities owned by the FacilityOwner
+            - required data: Authentication token           // TO add 
+
+    - PUT : Update facility details by FacilityOwner
+            - required data: Authentication token           // TO add 
+            - optional data: name, address, description, businessHours
+
+set business hours to {start: 0, end: 0} for closed day
+
+/facility/:facilityId/customer
+
+    - GET : customer details by phone / customer id/ email
+            - permission: facility owner and  the customer if he has reservation in the facility
+            - required data: Authentication token           // TO add 
+            - optional data in querystring: id, phone, email (Atleast one is required)
+
+/facility/reservations/:facilityId
+
+    - GET : reservations of a facility
+            - required data: Authentication token           // TO add
+            - optional data on query string
+                - phone, customerId, email, reservationStatus, court
+                - before, after (type: date, to filter by date)   // TO add
+                - skip (type: int, skip n results), limit(type: int, show only n rusult) // TO add
+                - sortby (type: array of array, ex: [['reservationFrom', -1], ['reservationStatus', 1]]) // TO add
+                - countOnly (type: boolean) // To get only the counts of reservations // TO add
+
+/facility/reservation/:facilityId/
+
+    - POST : create new reservation to own facility by facility owner
+            - required data : Authentication token ( to add ) , user: {phone}, reservation: reservationFrom
+            - optional data
+                user: {name, email} (optional data required in case of new customer)
+                court (type: objectId)
+
+
+/facility/reservation/:facilityId/:reservationId
+
+    - GET : get reservation of a facility by reservationId
+        required data: Authentication token                 // TO add
+
+    - PUT : update reservation of a facility by reservationId
+        required data: Authentication token (to add), reservationFrom
+        optional data: court (type: objectId)
+
+---
+/facility/reservation/:facilityId/:reservationId/status
+
+    - PUT : Change reservationStatus
+        - Confirm / Cancel a reservation
+        - required data: Authentication token, reservationStatus
+
+
+/facilitys
+
+        GET : list all verfied facilities for public view
+            - permission: public
+
+
+/facility/court/:facilityId
+
+    - POST : Add court(s) to their facility by FacilityOwner
+            - required data:  courts, courtIdentifier   // to add Authentication token
+            - optional data: description
+
+
+/facility/court/:facilityId/:courtId
+
+    - GET : Read court details
+         - required data: Authorization token 			// to add
+
+/facility/court
+
+    - PUT : Update single court details
+        - required data: Authentication token (to add ), court.id
+        - optional data: courtIdentifier, description
+
+
+/facility/courts/:facilityId
+
+    - GET : List courts for particular facility
+        - required data: Authorization token		// to add
+        - optional data in query string:
+            - availability = 'available' / 'unavailable' / 'status'. To filter courts on given date
+            - date, in mili-second format. Find out reservation status on this time
+
+/reservation
+
+    - POST : Create reservation in case its available
+        - Required data:  facility, reservationFrom  	// to add token
+        - Permision: login customer   // to add
+    
+    - Get : Get all the reservations by user Id
+        required data: Authentication token
+        permission Customer
+
+
+/reservation/:reservationId
+	- permission :  customer, self
+		- required data: Authentication token 		// to add
+
+
+
+
+
+
+
+
+
+
