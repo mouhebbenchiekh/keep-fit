@@ -14,13 +14,13 @@ var Customer = mongoose.model('Customer');
 var Reservation = mongoose.model('Reservation');
 var Court = mongoose.model('Court');
 
-// WORKS : but i need add the update on status
+// WORKS : 
 /* 
  * Get reservation by reservation id
  * permission - facility owner
  * required data - facility owner
- */ 
-router.get('/:facilityId/:reservationId',  function(req, res, next) {
+ */
+router.get('/:facilityId/:reservationId', function (req, res, next) {
 	console.log('Getting reservation..');
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
@@ -31,21 +31,21 @@ router.get('/:facilityId/:reservationId',  function(req, res, next) {
 	Facility.findOne({
 		_id: req.params.facilityId,
 		admin: req.body.user.id
-	}).then(function(facility) {
+	}).then(function (facility) {
 		if (!facility) res.sendStatus(401);
 
-		Reservation.findById(req.params.reservationId).then(function(reservation) {
+		Reservation.findById(req.params.reservationId).then(function (reservation) {
 			// Unauthorize if the facility is different
 			if (!reservation || reservation.facility != req.params.facilityId)
 				return res.sendStatus(401);
 
-			return res.json({reservation: reservation.toFacilityOwnerJSON()});
+			return res.json({ reservation: reservation.toFacilityOwnerJSON() });
 		}).catch(next);
 	}).catch(next);
 });
 
 
-// Works
+// Works : but i need to add the update on reservationStatus
 /* 
  * Update reservation
  * permission - facility owner
@@ -53,8 +53,8 @@ router.get('/:facilityId/:reservationId',  function(req, res, next) {
  * 
  * optional data :
  *	-  reservationFrom, reservationStatus, court (objectId),           
- */ 
-router.put('/:facilityId/:reservationId',  function(req, res, next) { 
+ */
+router.put('/:facilityId/:reservationId', function (req, res, next) {
 
 	console.log('\nProcessing request: ');
 
@@ -67,10 +67,10 @@ router.put('/:facilityId/:reservationId',  function(req, res, next) {
 	Facility.findOne({
 		_id: req.params.facilityId,
 		admin: req.body.user.id
-	}).then(function(facility) {
+	}).then(function (facility) {
 		if (!facility) res.sendStatus(401);
 
-		Reservation.findById(req.params.reservationId).then(function(reservation) {
+		Reservation.findById(req.params.reservationId).then(function (reservation) {
 			// Unauthorize if the reservation facility is different
 			if (!reservation || reservation.facility != req.params.facilityId)
 				return res.sendStatus(401);
@@ -80,7 +80,7 @@ router.put('/:facilityId/:reservationId',  function(req, res, next) {
 
 			// Validate input
 			var regExObjectId = /^[a-f\d]{24}$/i;
-			
+
 
 			if (payload.court && !regExObjectId.test(payload.court)) {
 				throwError.validationError('Invalid court');
@@ -100,11 +100,11 @@ router.put('/:facilityId/:reservationId',  function(req, res, next) {
 			console.log(payload);
 
 			// Validate reservation time with business hours
-			reservationValidator.businessHours(payload).then(async function(valid) {
+			reservationValidator.businessHours(payload).then(async function (valid) {
 				if (!valid) throwError.validationError('Facility will be closed at that time');
 
 				let court = null;
-				
+
 				// Manual court selection
 				if (payload.court) {
 					let available = await checkAvailability(
@@ -121,8 +121,8 @@ router.put('/:facilityId/:reservationId',  function(req, res, next) {
 					court = payload.court;
 				} else {
 					court = await findAvailableCourt(payload, next);
-				
-					if (!court)	throwError.validationError('Court is not available');
+
+					if (!court) throwError.validationError('Court is not available');
 				}
 
 				// Update database
@@ -131,45 +131,50 @@ router.put('/:facilityId/:reservationId',  function(req, res, next) {
 				reservation.courts = court;  //reservation.courts = court;
 
 				reservation.save()
-				.then(function() {
-					Reservation.populate(reservation, {path: 'courts'}).then(function() {
-						return res.json({reservation: reservation.toFacilityOwnerJSON()});
-					});
-				}).catch(next);
+					.then(function () {
+						Reservation.populate(reservation, { path: 'courts' }).then(function () {
+							return res.json({ reservation: reservation.toFacilityOwnerJSON() });
+						});
+					}).catch(next);
 			}).catch(next);
 		}).catch(next);
 	}).catch(next);
 });
 
+
+// the example WORKS but needs more testing + may cause problems in other routes (need to re-test them) 
 /* 
  * Create new reservation
  * permission - facility owner
- * required data - Authentication token, user: {phone}, reservation: {reservationFrom, noOfPersons}       // remove noOfPersons !!!
+ * required data - facility owner id, user: {phone}, reservation: {reservationFrom}     
  * optional data
  *	-	user: {name, email} (optional data required in case of new customer)
  *	-	court (type: ObjectId)
- */ 
-router.post('/:facilityId',  function(req, res, next) {  // remove auth.required
+ */
+//to fix verification if it's already taken
+router.post('/:facilityId', function (req, res, next) {
 	console.log('\nProcessing reservation request: ');
+
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();
 
-	// Authorize if user is the admin of the facility
+	// Authorize if user is the owner of the facility
 	Facility.findOne({
 		_id: req.params.facilityId,
-		admin: req.user.id
-	}).then(function(facility) {
+		admin: req.body.user.id   // facility owner
+	}).then(function (facility) {
 		if (!facility) res.sendStatus(401);
 
 		// Obtain customer id by phone or email
 		let customerQuery = {};
-		if (req.body.user && req.body.user.phone) customerQuery.phone = req.body.user.phone;
-		else if (req.body.user && req.body.user.email) customerQuery.email = req.body.user.email;
+		if (req.body.userC && req.body.userC.phone) customerQuery.phone = req.body.userC.phone;
+		else if (req.body.userC && req.body.userC.email) customerQuery.email = req.body.userC.email;
 		else throwError.validationError(' provide phone number or email');
 
 		console.log(customerQuery);
-		Customer.findOne(customerQuery).then(function(customer) {
+
+		Customer.findOne(customerQuery).then(function (customer) {
 			// If phone or email is not present in customer database
 			if (!customer) throwError.userNotFound();
 
@@ -177,8 +182,6 @@ router.post('/:facilityId',  function(req, res, next) {  // remove auth.required
 
 			// Validate input
 			if (!payload)
-			//	|| !(payload.noOfPersons = parseInt(payload.noOfPersons))
-			//	|| req.body.reservation.noOfPersons <= 0)
 				throwError.validationError();
 
 			if (new Date(parseInt(payload.reservationFrom)) == 'Invalid Date')
@@ -193,49 +196,50 @@ router.post('/:facilityId',  function(req, res, next) {  // remove auth.required
 
 			// Validate reservation time with business hours
 			reservationValidator.businessHours(payload)
-			.then(async function(valid) {
-				if (!valid) throwError.validationError('Facility will be closed at that time');
+				.then(async function (valid) {
+					if (!valid) throwError.validationError('Facility will be closed at that time');
 
-				let court = null;
+					let court = null;
 
-				// Manual court selection
-				if (payload.court) {
-					let available = await checkAvailability(
-						payload.court,
-						req.params.facilityId,
-						payload.reservationFrom,
-						next
-					);
+					// Manual court selection
+					if (payload.court) {
+						let available = await checkAvailability(
+							payload.court,
+							req.params.facilityId,
+							payload.reservationFrom,
+							next
+						);
 
-					if (!available)
-						throwError.validationError('Court not available');
+						if (!available)
+							throwError.validationError('Court not available');
 
-					court = payload.court;
-				} else {
-					court = await findAvailableCourt(payload, next);
+						court = payload.court;
+					} else {
+						court = await findAvailableCourt(payload, next);
 
-					if (!court) {
-						throwError.validationError('Court not available');
+						if (!court) {
+							throwError.validationError('Court not available');
+						}
 					}
-				}
 
-				// Update database
-				var reservation = new Reservation;
+					// Update database
+					var reservation = new Reservation;
 
-				console.log('customer: ', customer);
-				reservation.customer = customer._id;
-				reservation.facility = payload.facility;
-			//	reservation.noOfPersons = payload.noOfPersons;
-				reservation.reservationFrom = payload.reservationFrom;
-				reservation.courts = court;
+					console.log('customer: ', customer);
 
-				reservation.save()
-				.then(function() {
-					Reservation.populate(reservation, {path: 'courts'}).then(function() {
-						return res.json({reservation: reservation.toFacilityOwnerJSON()});
-					});
+					reservation.customer = customer._id;
+					reservation.facility = payload.facility;
+					reservation.reservationFrom = payload.reservationFrom;
+					reservation.courts = court;
+					reservation.court = court; // when i added this the court id was added to the reservation i don't know why
+
+					reservation.save()
+						.then(function () {
+							Reservation.populate(reservation, { path: 'courts' }).then(function () {
+								return res.json({ reservation: reservation.toFacilityOwnerJSON() });
+							});
+						}).catch(next);
 				}).catch(next);
-			}).catch(next);
 		}).catch(next);
 	}).catch(next);
 });
@@ -245,7 +249,7 @@ router.post('/:facilityId',  function(req, res, next) {  // remove auth.required
  * permission - facility owner
  * required data - Authentication token, reservationStatus
  */
-router.put('/:facilityId/:reservationId/status', function(req, res, next) {  //remove auth.required
+router.put('/:facilityId/:reservationId/status', function (req, res, next) {  //remove auth.required
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();
@@ -255,10 +259,10 @@ router.put('/:facilityId/:reservationId/status', function(req, res, next) {  //r
 	Facility.findOne({
 		_id: req.params.facilityId,
 		admin: req.user.id
-	}).then(function(facility) {
+	}).then(function (facility) {
 		if (!facility) res.sendStatus(401);
 
-		Reservation.findById(req.params.reservationId).then(function(reservation) {
+		Reservation.findById(req.params.reservationId).then(function (reservation) {
 			// Unauthorize if the reservation facility is different
 			if (!reservation || reservation.facility != req.params.facilityId)
 				return res.sendStatus(401);
@@ -268,8 +272,8 @@ router.put('/:facilityId/:reservationId/status', function(req, res, next) {  //r
 
 			reservation.reservationStatus = req.body.reservation.reservationStatus;
 
-			reservation.save().then(function(updatedReservation) {
-				return res.json({reservation: updatedReservation.toFacilityOwnerJSON()});
+			reservation.save().then(function (updatedReservation) {
+				return res.json({ reservation: updatedReservation.toFacilityOwnerJSON() });
 			}).catch(next);
 		}).catch(next);
 	}).catch(next);

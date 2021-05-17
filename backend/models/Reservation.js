@@ -15,7 +15,7 @@ var ReservationSchema = new mongoose.Schema({
         required: [true, "Can't be blank"],
     },
     court: {
-        type: { type: ObjectId, ref: 'Court' },
+        type: [{ type: ObjectId, ref: 'Court' }], // i had to change this to an array in order to add the court id to the facility
       //  required: [true, "can't be blank"]
     },
     reservationFrom: {

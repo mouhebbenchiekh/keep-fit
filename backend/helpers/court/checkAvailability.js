@@ -43,7 +43,7 @@ var checkAvailability = function (CourtId, facility, date, next, reservationId) 
 					console.log('the facility is closed');
 					resolve(false);
 				} else {
-					
+
 					// Facility is open
 					// Search reservations for occupied courts :
 					Reservation.find({
@@ -55,9 +55,13 @@ var checkAvailability = function (CourtId, facility, date, next, reservationId) 
 						}
 					}, 'courts')
 						.then(function (reservations) {
-							
-							if (reservations.map(x => JSON.parse(JSON.stringify(x.courts[0]))).includes(CourtId))
+
+							if (reservations.map(x => JSON.parse(JSON.stringify(x))).includes(CourtId)) {
+								console.log(x.courts[0]);
+								console.log(x);
+
 								resolve(false);
+							}
 							else
 								resolve(true);
 						}).catch(next);

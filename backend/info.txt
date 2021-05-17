@@ -958,3 +958,11 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
         "reservationStatus": "confirmed"
     }
 }
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservation/:facilityId
+
+exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/
+---------------------------------------------------
+# POST : Create new reservation : (the example WORKS but needs more testing + may cause problems in other routes (need to re-test them) )
+
