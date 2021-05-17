@@ -865,3 +865,96 @@ exemple http://localhost:5000/facility/customer/60991d691e07392a646f04f8
     }
 }
 
+---------------------------------------------------
+######## http://localhost:5000/facility/reservation/:facilityId/:reservationId
+
+exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609be40801c05d6b876f8b5e
+---------------------------------------------------
+# GET : Get reservation of a certain facility by reservation id
+
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		}
+	}
+
+* response :
+{
+    "reservation": {
+        "id": "609be40801c05d6b876f8b5e",
+        "facility": "60991d691e07392a646f04f8",
+        "court": {
+            "_bsontype": "ObjectID",
+            "id": {
+                "type": "Buffer",
+                "data": [
+                    96,
+                    153,
+                    167,
+                    245,
+                    8,
+                    111,
+                    205,
+                    30,
+                    112,
+                    91,
+                    75,
+                    165
+                ]
+            }
+        },
+        "customer": "609beadbc2d01863c2a6ff7e",
+        "reservationFrom": "2021-05-19T11:19:33.967Z",
+        "reservationStatus": "confirmed"
+    }
+}
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservation/:facilityId/:reservationId
+
+exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609be40801c05d6b876f8b5e
+---------------------------------------------------
+# PUT : Update reservation
+
+* body : 
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "reservation":{
+            "court":"6099a7f5086fcd1e705b4ba5",
+            "reservationFrom":"1625932222222"
+        }
+	}
+
+* response :
+{
+    "reservation": {
+        "id": "609be40801c05d6b876f8b5e",
+        "facility": "60991d691e07392a646f04f8",
+        "court": {
+            "_bsontype": "ObjectID",
+            "id": {
+                "type": "Buffer",
+                "data": [
+                    96,
+                    153,
+                    167,
+                    245,
+                    8,
+                    111,
+                    205,
+                    30,
+                    112,
+                    91,
+                    75,
+                    165
+                ]
+            }
+        },
+        "customer": "609beadbc2d01863c2a6ff7e",
+        "reservationFrom": "2021-07-10T15:50:22.222Z",
+        "reservationStatus": "confirmed"
+    }
+}

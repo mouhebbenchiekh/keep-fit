@@ -14,7 +14,7 @@ var Customer = mongoose.model('Customer');
 var Reservation = mongoose.model('Reservation');
 var Court = mongoose.model('Court');
 
-// WORKS :
+// WORKS : but i need add the update on status
 /* 
  * Get reservation by reservation id
  * permission - facility owner
@@ -44,24 +44,29 @@ router.get('/:facilityId/:reservationId',  function(req, res, next) {
 	}).catch(next);
 });
 
+
+// Works
 /* 
  * Update reservation
  * permission - facility owner
- * required data - Authentication token
- * optional data
- *	-  reservationFrom, reservationStatus, court (objectId),           removed : noOfPersons,
+ * required data - facility owner
+ * 
+ * optional data :
+ *	-  reservationFrom, reservationStatus, court (objectId),           
  */ 
-router.put('/:facilityId/:reservationId',  function(req, res, next) {  // remove auth.required
-	console.log('\nProcessing updation request: ');
+router.put('/:facilityId/:reservationId',  function(req, res, next) { 
+
+	console.log('\nProcessing request: ');
+
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();
 	if (!regExObjectId.test(req.params.reservationId)) return next();
 
-	// Authorize if user is the admin of the facility
+	// Authorize if user is the owner of the facility
 	Facility.findOne({
 		_id: req.params.facilityId,
-		admin: req.user.id
+		admin: req.body.user.id
 	}).then(function(facility) {
 		if (!facility) res.sendStatus(401);
 
@@ -76,9 +81,6 @@ router.put('/:facilityId/:reservationId',  function(req, res, next) {  // remove
 			// Validate input
 			var regExObjectId = /^[a-f\d]{24}$/i;
 			
-			/*if (!(payload.noOfPersons = parseInt(payload.noOfPersons))
-				|| payload.noOfPersons <= 0)
-				throwError.validationError('Invalid number of persons');*/
 
 			if (payload.court && !regExObjectId.test(payload.court)) {
 				throwError.validationError('Invalid court');
@@ -94,6 +96,7 @@ router.put('/:facilityId/:reservationId',  function(req, res, next) {  // remove
 			// Add facility id and reservation id to payload
 			payload.facility = reservation.facility;
 			payload.id = reservation._id;
+
 			console.log(payload);
 
 			// Validate reservation time with business hours
@@ -113,19 +116,19 @@ router.put('/:facilityId/:reservationId',  function(req, res, next) {  // remove
 					);
 
 					if (!available)
-						throwError.validationError('Court not available');
+						throwError.validationError('Court is not available');
 
 					court = payload.court;
 				} else {
 					court = await findAvailableCourt(payload, next);
 				
-					if (!court)	throwError.validationError('Court not available');
+					if (!court)	throwError.validationError('Court is not available');
 				}
 
 				// Update database
-				//reservation.noOfPersons = payload.noOfPersons;
+
 				reservation.reservationFrom = payload.reservationFrom;
-				reservation.courts = court;
+				reservation.courts = court;  //reservation.courts = court;
 
 				reservation.save()
 				.then(function() {
