@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var router = require('express').Router();
 
 //var auth = require('../../helpers/auth');
+
 var throwError = require('../../helpers/throwError');
 var reservationValidator = require('../../helpers/reservationValidator');
 var findAvailableCourt = require('../../helpers/court/findAvailableCourt');
@@ -13,10 +14,11 @@ var Customer = mongoose.model('Customer');
 var Reservation = mongoose.model('Reservation');
 var Court = mongoose.model('Court');
 
+// WORKS :
 /* 
  * Get reservation by reservation id
  * permission - facility owner
- * required data - Authentication token
+ * required data - facility owner
  */ 
 router.get('/:facilityId/:reservationId',  function(req, res, next) {
 	console.log('Getting reservation..');
@@ -28,16 +30,16 @@ router.get('/:facilityId/:reservationId',  function(req, res, next) {
 	// Authorize if user is the admin of the facility
 	Facility.findOne({
 		_id: req.params.facilityId,
-		admin: req.user.id
+		admin: req.body.user.id
 	}).then(function(facility) {
 		if (!facility) res.sendStatus(401);
 
 		Reservation.findById(req.params.reservationId).then(function(reservation) {
-			// Unauthorize if the reservation facility is different
+			// Unauthorize if the facility is different
 			if (!reservation || reservation.facility != req.params.facilityId)
 				return res.sendStatus(401);
 
-			return res.json({reservation: reservation.toFacilityeurJSON()});
+			return res.json({reservation: reservation.toFacilityOwnerJSON()});
 		}).catch(next);
 	}).catch(next);
 });
@@ -227,7 +229,7 @@ router.post('/:facilityId',  function(req, res, next) {  // remove auth.required
 				reservation.save()
 				.then(function() {
 					Reservation.populate(reservation, {path: 'courts'}).then(function() {
-						return res.json({reservation: reservation.toFacilityeurJSON()});
+						return res.json({reservation: reservation.toFacilityOwnerJSON()});
 					});
 				}).catch(next);
 			}).catch(next);
@@ -264,7 +266,7 @@ router.put('/:facilityId/:reservationId/status', function(req, res, next) {  //r
 			reservation.reservationStatus = req.body.reservation.reservationStatus;
 
 			reservation.save().then(function(updatedReservation) {
-				return res.json({reservation: updatedReservation.toFacilityeurJSON()});
+				return res.json({reservation: updatedReservation.toFacilityOwnerJSON()});
 			}).catch(next);
 		}).catch(next);
 	}).catch(next);
