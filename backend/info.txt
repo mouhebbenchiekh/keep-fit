@@ -1,0 +1,1038 @@
+---------------------------------------------------
+                Payload Syntax : 
+---------------------------------------------------
+{
+	'user': {
+		'name': '',
+		'firstName': '',
+		'lastName': '',
+		'phone': '',
+		'email': '',
+		'password': ''
+	},
+	'facility': {
+		'id': '',
+		'name': '',
+		'address': '',
+		'businessHours': {
+			'monday': {
+				'start': '1030',
+				'end': '2345'
+			},
+			...
+			...
+		}
+	},
+	'courts': [
+		'courtIdentifier': '',
+		'description': ''
+	],
+	'court': {
+		'id': '',
+		'courtIdentifier': '',
+		'description': ''
+	},
+	'reservation': {
+		'facility': ObjectId,
+		'courts': ObjectId,
+		'reservationFrom': Date
+		'customer': ObjectId,
+	}
+}
+
+---------------------------------------------------
+                Database Schema : 
+---------------------------------------------------
+
+- each collection will have _id by default
+
+* FacilityOwner: {
+	firstName: String,
+	lastName: String,
+	email: String,
+	phone: String,
+	password: String,
+	facilitys: [facility ObjectId] 
+}
+
+* Customer: {
+	email: String,
+	password: String, // add this when you add the authentication to the reservation process 
+	name: String,
+	phone: String
+}
+
+* Facility: {
+	name: String,
+	Address: String,
+	description: String,
+	admin: [FacilityOwner ObjectId]
+	verified: Boolean
+	businessHours: {
+		Monday: {
+			start: Time,
+			end: Time
+		},
+		...
+		...
+	}
+}
+
+* Court: {
+	facility: ObjectId,
+	courtIdentifier: String,	// example :  Court No 12
+	description: String
+}
+
+* Reservation: {
+	facility: ObjectId,
+	court: court ObjectId,
+	reservationFrom: DateTime,
+	customer: Customer ObjectId,
+	reservationStatus: pending / confirmed / canceled
+	reservationStatusUpdatedBy: customer / FacilityOwner
+}
+
+
+
+
+
+
+---------------------------------------------------------
+                Additional helper app :
+ Directly access database to create  new facility owner 
+---------------------------------------------------------
+node helpers/app/addFacilityOwner.js
+
+
+
+
+---------------------------------------------------
+                     ENDPOINTS : 
+---------------------------------------------------
+
+---------------------------------------------------
+######## http://localhost:5000/facility
+---------------------------------------------------
+######## POST :  Create new facility by  the owner
+
+* body example: 
+
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+
+	"facility": {
+		"name": "Facility2",
+		"address": "gabes",
+		"description": "tennis courts",
+		"businessHours": {
+			"monday": {
+			"start": "0",
+			"end": "0"
+			},
+			"sunday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"tuesday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"wednesday": {
+				"start": "0730",
+				"end": "2145"
+			},			
+			"thursday": {
+				"start": "0730",
+				"end": "2145"
+			},
+			"friday": {
+				"start": "1030",
+				"end": "2145"
+			},
+			"saturday": {
+				"start": "1030",
+				"end": "2145"
+			}
+		}
+	}
+}
+
+* Returns :
+
+{
+	"facility": {
+		"id": "6099277e9d15872de8c37356",
+		"name": "Facility2",
+		"address": "gabes",
+		"description": "tennis courts",
+		"businessHours": {
+			"monday": {
+				"start": 0,
+				"end": 0
+			},
+			"sunday": {
+				"start": 730,
+				"end": 2145
+			},
+			"tuesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"wednesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"thursday": {
+				"start": 730,
+				"end": 2145
+			},
+			"friday": {
+				"start": 1030,
+				"end": 2145
+			},
+			"saturday": {
+				"start": 1030,
+				"end": 2145
+			}
+		},
+		"verified": false
+	}
+}
+
+######## GET : Get facilities owned by facilityOwner
+* body example: 
+
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	}
+}
+
+
+* Returns  :
+{
+    "facilitys": [
+        {
+            "id": "60991d691e07392a646f04f8",
+            "name": "Facility1",
+            "address": "tunis",
+            "description": "",
+            "businessHours": {
+                "sunday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "wednesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "thursday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 1845
+                }
+            },
+            "verified": false
+        },
+        {
+            "id": "6099277e9d15872de8c37356",
+            "name": "Facility2",
+            "address": "gabes",
+            "description": "tennis courts",
+            "businessHours": {
+                "sunday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "wednesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "thursday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 2145
+                }
+            },
+            "verified": false
+        }
+    ]
+}
+
+
+---------------------------------------------------
+######## http://localhost:5000/facilitys
+
+---------------------------------------------------
+######## GET : returns the list of verfied facilities 
+
+Returns for example : 
+{
+    "facilitys": [
+        {
+            "id": "60991d691e07392a646f04f8",
+            "name": "Facility1",
+            "address": "tunis",
+            "description": "",
+            "businessHours": {
+                "sunday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "wednesday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "thursday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 1845
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 1845
+                }
+            }
+        }
+    ]
+}
+
+---------------------------------------------------
+######## http://localhost:5000/facility/court/:facilityId
+
+exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8
+
+---------------------------------------------------
+######## POST :  Add court(s) to their facility by facility Owner			
+
+* body example :
+
+	{
+			"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+		"courts":[
+			{
+				"courtIdentifier":"court 1 facility 1",
+				"description": "Football court"
+			},
+					{
+				"courtIdentifier":"court 2 facility 1",
+				"description": "Tennis court"
+			}
+		]
+	}
+
+
+* returns : 
+
+	{
+		"courts": [
+			{
+				"id": "6099a7f5086fcd1e705b4ba5",
+				"description": "Football court"
+			},
+			{
+				"id": "6099a7f5086fcd1e705b4ba6",
+				"description": "Tennis court"
+			}
+		]
+	}
+
+---------------------------------------------------
+######## http://localhost:5000/facility/court/:facilityId/:courtId
+
+
+exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8/6099a7f5086fcd1e705b4ba5
+
+---------------------------------------------------
+######## GET :  Returns data of a court of a particular facility			
+
+* body example :
+	{
+			"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		}
+	}
+
+* returns : 
+
+	{ 
+		"court": {
+			"id": "6099a7f5086fcd1e705b4ba5",
+			"description": "Football court"
+		} 
+		
+	}	
+
+
+---------------------------------------------------
+######## http://localhost:5000/facility/courts/:facilityId/
+
+
+exemple : http://localhost:5000/facility/courts/60991d691e07392a646f04f8
+
+more testing when u fix reservation
+---------------------------------------------------
+######## GET :  
+
+* Body 1 : get all courts of the facility with the id (facilityId)
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+	"query":{
+		"availability":"",
+		"date":""
+	}
+
+}
+
+
+* Response 1 :
+{
+    "courts": [
+        {
+            "id": "6099a7f5086fcd1e705b4ba5",
+            "courtIdentifier": "court 1 facility 1",
+            "description": "Football court"
+        },
+        {
+            "id": "6099a7f5086fcd1e705b4ba6",
+            "courtIdentifier": "court 2 facility 1",
+            "description": "Tennis court"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc3",
+            "courtIdentifier": "court 3 facility 1",
+            "description": "basket court"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc4",
+            "courtIdentifier": "court 5 facility 1",
+            "description": "Tennis court"
+        }
+    ]
+}
+
+// All of this is related to the date : some facilities are close certain days
+// if you don't insert date the date will be date.now()
+// otherwise if you want to insert date it should have mili-second format
+
+* Body 2 : get all courts of the facility with the id (facilityId)
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+	"query":{
+		"availability":"unavailable",
+		"date":""
+	}
+
+}
+
+* Response 2 :
+{
+    "courts": [
+        {
+            "id": "6099a7f5086fcd1e705b4ba5",
+            "courtIdentifier": "court 1 facility 1",
+            "description": "Football court"
+        },
+        {
+            "id": "6099a7f5086fcd1e705b4ba6",
+            "courtIdentifier": "court 2 facility 1",
+            "description": "Tennis court"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc3",
+            "courtIdentifier": "court 3 facility 1",
+            "description": "basket court"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc4",
+            "courtIdentifier": "court 5 facility 1",
+            "description": "Tennis court"
+        }
+    ]
+}
+
+
+* Body 3 :
+
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+	"query":{
+		"availability":"status",
+		"date":""
+	}
+
+}
+
+* Response 3 :
+{
+    "courts": [
+        {
+            "id": "6099a7f5086fcd1e705b4ba5",
+            "courtIdentifier": "court 1 facility 1",
+            "description": "Football court",
+            "availability": "available"
+        },
+        {
+            "id": "6099a7f5086fcd1e705b4ba6",
+            "courtIdentifier": "court 2 facility 1",
+            "description": "Tennis court",
+            "availability": "available"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc3",
+            "courtIdentifier": "court 3 facility 1",
+            "description": "basket court",
+            "availability": "available"
+        },
+        {
+            "id": "609a84c51f48d6421046fbc4",
+            "courtIdentifier": "court 5 facility 1",
+            "description": "Tennis court",
+            "availability": "available"
+        }
+    ]
+} 
+
+...
+---------------------------------------------------
+######## http://localhost:5000/facility/court
+---------------------------------------------------
+######## PUT :  Update single court info by facilityOwner			
+
+* Body example : 
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "court":{
+            "id":"6099a7f5086fcd1e705b4ba5",
+            "courtIdentifier":"court 1 facility 1 updated",
+            "description":"update test"
+        }
+
+	}
+
+* Response : 
+ {
+    "court": {
+        "id": "6099a7f5086fcd1e705b4ba5",
+        "courtIdentifier": "court 1 facility 1 updated",
+        "description": "update test"
+    }
+}
+
+---------------------------------------------------
+######## http://localhost:5000/facility
+---------------------------------------------------
+######## PUT :  Update facility info by facilityOwner			
+
+* body example :
+{
+	"user": {
+		"id": "6098fba05bf6c24ee4534acb"
+	},
+	"facility":{
+		"id":"60991d691e07392a646f04f8",
+		"description":"test update"
+	}
+
+}
+
+* Response :
+{
+    "facility": {
+        "id": "60991d691e07392a646f04f8",
+        "name": "Facility1",
+        "address": "tunis",
+        "description": "test update",
+        "businessHours": {
+            "sunday": {
+                "start": 1030,
+                "end": 2345
+            },
+            "monday": {
+                "start": 1030,
+                "end": 2345
+            },
+            "tuesday": {
+                "start": 1030,
+                "end": 1845
+            },
+            "wednesday": {
+                "start": 1030,
+                "end": 1845
+            },
+            "thursday": {
+                "start": 1030,
+                "end": 1845
+            },
+            "friday": {
+                "start": 1030,
+                "end": 1845
+            },
+            "saturday": {
+                "start": 1030,
+                "end": 1845
+            }
+        },
+        "verified": true
+    }
+}
+
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservations/:facilityId
+
+exemple http://localhost:5000/facility/reservations/60991d691e07392a646f04f8
+---------------------------------------------------
+#GET
+
+* body 1 : 
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "query":{
+            "customerId":"609beadbc2d01863c2a6ff7e"
+        }
+	}
+
+* response 1 : 
+	{
+		"reservations": [
+			{
+				"court": "6099a7f5086fcd1e705b4ba5",
+				"reservationStatus": "pending",
+				"_id": "609be40801c05d6b876f8b5e",
+				"customer": "609beadbc2d01863c2a6ff7e",
+				"facility": "60991d691e07392a646f04f8"
+			}
+		],
+		"count": 1
+	}
+
+
+* body 2 :
+
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "query":{
+            "customerId":"609beadbc2d01863c2a6ff7e",
+            "court":"6099a7f5086fcd1e705b4ba5",
+            "reservationStatus": "pending"
+        }
+	}
+
+
+* response 2 :
+
+{
+    "reservations": [],
+    "count": 0
+}
+
+
+* body 3 :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "query":{
+            "customerId":"609beadbc2d01863c2a6ff7e",
+            "court":"6099a7f5086fcd1e705b4ba5",
+            "reservationStatus": "confirmed"
+        }
+	}
+
+
+* response 3 :
+	{
+		"reservations": [
+			{
+				"court": "6099a7f5086fcd1e705b4ba5",
+				"reservationStatus": "confirmed",
+				"_id": "609be40801c05d6b876f8b5e",
+				"customer": "609beadbc2d01863c2a6ff7e",
+				"facility": "60991d691e07392a646f04f8",
+				"reservationFrom": "2021-05-19T11:19:33.967Z",
+				"ReservationStatusUpdatedBy": "admin"
+			}
+		],
+		"count": 1
+	}
+
+
+---------------------------------------------------
+######## http://localhost:5000/facility/customer/:facilityId
+
+exemple http://localhost:5000/facility/customer/60991d691e07392a646f04f8
+---------------------------------------------------
+
+# GET : get customer data by customer id / email / phone 
+
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "query":{
+            "id":"609bcebb01c05d6b876f8b5d"
+        }
+	}
+
+* Response :
+
+{
+    "customer": {
+        "name": "nametest",
+        "email": "testingemail@gmai.com",
+        "phone": "51276519"
+    }
+}
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservation/:facilityId/:reservationId
+
+exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609be40801c05d6b876f8b5e
+---------------------------------------------------
+# GET : Get reservation of a certain facility by reservation id
+
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		}
+	}
+
+* response :
+{
+    "reservation": {
+        "id": "609be40801c05d6b876f8b5e",
+        "facility": "60991d691e07392a646f04f8",
+        "court": {
+            "_bsontype": "ObjectID",
+            "id": {
+                "type": "Buffer",
+                "data": [
+                    96,
+                    153,
+                    167,
+                    245,
+                    8,
+                    111,
+                    205,
+                    30,
+                    112,
+                    91,
+                    75,
+                    165
+                ]
+            }
+        },
+        "customer": "609beadbc2d01863c2a6ff7e",
+        "reservationFrom": "2021-05-19T11:19:33.967Z",
+        "reservationStatus": "confirmed"
+    }
+}
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservation/:facilityId/:reservationId
+
+exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609be40801c05d6b876f8b5e
+---------------------------------------------------
+# PUT : Update reservation
+
+* body : 
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "reservation":{
+            "court":"6099a7f5086fcd1e705b4ba5",
+            "reservationFrom":"1625932222222"
+        }
+	}
+
+* response :
+{
+    "reservation": {
+        "id": "609be40801c05d6b876f8b5e",
+        "facility": "60991d691e07392a646f04f8",
+        "court": {
+            "_bsontype": "ObjectID",
+            "id": {
+                "type": "Buffer",
+                "data": [
+                    96,
+                    153,
+                    167,
+                    245,
+                    8,
+                    111,
+                    205,
+                    30,
+                    112,
+                    91,
+                    75,
+                    165
+                ]
+            }
+        },
+        "customer": "609beadbc2d01863c2a6ff7e",
+        "reservationFrom": "2021-07-10T15:50:22.222Z",
+        "reservationStatus": "confirmed"
+    }
+}
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservation/:facilityId
+
+exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/
+---------------------------------------------------
+# POST : Create new reservation : (the example WORKS but needs more testing + may cause problems in other routes (need to re-test them) )
+
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "userC":{
+            "phone":"51276519",
+            "email":"testingemail@gmai.com"
+        },
+        "reservation":{
+            "reservationFrom":"1625999222222",
+            "court":"6099a7f5086fcd1e705b4ba6"
+        }
+
+	}
+
+* Response ... :
+{
+    "reservation": {
+        "id": "60a245230efbb10e982aa9df",
+        "facility": "60991d691e07392a646f04f8",
+        "court": [
+            "6099a7f5086fcd1e705b4ba6"
+        ],
+        "customer": "609bcebb01c05d6b876f8b5d",
+        "reservationFrom": "2021-07-11T10:27:02.222Z",
+        "reservationStatus": "pending"
+    }
+}
+
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservation/:facilityId/:reservationId/status
+
+exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609be40801c05d6b876f8b5e/status
+---------------------------------------------------
+# PUT : Change reservation status  ( canceled | confirmed | pending )
+
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+
+        "reservation":{
+            "reservationStatus":"canceled"
+        }
+
+	}
+
+* response :
+{
+    "reservation": {
+        "id": "609be40801c05d6b876f8b5e",
+        "facility": "60991d691e07392a646f04f8",
+        "court": [
+            "6099a7f5086fcd1e705b4ba5"
+        ],
+        "customer": "609beadbc2d01863c2a6ff7e",
+        "reservationFrom": "2021-07-11T10:27:02.222Z",
+        "reservationStatus": "canceled"
+    }
+}
+
+
+
+
+
+
+
+
+---------------------------------------------------
+                	API routes : needs some update after modifications made
+---------------------------------------------------
+
+/facility
+
+    - POST : Create new facility by FacilityOwner
+            - required data: name, address, business hours
+            - optional data: description 
+
+    - GET : Get facilities owned by the FacilityOwner
+            - required data: Authentication token           // TO add 
+
+    - PUT : Update facility details by FacilityOwner
+            - required data: Authentication token           // TO add 
+            - optional data: name, address, description, businessHours
+
+set business hours to {start: 0, end: 0} for closed day
+
+/facility/:facilityId/customer
+
+    - GET : customer details by phone / customer id/ email
+            - permission: facility owner and  the customer if he has reservation in the facility
+            - required data: Authentication token           // TO add 
+            - optional data in querystring: id, phone, email (Atleast one is required)
+
+/facility/reservations/:facilityId
+
+    - GET : reservations of a facility
+            - required data: Authentication token           // TO add
+            - optional data on query string
+                - phone, customerId, email, reservationStatus, court
+                - before, after (type: date, to filter by date)   // TO add
+                - skip (type: int, skip n results), limit(type: int, show only n rusult) // TO add
+                - sortby (type: array of array, ex: [['reservationFrom', -1], ['reservationStatus', 1]]) // TO add
+                - countOnly (type: boolean) // To get only the counts of reservations // TO add
+
+/facility/reservation/:facilityId/
+
+    - POST : create new reservation to own facility by facility owner
+            - required data : Authentication token ( to add ) , user: {phone}, reservation: reservationFrom
+            - optional data
+                user: {name, email} (optional data required in case of new customer)
+                court (type: objectId)
+
+
+/facility/reservation/:facilityId/:reservationId
+
+    - GET : get reservation of a facility by reservationId
+        required data: Authentication token                 // TO add
+
+    - PUT : update reservation of a facility by reservationId
+        required data: Authentication token (to add), reservationFrom
+        optional data: court (type: objectId)
+
+---
+/facility/reservation/:facilityId/:reservationId/status
+
+    - PUT : Change reservationStatus
+        - Confirm / Cancel a reservation
+        - required data: Authentication token, reservationStatus
+
+
+/facilitys
+
+        GET : list all verfied facilities for public view
+            - permission: public
+
+
+/facility/court/:facilityId
+
+    - POST : Add court(s) to their facility by FacilityOwner
+            - required data:  courts, courtIdentifier   // to add Authentication token
+            - optional data: description
+
+
+/facility/court/:facilityId/:courtId
+
+    - GET : Read court details
+         - required data: Authorization token 			// to add
+
+/facility/court
+
+    - PUT : Update single court details
+        - required data: Authentication token (to add ), court.id
+        - optional data: courtIdentifier, description
+
+
+/facility/courts/:facilityId
+
+    - GET : List courts for particular facility
+        - required data: Authorization token		// to add
+        - optional data in query string:
+            - availability = 'available' / 'unavailable' / 'status'. To filter courts on given date
+            - date, in mili-second format. Find out reservation status on this time
+
+/reservation
+
+    - POST : Create reservation in case its available
+        - Required data:  facility, reservationFrom  	// to add token
+        - Permision: login customer   // to add
+    
+    - Get : Get all the reservations by user Id
+        required data: Authentication token
+        permission Customer
+
+
+/reservation/:reservationId
+	- permission :  customer, self
+		- required data: Authentication token 		// to add
+
+
+
+
+
+
+
+
+
+
