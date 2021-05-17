@@ -966,3 +966,66 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/
 ---------------------------------------------------
 # POST : Create new reservation : (the example WORKS but needs more testing + may cause problems in other routes (need to re-test them) )
 
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+        "userC":{
+            "phone":"51276519",
+            "email":"testingemail@gmai.com"
+        },
+        "reservation":{
+            "reservationFrom":"1625999222222",
+            "court":"6099a7f5086fcd1e705b4ba6"
+        }
+
+	}
+
+* Response ... :
+{
+    "reservation": {
+        "id": "60a245230efbb10e982aa9df",
+        "facility": "60991d691e07392a646f04f8",
+        "court": [
+            "6099a7f5086fcd1e705b4ba6"
+        ],
+        "customer": "609bcebb01c05d6b876f8b5d",
+        "reservationFrom": "2021-07-11T10:27:02.222Z",
+        "reservationStatus": "pending"
+    }
+}
+
+
+---------------------------------------------------
+######## http://localhost:5000/facility/reservation//:facilityId/:reservationId/status
+
+exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609be40801c05d6b876f8b5e/status
+---------------------------------------------------
+# PUT : Change reservation status  ( canceled | confirmed | pending )
+
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb"
+		},
+
+        "reservation":{
+            "reservationStatus":"canceled"
+        }
+
+	}
+
+* response :
+{
+    "reservation": {
+        "id": "609be40801c05d6b876f8b5e",
+        "facility": "60991d691e07392a646f04f8",
+        "court": [
+            "6099a7f5086fcd1e705b4ba5"
+        ],
+        "customer": "609beadbc2d01863c2a6ff7e",
+        "reservationFrom": "2021-07-11T10:27:02.222Z",
+        "reservationStatus": "canceled"
+    }
+}

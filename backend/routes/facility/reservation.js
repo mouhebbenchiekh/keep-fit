@@ -244,21 +244,24 @@ router.post('/:facilityId', function (req, res, next) {
 	}).catch(next);
 });
 
+
+// WORKS :
 /*
  * Change reservation status - confirm reservation/ cancel reservation
  * permission - facility owner
  * required data - Authentication token, reservationStatus
  */
-router.put('/:facilityId/:reservationId/status', function (req, res, next) {  //remove auth.required
+router.put('/:facilityId/:reservationId/status', function (req, res, next) {  
+
 	// if regEx of params do not match procceed to next function
 	var regExObjectId = /^[a-f\d]{24}$/i;
 	if (!regExObjectId.test(req.params.facilityId)) return next();
 	if (!regExObjectId.test(req.params.reservationId)) return next();
 
-	// Authorize if user is the admin of the facility
+	// Authorize if user is the owner of the facility
 	Facility.findOne({
 		_id: req.params.facilityId,
-		admin: req.user.id
+		admin: req.body.user.id
 	}).then(function (facility) {
 		if (!facility) res.sendStatus(401);
 
