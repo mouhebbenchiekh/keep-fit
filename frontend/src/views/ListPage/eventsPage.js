@@ -14,7 +14,8 @@ import MediaCard from "components/Card/mediaCard";
 import team1 from "assets/img/faces/california.png";
 import team2 from "assets/img/faces/redsquare.png";
 import team3 from "assets/img/faces/oxygene.png";
-import { Link } from "react-router-dom";
+
+import EventCard from "components/Card/eventCard.js";
 
 const useStyles = makeStyles((theme)=>({
  main:{
@@ -62,7 +63,7 @@ const location=["tunis","sousse","sfax","nabeul"
 
 ]
 
-const GymsPage=(props)=>{
+const EventsPage=(props)=>{
     const classes = useStyles();
   const { ...rest } = props;
 
@@ -83,15 +84,7 @@ const GymsPage=(props)=>{
       <div className={classNames(classes.main ,classes.mainRaised)}>
           <div className={classes.container}>
       <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={6} lg={3}>
-                    <Autocomplete
-                            className={classes.margin20}
-                            id="combo-box-demo"
-                            options={location}
-                            //getOptionLabel={(option) => option.title}
-                            renderInput={(params) => <TextField {...params} label="Location" variant="outlined" />}
-                        />
-          </GridItem>
+          
           <GridItem xs={12} sm={12} md={6} lg={3}>
                     <Autocomplete
                         className={classes.margin20}
@@ -123,24 +116,16 @@ const GymsPage=(props)=>{
       </GridContainer>
 
       <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={6} lg={4}>
-           <Link to="/gym-page">  <MediaCard im={team1} name="California" price="150dt" type="Tunis"/></Link>
+          <GridItem xs={12} sm={12} md={12} lg={6}>
+              <EventCard name="Marathon" im={team1}/>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6} lg={4}>
-          <Link to="/gym-page">   <MediaCard im={team2} name="Redsquare" price="120dt" type="Tunis"/></Link>
+          <GridItem xs={12} sm={12} md={12} lg={6}>
+              <EventCard name="Marathon" im={team1}/>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6} lg={4}>
-          <Link to="/gym-page">  <MediaCard im={team3} name="Oxygene" price="80dt" type="Sousse"/></Link>
+          <GridItem xs={12} sm={12} md={12} lg={6}>
+              <EventCard name="Marathon" im={team1}/>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6} lg={4}>
-          <Link to="/gym-page">  <MediaCard im={team2} name="Redsquare" price="120dt" type="Tunis"/> </Link>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6} lg={4}>
-          <Link to="/gym-page">  <MediaCard im={team3} name="Oxygene" price="80dt" type="Sousse"/></Link>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6} lg={4}>
-          <Link to="/gym-page">  <MediaCard im={team1} name="California" price="150dt" type="Tunis"/></Link>
-          </GridItem>
+         
       </GridContainer>
       </div>
       </div>
@@ -148,4 +133,4 @@ const GymsPage=(props)=>{
     )
 }
 
-export default GymsPage;
+export default EventsPage;

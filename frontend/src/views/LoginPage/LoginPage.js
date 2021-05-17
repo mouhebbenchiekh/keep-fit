@@ -25,6 +25,7 @@ import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import image from "assets/img/login.jpg";
 import { login } from "Reducer/endpoints";
 import { Redirect, useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
@@ -155,6 +156,9 @@ export default function LoginPage(props) {
                   <CardFooter className={classes.cardFooter}>
                     <Button simple color="primary" size="lg" onClick={()=>{handelSubmit()}} >
                       Get started
+                    </Button>
+                    <Button simple color="secondary" size="md"  >
+                      <Link to="/signup-page"> Register </Link>
                     </Button>
                   </CardFooter>
                 </form>

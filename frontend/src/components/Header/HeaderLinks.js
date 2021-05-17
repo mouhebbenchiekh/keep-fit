@@ -34,7 +34,7 @@ export default function HeaderLinks(props) {
           target="_blank"
           className={classes.navLink}
         >
-          <Link to="/" style={{color:"inherit"}}>
+          <Link to="/results" style={{color:"inherit"}}>
            results
            </Link>
         </Button>
@@ -46,7 +46,7 @@ export default function HeaderLinks(props) {
           target="_blank"
           className={classes.navLink}
         >
-           <Link to="/" style={{color:"inherit"}}>events</Link>
+           <Link to="/events" style={{color:"inherit"}}>events</Link>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -56,7 +56,7 @@ export default function HeaderLinks(props) {
           target="_blank"
           className={classes.navLink}
         >
-          <Link to="/" style={{color:"inherit"}}>reserve</Link>
+          <Link to="/parks" style={{color:"inherit"}}>reserve</Link>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -66,7 +66,7 @@ export default function HeaderLinks(props) {
           target="_blank"
           className={classes.navLink}
         >
-          <Link to="/"style={{color:"inherit"}}> subscribe </Link>
+          <Link to="/gyms"style={{color:"inherit"}}> subscribe </Link>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>

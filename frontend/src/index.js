@@ -16,6 +16,8 @@ import ParksPage from "views/ListPage/ParksPage.js";
 import GymsPage from "views/ListPage/GymsPage.js";
 import Store from "Reducer/Store";
 import GymPage from "views/ProfilePage/GymPage";
+import EventsPage from "views/ListPage/eventsPage.js";
+import ResultsPage from "views/ListPage/resultsPage";
 
 var hist = createBrowserHistory();
 
@@ -29,8 +31,10 @@ ReactDOM.render(
       <Route path="/gym-page" component={GymPage} />
       <Route path="/login-page" component={LoginPage} />
       <Route path="/signup-page" component={SignupPage} />
-      <Route path="/Parks" component={ParksPage} />
-      <Route path="/Gyms" component={GymsPage} />
+      <Route path="/parks" component={ParksPage} />
+      <Route path="/gyms" component={GymsPage} />
+      <Route path="/events" component={EventsPage} />
+      <Route path="/results" component={ResultsPage} />
       <Route path="/" component={LandingPage} />
     </Switch>
   </Router>
