@@ -25,4 +25,7 @@ router.use('/api/private',require('./privateRoute'));
 // Gym releted operations 
 router.use('/gym', require('./gym'));
 
+// Event releted operations 
+router.use('/event', require('./event'));
+
 module.exports = router;
