@@ -22,4 +22,7 @@ router.use('/api/user',require('./auth'));
 // private route
 router.use('/api/private',require('./privateRoute'));
 
+// Gym releted operations 
+router.use('/gym', require('./gym'));
+
 module.exports = router;

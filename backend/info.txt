@@ -416,7 +416,6 @@ exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8/6099a7f5
 
 exemple : http://localhost:5000/facility/courts/60991d691e07392a646f04f8
 
-more testing when u fix reservation
 ---------------------------------------------------
 ######## GET :  
 
@@ -429,7 +428,6 @@ more testing when u fix reservation
 		"availability":"",
 		"date":""
 	}
-
 }
 
 
@@ -512,7 +510,6 @@ more testing when u fix reservation
 		"availability":"status",
 		"date":""
 	}
-
 }
 
 * Response 3 :
@@ -561,7 +558,6 @@ more testing when u fix reservation
             "courtIdentifier":"court 1 facility 1 updated",
             "description":"update test"
         }
-
 	}
 
 * Response : 
@@ -858,7 +854,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/
             "reservationFrom":"1625999222222",
             "court":"6099a7f5086fcd1e705b4ba6"
         }
-
 	}
 
 * Response ... :
