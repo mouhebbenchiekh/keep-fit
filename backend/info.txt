@@ -100,10 +100,13 @@
 
 ---------------------------------------------------------
                 Additional helper app :
- Directly access database to create  new facility owner 
+ Directly access database to create : 
 ---------------------------------------------------------
-node helpers/app/addFacilityOwner.js
+* New facility owner :
+        node helpers/app/addFacilityOwner.js
 
+* New gym owner :
+        node helpers/app/addGymOwner.js
 
 
 
@@ -903,6 +906,213 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
         "reservationStatus": "canceled"
     }
 }
+
+
+
+
+---------------------------------------------------
+######## http://localhost:5000/gym
+---------------------------------------------------
+# POST : Create gym by Gym Owner
+
+* body :
+{
+    "user":{
+        "id":"60abc029f69e8d0fccebe663"
+    },
+    "gym":{
+		"name": "BodyRock",
+		"address": "3 Rue El Fouledh، 2000",
+		"description": "Salle de sport BodyRock couvre une superficie de 600m2, équipée d’un matériels de haute gamme, décor plaisant et tout le nécessaire pour obtenir vos objectifs",
+		"businessHours": {
+			"monday": {
+				"start": 0,
+				"end": 0
+			},
+			"sunday": {
+				"start": 730,
+				"end": 2145
+			},
+			"tuesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"wednesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"thursday": {
+				"start": 730,
+				"end": 2145
+			},
+			"friday": {
+				"start": 1030,
+				"end": 2145
+			},
+			"saturday": {
+				"start": 1030,
+				"end": 2145
+			}
+		},
+		"verified": true,
+        "price":70,
+        "coordinates":[36.801713001130935, 10.133925368997906],
+        "activities":["Musculation","Fitness"]
+	}
+}
+
+# GET : Get gyms owned by gymOwner
+
+* body :
+    {
+        "user":{
+            "id":"60abc029f69e8d0fccebe663"
+        }
+    }
+
+* response :
+{
+    "gyms": [
+        {
+            "id": "60abc6f1420cb143c82fe9ab",
+            "name": "BodyRock",
+            "address": "3 Rue El Fouledh، 2000",
+            "description": "Salle de sport BodyRock couvre une superficie de 600m2, équipée d’un matériels de haute gamme, décor plaisant et tout le nécessaire pour obtenir vos objectifs",
+            "businessHours": {
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "wednesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "thursday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "sunday": {
+                    "start": 730,
+                    "end": 2145
+                }
+            },
+            "verified": true,
+            "price": 70,
+            "coordinates": [
+                36.801713001130935,
+                10.133925368997906
+            ],
+            "activities": [
+                "Musculation",
+                "Fitness"
+            ]
+        }
+    ]
+}
+
+
+# PUT : 
+{
+    "user":{
+        "id":"60abc029f69e8d0fccebe663"
+    },
+    "gym":{
+        "id":"60abc6f1420cb143c82fe9ab",
+        "address":"3 Rue El Fouledh، 2000."
+    }
+}
+
+
+
+
+---------------------------------------------------
+######## http://localhost:5000/gym/gyms
+---------------------------------------------------
+# GET : List of all verfied gyms
+
+* body :
+    {
+        "query":{
+            "gymid":"60abc6f1420cb143c82fe9ab"
+        }
+    }
+
+* Response :
+{
+    "gyms": [
+        {
+            "id": "60abc6f1420cb143c82fe9ab",
+            "name": "BodyRock",
+            "address": "3 Rue El Fouledh، 2000",
+            "description": "Salle de sport BodyRock couvre une superficie de 600m2, équipée d’un matériels de haute gamme, décor plaisant et tout le nécessaire pour obtenir vos objectifs",
+            "businessHours": {
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "wednesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "thursday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "sunday": {
+                    "start": 730,
+                    "end": 2145
+                }
+            },
+            "price": 70,
+            "coordinates": [
+                36.801713001130935,
+                10.133925368997906
+            ],
+            "activities": [
+                "Musculation",
+                "Fitness"
+            ]
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

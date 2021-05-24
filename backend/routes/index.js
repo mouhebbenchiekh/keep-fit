@@ -28,4 +28,7 @@ router.use('/gym', require('./gym'));
 // Event releted operations 
 router.use('/event', require('./event'));
 
+// Coach releted operations 
+router.use('/coach', require('./coach'));
+
 module.exports = router;

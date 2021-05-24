@@ -12,7 +12,7 @@ var GymOwner = mongoose.model('GymOwner');
    public access
    no data required
  */
-router.get('/', function (req, res, next) {
+router.get('/gyms', function (req, res, next) {
     var query = { verified: true };
 
     if (req.query.gymid)
@@ -34,6 +34,7 @@ router.get('/', function (req, res, next) {
 
 // --------------------------------------------------------------------------
 
+// WORKS
 /*
  * Create new gym by gym owner
  * required data: 
@@ -61,6 +62,7 @@ router.post('/', function (req, res, next) { // remove auth.required
         //	gym.setBusinessHours(req.body.gym.businessHours);   // didn't work ??
         gym.businessHours = req.body.gym.businessHours;
 
+        gym.verified = req.body.gym.verified;
         gym.price = req.body.gym.price;
         gym.coordinates = req.body.gym.coordinates;
         gym.activities = req.body.gym.activities;
@@ -72,7 +74,7 @@ router.post('/', function (req, res, next) { // remove auth.required
 });
 
 
-
+// WORKS :
 /*
  * Get gyms owned by gymOwner
  * required data: 
