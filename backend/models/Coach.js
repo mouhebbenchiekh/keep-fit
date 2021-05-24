@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 
@@ -20,11 +19,6 @@ var CoachSchema = new mongoose.Schema({
         match: [/[0-9]{8}$/, 'is invalid']
 
     },
-    password: {
-        type: String,
-        required: [true, "can't be blank"],
-    }
-    ,
     email: {
         type: String,
         required: [true, "can't be blank"],

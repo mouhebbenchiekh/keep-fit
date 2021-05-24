@@ -1037,8 +1037,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
 }
 
 
-
-
 ---------------------------------------------------
 ######## http://localhost:5000/gym/gyms
 ---------------------------------------------------
@@ -1184,14 +1182,44 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
 
 
 
+---------------------------------------------------
+######## http://localhost:5000/coach
+---------------------------------------------------
+
+# POST :
+* body :
+{
+    "coach":{
+        "firstName":"coach name",
+        "lastName":"coach lastname",
+        "cin":"14867194",
+        "email":"procoachtunis@gmail.com",
+        "phone":"22276440",
+        "description":"yoga coach",
+        "price":"30",
+        "address":"bardo, tunis"
+    }
+}
 
 
+# GET :
 
+* response
 
-
-
-
-
+{
+    "coachs": [
+        {
+            "id": "60abf0d0de69c33a1ce26ba0",
+            "firstName": "coach name",
+            "lastName": "coach lastname",
+            "email": "procoachtunis@gmail.com",
+            "verified": true,
+            "address": "bardo, tunis",
+            "description": "yoga coach",
+            "price": 30
+        }
+    ]
+}
 
 
 

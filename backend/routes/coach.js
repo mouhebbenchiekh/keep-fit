@@ -8,7 +8,6 @@ var Coach = mongoose.model('Coach');
    public access
    no data required
  */
-
  router.get('/', function(req, res, next) {
 	var query = {verified: true};
 
@@ -30,11 +29,41 @@ var Coach = mongoose.model('Coach');
 
 // ----------------------------------------------------------------------------------
 
-
 /*
- * Update coach details
-
+ * Create new coach 
+ * required data: 
+ * 	firstName
+ * 	lastName
+ *  cin
+ *  email
+ *  phone
+ *  description
+ *  price
+ *  address
+ * 
+ * TO-DO : restrict access 
  */
+
+router.post('/', function (req, res, next) { 
+
+        if (!req.body.coach) return res.sendStatus(400);
+
+        var coach = new Coach();
+
+        coach.firstName = req.body.coach.firstName;
+        coach.lastName = req.body.coach.lastName;
+        coach.cin = req.body.coach.cin;
+        coach.email = req.body.coach.email;
+        coach.phone = req.body.coach.phone;
+        coach.description = req.body.coach.description;
+        coach.price = req.body.coach.price;
+        coach.address = req.body.coach.address;
+
+        coach.save().then(function () {
+            return res.json({ coach: coach.viewJSON() });
+        }).catch(next);
+});
+
 
 
 
