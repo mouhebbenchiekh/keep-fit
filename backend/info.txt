@@ -108,6 +108,8 @@
 * New gym owner :
         node helpers/app/addGymOwner.js
 
+* New event owner :
+        node helpers/app/addEventOwner.js
 
 
 ---------------------------------------------------
@@ -1100,10 +1102,84 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
     ]
 }
 
+---------------------------------------------------
+######## http://localhost:5000/event/events
+---------------------------------------------------
+# GET : List of all verfied events
 
+ * Response :
+ {
+    "events": [
+        {
+            "id": "60abd3540490da30f8564dab",
+            "name": "The Carthage Race Marathon",
+            "address": "Carthage",
+            "description": "Marathon 10 km",
+            "time": "1970-01-19T21:30:22.127Z",
+            "price": 10,
+            "coordinates": [
+                36.86130865224091,
+                10.30379818369453
+            ],
+            "activities": [
+                "Running",
+                "Marathon"
+            ]
+        }
+    ]
+}
+---------------------------------------------------
+######## http://localhost:5000/event
+---------------------------------------------------
+# POST : Create event by event Owner
 
+* body :
+{
+    "user":{
+        "id":"60abd05e32eee641dc81d98e"
+    },
+    "event":{
+		"name": "The Carthage Race Marathon",
+		"address": "Carthage",
+		"description": "Marathon 10 km",
+		"time":"1632622127",
+        "price":10,
+        "coordinates":[36.86130865224091, 10.30379818369453],
+        "activities":["Running","Marathon"]
+	}
+}
 
+# GET :
 
+* body :
+    {
+        "user":{
+            "id":"60abd05e32eee641dc81d98e"
+        }
+    }
+
+* response :
+{
+    "events": [
+        {
+            "id": "60abd3540490da30f8564dab",
+            "name": "The Carthage Race Marathon",
+            "address": "Carthage",
+            "description": "Marathon 10 km",
+            "time": "1970-01-19T21:30:22.127Z",
+            "verified": true,
+            "price": 10,
+            "coordinates": [
+                36.86130865224091,
+                10.30379818369453
+            ],
+            "activities": [
+                "Running",
+                "Marathon"
+            ]
+        }
+    ]
+}
 
 
 

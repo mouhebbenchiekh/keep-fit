@@ -5,14 +5,13 @@ var Event = mongoose.model('Event');
 var EventOwner = mongoose.model('EventOwner');
 
 
-
-// WORKS
+//works
 /*
  * Get list of all verified events : 
    public access
    no data required
  */
-router.get('/', function (req, res, next) {
+router.get('/events', function (req, res, next) {
     var query = { verified: true };
 
     if (req.query.eventid)
@@ -33,7 +32,7 @@ router.get('/', function (req, res, next) {
 
 
 // --------------------------------------------------------------------------
-
+// works
 /*
  * Create new event by event owner
  * required data: 
@@ -44,6 +43,7 @@ router.get('/', function (req, res, next) {
  *  price
  *  coordinates
  *  activities
+ *  
  */
 router.post('/', function (req, res, next) { // remove auth.required
     EventOwner.findById(req.body.user.id).then(function (eventOwner) {
@@ -70,7 +70,7 @@ router.post('/', function (req, res, next) { // remove auth.required
 });
 
 
-
+// works :
 /*
  * Get events owned by eventOwner
  * required data: 
@@ -92,7 +92,7 @@ router.get('/', function (req, res, next) {
     }).catch(next);
 });
 
-
+//works :
 /*
  * Update event details
  *  required data: 
