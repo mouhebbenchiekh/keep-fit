@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useEffect } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 // react components for routing our app without refresh
@@ -19,10 +19,14 @@ import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-kit-react/components/headerLinksStyle.js";
+import { useState } from "react";
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
+
+  const[user,setuser]=useState("");
+  useEffect(()=>{},[user]);
   const classes = useStyles();
   return (
     <List className={classes.list}>
@@ -80,14 +84,29 @@ export default function HeaderLinks(props) {
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Button
+        {localStorage.getItem("token")?<Button
+          
+          color="transparent"
+          target="/profile-page"
+          className={classes.navLink}
+          onClick={()=>{
+            localStorage.removeItem("token")
+            setuser(null);
+          }}
+        >
+          
+           logout
+        </Button>:<Button
           
           color="transparent"
           target="/profile-page"
           className={classes.navLink}
         >
+          
           <Link to="/login-page" style={{color:"inherit"}}> login</Link> 
-        </Button>
+        </Button>}
+        
+        
       </ListItem>
       
     </List>

@@ -19,10 +19,11 @@ import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
+import { Context } from "Reducer/Store";
 
 //context api 
 
-import {Context} from "Reducer/Store";
+
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
@@ -55,6 +56,8 @@ axios.post(register,JSON.stringify(user),{headers: {
 }}).then(
   res=>{
     console.log(res)
+    localStorage.setItem("token",res.data.token);
+    dispatch({type:'REGISTER_USER',payload:res.data.user})
   
     hist.push("/profile-page")
  

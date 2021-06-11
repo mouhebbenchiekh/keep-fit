@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,10 +27,13 @@ import { login } from "Reducer/endpoints";
 import { Redirect, useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
+import {Context} from "Reducer/Store";
+
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const [state,dispatch]=useContext(Context);
   var hist=useHistory();
   setTimeout(function() {
     setCardAnimation("");
@@ -51,7 +54,10 @@ export default function LoginPage(props) {
       }
     }).then(
       res=>{console.log(res)
-        localStorage.setItem("token",res.data)
+        localStorage.setItem("token",res.data.token)
+        const dUser=res.data.user
+        dispatch({type:'ATHENTIFICATE_USER',payload:dUser})
+        console.log(state.user);
         hist.push("/profile-page")
         
       }
