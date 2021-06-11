@@ -9,7 +9,7 @@ var Facility = mongoose.model('Facility');
 
 // WORKS : 
 /*
- * Read customer data by customer id / email / phone no
+ * Read customer data by customer id / email / phone 
  * permission: facility owner, if the customer(s) have reservation in his/her facility(s)
  * required data: Authentication token
  * optional data on query string: id, email, phone (Atleast one is required)

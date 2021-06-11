@@ -100,11 +100,16 @@
 
 ---------------------------------------------------------
                 Additional helper app :
- Directly access database to create  new facility owner 
+ Directly access database to create : 
 ---------------------------------------------------------
-node helpers/app/addFacilityOwner.js
+* New facility owner :
+        node helpers/app/addFacilityOwner.js
 
+* New gym owner :
+        node helpers/app/addGymOwner.js
 
+* New event owner :
+        node helpers/app/addEventOwner.js
 
 
 ---------------------------------------------------
@@ -416,7 +421,6 @@ exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8/6099a7f5
 
 exemple : http://localhost:5000/facility/courts/60991d691e07392a646f04f8
 
-more testing when u fix reservation
 ---------------------------------------------------
 ######## GET :  
 
@@ -429,7 +433,6 @@ more testing when u fix reservation
 		"availability":"",
 		"date":""
 	}
-
 }
 
 
@@ -512,7 +515,6 @@ more testing when u fix reservation
 		"availability":"status",
 		"date":""
 	}
-
 }
 
 * Response 3 :
@@ -561,7 +563,6 @@ more testing when u fix reservation
             "courtIdentifier":"court 1 facility 1 updated",
             "description":"update test"
         }
-
 	}
 
 * Response : 
@@ -858,7 +859,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/
             "reservationFrom":"1625999222222",
             "court":"6099a7f5086fcd1e705b4ba6"
         }
-
 	}
 
 * Response ... :
@@ -911,6 +911,315 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
 
 
 
+
+---------------------------------------------------
+######## http://localhost:5000/gym
+---------------------------------------------------
+# POST : Create gym by Gym Owner
+
+* body :
+{
+    "user":{
+        "id":"60abc029f69e8d0fccebe663"
+    },
+    "gym":{
+		"name": "BodyRock",
+		"address": "3 Rue El Fouledh، 2000",
+		"description": "Salle de sport BodyRock couvre une superficie de 600m2, équipée d’un matériels de haute gamme, décor plaisant et tout le nécessaire pour obtenir vos objectifs",
+		"businessHours": {
+			"monday": {
+				"start": 0,
+				"end": 0
+			},
+			"sunday": {
+				"start": 730,
+				"end": 2145
+			},
+			"tuesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"wednesday": {
+				"start": 730,
+				"end": 2145
+			},
+			"thursday": {
+				"start": 730,
+				"end": 2145
+			},
+			"friday": {
+				"start": 1030,
+				"end": 2145
+			},
+			"saturday": {
+				"start": 1030,
+				"end": 2145
+			}
+		},
+		"verified": true,
+        "price":70,
+        "coordinates":[36.801713001130935, 10.133925368997906],
+        "activities":["Musculation","Fitness"]
+	}
+}
+
+# GET : Get gyms owned by gymOwner
+
+* body :
+    {
+        "user":{
+            "id":"60abc029f69e8d0fccebe663"
+        }
+    }
+
+* response :
+{
+    "gyms": [
+        {
+            "id": "60abc6f1420cb143c82fe9ab",
+            "name": "BodyRock",
+            "address": "3 Rue El Fouledh، 2000",
+            "description": "Salle de sport BodyRock couvre une superficie de 600m2, équipée d’un matériels de haute gamme, décor plaisant et tout le nécessaire pour obtenir vos objectifs",
+            "businessHours": {
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "wednesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "thursday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "sunday": {
+                    "start": 730,
+                    "end": 2145
+                }
+            },
+            "verified": true,
+            "price": 70,
+            "coordinates": [
+                36.801713001130935,
+                10.133925368997906
+            ],
+            "activities": [
+                "Musculation",
+                "Fitness"
+            ]
+        }
+    ]
+}
+
+
+# PUT : 
+{
+    "user":{
+        "id":"60abc029f69e8d0fccebe663"
+    },
+    "gym":{
+        "id":"60abc6f1420cb143c82fe9ab",
+        "address":"3 Rue El Fouledh، 2000."
+    }
+}
+
+
+---------------------------------------------------
+######## http://localhost:5000/gym/gyms
+---------------------------------------------------
+# GET : List of all verfied gyms
+
+* body :
+    {
+        "query":{
+            "gymid":"60abc6f1420cb143c82fe9ab"
+        }
+    }
+
+* Response :
+{
+    "gyms": [
+        {
+            "id": "60abc6f1420cb143c82fe9ab",
+            "name": "BodyRock",
+            "address": "3 Rue El Fouledh، 2000",
+            "description": "Salle de sport BodyRock couvre une superficie de 600m2, équipée d’un matériels de haute gamme, décor plaisant et tout le nécessaire pour obtenir vos objectifs",
+            "businessHours": {
+                "monday": {
+                    "start": 0,
+                    "end": 0
+                },
+                "tuesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "wednesday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "thursday": {
+                    "start": 730,
+                    "end": 2145
+                },
+                "friday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "saturday": {
+                    "start": 1030,
+                    "end": 2145
+                },
+                "sunday": {
+                    "start": 730,
+                    "end": 2145
+                }
+            },
+            "price": 70,
+            "coordinates": [
+                36.801713001130935,
+                10.133925368997906
+            ],
+            "activities": [
+                "Musculation",
+                "Fitness"
+            ]
+        }
+    ]
+}
+
+---------------------------------------------------
+######## http://localhost:5000/event/events
+---------------------------------------------------
+# GET : List of all verfied events
+
+ * Response :
+ {
+    "events": [
+        {
+            "id": "60abd3540490da30f8564dab",
+            "name": "The Carthage Race Marathon",
+            "address": "Carthage",
+            "description": "Marathon 10 km",
+            "time": "1970-01-19T21:30:22.127Z",
+            "price": 10,
+            "coordinates": [
+                36.86130865224091,
+                10.30379818369453
+            ],
+            "activities": [
+                "Running",
+                "Marathon"
+            ]
+        }
+    ]
+}
+---------------------------------------------------
+######## http://localhost:5000/event
+---------------------------------------------------
+# POST : Create event by event Owner
+
+* body :
+{
+    "user":{
+        "id":"60abd05e32eee641dc81d98e"
+    },
+    "event":{
+		"name": "The Carthage Race Marathon",
+		"address": "Carthage",
+		"description": "Marathon 10 km",
+		"time":"1632622127",
+        "price":10,
+        "coordinates":[36.86130865224091, 10.30379818369453],
+        "activities":["Running","Marathon"]
+	}
+}
+
+# GET :
+
+* body :
+    {
+        "user":{
+            "id":"60abd05e32eee641dc81d98e"
+        }
+    }
+
+* response :
+{
+    "events": [
+        {
+            "id": "60abd3540490da30f8564dab",
+            "name": "The Carthage Race Marathon",
+            "address": "Carthage",
+            "description": "Marathon 10 km",
+            "time": "1970-01-19T21:30:22.127Z",
+            "verified": true,
+            "price": 10,
+            "coordinates": [
+                36.86130865224091,
+                10.30379818369453
+            ],
+            "activities": [
+                "Running",
+                "Marathon"
+            ]
+        }
+    ]
+}
+
+
+
+
+---------------------------------------------------
+######## http://localhost:5000/coach
+---------------------------------------------------
+
+# POST :
+* body :
+{
+    "coach":{
+        "firstName":"coach name",
+        "lastName":"coach lastname",
+        "cin":"14867194",
+        "email":"procoachtunis@gmail.com",
+        "phone":"22276440",
+        "description":"yoga coach",
+        "price":"30",
+        "address":"bardo, tunis"
+    }
+}
+
+
+# GET :
+
+* response
+
+{
+    "coachs": [
+        {
+            "id": "60abf0d0de69c33a1ce26ba0",
+            "firstName": "coach name",
+            "lastName": "coach lastname",
+            "email": "procoachtunis@gmail.com",
+            "verified": true,
+            "address": "bardo, tunis",
+            "description": "yoga coach",
+            "price": 30
+        }
+    ]
+}
 
 
 
