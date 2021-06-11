@@ -1224,6 +1224,56 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
 
 
 
+---------------------------------------------------
+######## http://localhost:5000//:facilityId/:courtId
+
+example : http://localhost:5000/facility/reservations/60991d691e07392a646f04f8/6099a7f5086fcd1e705b4ba6
+---------------------------------------------------
+# GET : Get all reservations of a court
+
+* body :
+	{
+		"user": {
+			"id": "6098fba05bf6c24ee4534acb" // facility owner
+		},
+        "query":{
+        }
+	}
+
+* response : 
+{
+    "reservations": [
+        {
+            "court": [
+                "6099a7f5086fcd1e705b4ba6"
+            ],
+            "reservationStatus": "pending",
+            "_id": "60a245230efbb10e982aa9df",
+            "customer": "609bcebb01c05d6b876f8b5d",
+            "facility": "60991d691e07392a646f04f8",
+            "reservationFrom": "2021-07-11T10:27:02.222Z",
+            "createdAt": "2021-05-17T10:27:47.163Z",
+            "updatedAt": "2021-05-17T10:27:47.163Z",
+            "__v": 0
+        },
+        {
+            "court": [
+                "6099a7f5086fcd1e705b4ba6"
+            ],
+            "reservationStatus": "pending",
+            "_id": "60a3d82901c79639b861a3ff",
+            "customer": "609bcebb01c05d6b876f8b5d",
+            "facility": "60991d691e07392a646f04f8",
+            "reservationFrom": "2022-10-16T14:57:02.222Z",
+            "createdAt": "2021-05-18T15:07:22.012Z",
+            "updatedAt": "2021-05-18T15:07:22.012Z",
+            "__v": 0
+        }
+    ],
+    "count": 2 // number of reservation
+}
+
+
 
 ---------------------------------------------------
                 	API routes : needs some update after modifications made

@@ -45,7 +45,10 @@ router.get('/:facilityId/:reservationId', function (req, res, next) {
 });
 
 
-// Works : but i need to add the update on reservationStatus
+
+
+
+
 /* 
  * Update reservation
  * permission - facility owner
