@@ -157,7 +157,7 @@ export default function LoginPage(props) {
                     <Button simple color="primary" size="lg" onClick={()=>{handelSubmit()}} >
                       Get started
                     </Button>
-                    <Button simple color="secondary" size="md"  >
+                    <Button simple color="info" size="sm"  >
                       <Link to="/signup-page"> Register </Link>
                     </Button>
                   </CardFooter>

@@ -2,6 +2,7 @@
 var express = require('express');
 var	mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var cors =require('cors');
 
 var config = require('./config');
 const dotenv = require('dotenv');
@@ -19,7 +20,7 @@ var app = express();
 
 // Middlewares
 
-
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
 
@@ -35,6 +36,14 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true })
 	console.log('\x1b[31m%s\x1b[0m', 'Error in Database Connection!');
 	console.log(err);
 });
+
+//cors allow 
+app.use(cors());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 // API endpoints
 app.use(require('./routes'));

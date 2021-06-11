@@ -18,7 +18,7 @@ var FacilityOwner = mongoose.model('FacilityOwner');
 router.post('/',  function (req, res, next) { // remove auth.required
 	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
-
+   
 		if (!req.body.facility) return res.sendStatus(400);
 
 		var facility = new Facility();
