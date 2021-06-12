@@ -44,8 +44,6 @@
                 Database Schema : 
 ---------------------------------------------------
 
-- each collection will have _id by default
-
 * FacilityOwner: {
 	firstName: String,
 	lastName: String,
@@ -93,15 +91,81 @@
 	reservationStatusUpdatedBy: customer / FacilityOwner
 }
 
+* Coach {
+    firstName:  String,
+    lastName: String,
+    cin: Number
+    email: String
+    phone: String,
+    description: String,
+    verified: Boolean,
+    price:  Number,
+    address: String
+}
 
+* EventSchema {
+    name: String,
+    address: String,
+    description: String,
+    admin: type: EventOwner,
+    time: type: Date,
+    verified: type: Boolean,
+    price: Number,
+    coordinates: [Number],
+    activities:[String],
+});
 
+* EventOwner {
+    firstName: String,
+    lastName: String,
+    cin: Number,
+    password: String,
+    email: String,
+    phone: String,
+}
 
+* Gym{
+    name: String,
+    address: String,
+    description: String,
+    admin: type: [GymOwner],
+    businessHours: {
+        monday: timeSchema,
+        tuesday: timeSchema,
+        wednesday: timeSchema,
+        thursday: timeSchema,
+        friday: timeSchema,
+        saturday: timeSchema,
+        sunday: timeSchema
+    },
+    verified: Boolean,
+    price: Number,
+    coordinates: [Number],
+    activities: [String],
+}
 
+* GymOwner{
+    firstName: String,
+    lastName: String,
+    cin: Number,
+    password:  String,
+    email: String,
+    phone: String,
+}
+
+* user{
+    name: String,
+    email: String,
+    password:  String,
+    date: Date,
+
+}
 
 ---------------------------------------------------------
                 Additional helper app :
  Directly access database to create : 
 ---------------------------------------------------------
+
 * New facility owner :
         node helpers/app/addFacilityOwner.js
 
@@ -110,7 +174,6 @@
 
 * New event owner :
         node helpers/app/addEventOwner.js
-
 
 ---------------------------------------------------
                      ENDPOINTS : 
@@ -632,7 +695,6 @@ exemple : http://localhost:5000/facility/courts/60991d691e07392a646f04f8
     }
 }
 
-
 ---------------------------------------------------
 ######## http://localhost:5000/facility/reservations/:facilityId
 
@@ -664,7 +726,6 @@ exemple http://localhost:5000/facility/reservations/60991d691e07392a646f04f8
 		"count": 1
 	}
 
-
 * body 2 :
 
 	{
@@ -680,12 +741,10 @@ exemple http://localhost:5000/facility/reservations/60991d691e07392a646f04f8
 
 
 * response 2 :
-
 {
     "reservations": [],
     "count": 0
 }
-
 
 * body 3 :
 	{
@@ -698,7 +757,6 @@ exemple http://localhost:5000/facility/reservations/60991d691e07392a646f04f8
             "reservationStatus": "confirmed"
         }
 	}
-
 
 * response 3 :
 	{
@@ -715,7 +773,6 @@ exemple http://localhost:5000/facility/reservations/60991d691e07392a646f04f8
 		],
 		"count": 1
 	}
-
 
 ---------------------------------------------------
 ######## http://localhost:5000/facility/customer/:facilityId
@@ -795,6 +852,7 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
 
 exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609be40801c05d6b876f8b5e
 ---------------------------------------------------
+
 # PUT : Update reservation
 
 * body : 
@@ -875,7 +933,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/
     }
 }
 
-
 ---------------------------------------------------
 ######## http://localhost:5000/facility/reservation/:facilityId/:reservationId/status
 
@@ -908,9 +965,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
         "reservationStatus": "canceled"
     }
 }
-
-
-
 
 ---------------------------------------------------
 ######## http://localhost:5000/gym
@@ -1024,7 +1078,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
     ]
 }
 
-
 # PUT : 
 {
     "user":{
@@ -1035,7 +1088,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
         "address":"3 Rue El Fouledh، 2000."
     }
 }
-
 
 ---------------------------------------------------
 ######## http://localhost:5000/gym/gyms
@@ -1179,9 +1231,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
     ]
 }
 
-
-
-
 ---------------------------------------------------
 ######## http://localhost:5000/coach
 ---------------------------------------------------
@@ -1201,7 +1250,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
     }
 }
 
-
 # GET : 
 
 * response
@@ -1220,9 +1268,6 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
         }
     ]
 }
-
-
-
 
 ---------------------------------------------------
 ######## http://localhost:5000//:facilityId/:courtId
@@ -1273,11 +1318,9 @@ example : http://localhost:5000/facility/reservations/60991d691e07392a646f04f8/6
     "count": 2 // number of reservation
 }
 
-
-
----------------------------------------------------
+-----------------------------------------------------------------------------------------------------
                 	API routes : needs some update after modifications made
----------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 
 /facility
 
@@ -1330,13 +1373,13 @@ set business hours to {start: 0, end: 0} for closed day
         required data: Authentication token (to add), reservationFrom
         optional data: court (type: objectId)
 
----
+
 /facility/reservation/:facilityId/:reservationId/status
 
     - PUT : Change reservationStatus
         - Confirm / Cancel a reservation
+     
         - required data: Authentication token, reservationStatus
-
 
 /facilitys
 
@@ -1355,6 +1398,7 @@ set business hours to {start: 0, end: 0} for closed day
 
     - GET : Read court details
          - required data: Authorization token 			// to add
+
 
 /facility/court
 
