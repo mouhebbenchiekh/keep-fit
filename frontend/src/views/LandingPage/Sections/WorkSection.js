@@ -20,12 +20,9 @@ export default function WorkSection() {
     <div className={classes.section}>
       <GridContainer justify="center">
         <GridItem cs={12} sm={12} md={8}>
-          <h2 className={classes.title}>Contact</h2>
+          <h2 className={classes.title}>Contact us</h2>
           <h4 className={classes.description}>
-            Divide details about your product or agency work into parts. Write a
-            few lines about each one and contact us about any further
-            collaboration. We will responde get back to you in a couple of
-            hours.
+          If you have any questions or queries a member of staff will always be happy to help. Feel free to contact us by telephone or email and we will be sure to get back to you as soon as possible
           </h4>
           <form>
             <GridContainer>

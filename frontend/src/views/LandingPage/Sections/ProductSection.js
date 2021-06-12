@@ -25,11 +25,11 @@ export default function ProductSection() {
         <GridItem xs={12} sm={12} md={8}>
           <h2 className={classes.title}>Let{"'"}s make a reservation</h2>
           <h5 className={classes.description}>
-            This is the paragraph where you can write more details about your
-            product. Keep you user engaged by providing meaningful information.
-            Remember that by this time, the user is curious, otherwise he wouldn
-            {"'"}t scroll to get here. Add a button if you want the user to see
-            more.
+            You want to play Football or Tennis or other sport that requires a Court but 
+            you don't know where to go or if the place you plan on going to is full already, 
+            Keep-Fit provides you with all the nessecairy informations about Facilities and the ability reservation 
+            so what are you waiting for call your friends and have a fun game. 
+
           </h5>
         </GridItem>
       </GridContainer>
