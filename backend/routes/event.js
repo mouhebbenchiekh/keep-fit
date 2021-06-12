@@ -4,7 +4,6 @@ var router = require('express').Router();
 var Event = mongoose.model('Event');
 var EventOwner = mongoose.model('EventOwner');
 
-
 //works
 /*
  * Get list of all verified events : 
@@ -31,7 +30,6 @@ router.get('/events', function (req, res, next) {
 });
 
 
-// --------------------------------------------------------------------------
 // works
 /*
  * Create new event by event owner
@@ -45,7 +43,7 @@ router.get('/events', function (req, res, next) {
  *  activities
  *  
  */
-router.post('/', function (req, res, next) { // remove auth.required
+router.post('/', function (req, res, next) {
     EventOwner.findById(req.body.user.id).then(function (eventOwner) {
         if (!eventOwner) return res.sendStatus(401);
 
@@ -138,7 +136,7 @@ router.put('/', function (req, res, next) {
                 event.coordinates = data.coordinates;
             if (typeof data.activities !== 'undefined')
                 event.activities = data.activities;
-            
+
             event.save().then(function () {
                 return res.json({ event: event.viewByOwnerJSON() });
             }).catch(next);

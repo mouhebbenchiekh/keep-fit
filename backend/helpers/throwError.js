@@ -7,7 +7,6 @@ throwError.validationError = function(msg) {
 	throw err;
 };
 
-
 throwError.unauthorized = function(msg) {
 	var err = new Error(msg);
 	err.name = 'Unauthorized';

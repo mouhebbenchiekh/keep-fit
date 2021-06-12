@@ -1,11 +1,9 @@
 var mongoose = require('mongoose');
 var router = require('express').Router();
 
-
 var Customer = mongoose.model('Customer');
 var Reservation = mongoose.model('Reservation');
 var Facility = mongoose.model('Facility');
-
 
 // WORKS : 
 /*

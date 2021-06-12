@@ -7,12 +7,10 @@ var throwError = require('../../helpers/throwError');
 var reservationValidator = require('../../helpers/reservationValidator');
 var findAvailableCourt = require('../../helpers/court/findAvailableCourt');
 var checkAvailability = require('../../helpers/court/checkAvailability');
-var config = require('../../config');
 
 var Facility = mongoose.model('Facility');
 var Customer = mongoose.model('Customer');
 var Reservation = mongoose.model('Reservation');
-var Court = mongoose.model('Court');
 
 // WORKS : 
 /* 
@@ -43,10 +41,6 @@ router.get('/:facilityId/:reservationId', function (req, res, next) {
 		}).catch(next);
 	}).catch(next);
 });
-
-
-
-
 
 
 /* 
@@ -83,7 +77,6 @@ router.put('/:facilityId/:reservationId', function (req, res, next) {
 
 			// Validate input
 			var regExObjectId = /^[a-f\d]{24}$/i;
-
 
 			if (payload.court && !regExObjectId.test(payload.court)) {
 				throwError.validationError('Invalid court');
@@ -145,7 +138,7 @@ router.put('/:facilityId/:reservationId', function (req, res, next) {
 });
 
 
-// the example WORKS but needs more testing + may cause problems in other routes (need to re-test them) 
+// the example WORKS but needs more testing + may cause problems in other routes 
 /* 
  * Create new reservation
  * permission - facility owner

@@ -5,7 +5,6 @@ var Reservation = mongoose.model('Reservation');
 var Facility = mongoose.model('Facility');
 
 var config = require('../../config');
-var utility = require('../utility');
 
 // List courts based on availability
 var listCourts = function (availability, facility, query, next) {
@@ -22,7 +21,6 @@ var listCourts = function (availability, facility, query, next) {
 			// Find out if the facility is open or close at that time
 			await Facility.findById(facility, 'businessHours')
 				.then(function (data) {
-					// ---
 
 					let days = [
 						'monday',
@@ -38,17 +36,13 @@ var listCourts = function (availability, facility, query, next) {
 						return (days[x.getDay()]);
 					}
 
-					// ---
-
 					let businessHours = (data.businessHours[getDay(new Date(query.date))]);
 
-					// ---
 					let get = function (date) {
 						date = new Date(date)
 						return (date.getHours() * 100 + date.getMinutes());
 					}
-					// ---
-					
+
 
 					let time = get(query.date);
 

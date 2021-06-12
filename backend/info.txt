@@ -849,7 +849,7 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/
 * body :
 	{
 		"user": {
-			"id": "6098fba05bf6c24ee4534acb"
+			"id": "6098fba05bf6c24ee4534acb" // facility onwer : i need to delete this i don't need facility owner to create a resevation
 		},
         "userC":{
             "phone":"51276519",
@@ -1186,7 +1186,7 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
 ######## http://localhost:5000/coach
 ---------------------------------------------------
 
-# POST :
+# POST : 
 * body :
 {
     "coach":{
@@ -1202,7 +1202,7 @@ exemple http://localhost:5000/facility/reservation/60991d691e07392a646f04f8/609b
 }
 
 
-# GET :
+# GET : 
 
 * response
 

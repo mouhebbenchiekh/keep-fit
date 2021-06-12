@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var router = require('express').Router();
 
 //var auth = require('../../helpers/auth');
+
 var listCourts = require('../../helpers/court/listCourts');
 
-var Court = mongoose.model('Court');
 var Facility = mongoose.model('Facility');
 
 
@@ -34,13 +34,10 @@ var Facility = mongoose.model('Facility');
 				&& ['available', 'unavailable', 'status'].indexOf(req.body.query.availability) != -1)
 			? req.body.query.availability : false;
 		
-				
 		let query = {}
 		
 		query.reservationId = req.body.query.reservationId;
 		query.date = parseInt(req.body.query.date) ? parseInt(req.body.query.date) : (Date.now());
-
-	
 
 		if (!availability) {
 			// Return all courts

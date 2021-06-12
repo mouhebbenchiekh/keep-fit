@@ -1,5 +1,3 @@
-// in OLD CALLED : Booking
-
 var mongoose = require('mongoose');
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -16,12 +14,11 @@ var ReservationSchema = new mongoose.Schema({
     },
     court: {
         type: [{ type: ObjectId, ref: 'Court' }], // i had to change this to an array in order to add the court id to the facility
-      //  required: [true, "can't be blank"]
     },
     reservationFrom: {
         type: Date,
         required: [true, "can't be blank"],
-    }, // add to
+    }, 
     reservationStatus: {
         type: String,
         default: 'pending',
@@ -46,7 +43,6 @@ var ReservationSchema = new mongoose.Schema({
 },
     { timestamps: true } //When you enable timestamps, Mongoose adds createdAt and updatedAt properties to your schema. By default, createdAt and updatedAt are of type Date.
 );
-
 
 // Methods : 
 ReservationSchema.methods.toCustomerJSON = function () { 

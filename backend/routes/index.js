@@ -4,9 +4,6 @@ router.get('/ping', function(req, res, next){
     return res.status(200).send('test');
 });
 
-// user signup, login, view user data, modify user data
-//router.use('/user', require('./user'));
-
 // Facility releted operations 
 router.use('/facility', require('./facility/'));
 

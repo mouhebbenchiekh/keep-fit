@@ -1,8 +1,6 @@
-
 var mongoose = require('mongoose');
-var uniqueValidator = require('mongoose-unique-validator');
 
-var ObjectId = mongoose.Schema.Types.ObjectId;
+var uniqueValidator = require('mongoose-unique-validator');
 
 var GymOwnerSchema = new mongoose.Schema({
     firstName: {
@@ -43,8 +41,6 @@ var GymOwnerSchema = new mongoose.Schema({
 
 GymOwnerSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
-// methods to add 
-
-
 var GymOwner = mongoose.model('GymOwner', GymOwnerSchema);
+
 module.exports = GymOwner;

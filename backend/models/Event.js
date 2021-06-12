@@ -1,10 +1,6 @@
 var mongoose = require('mongoose');
 
-var helpers = require('../helpers/utility');
-var throwError = require('../helpers/throwError');
-
 var ObjectId = mongoose.Schema.Types.ObjectId;
-
 
 var EventSchema = new mongoose.Schema({
     name: {
@@ -44,8 +40,6 @@ var EventSchema = new mongoose.Schema({
         required: [true, "can't be blank"]
     }
 });
-
-
 
 EventSchema.methods.viewByOwnerJSON = function () {
     return {

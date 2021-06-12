@@ -265,6 +265,4 @@ router.get('/:facilityId/:courtId', function (req, res, next) { // remove auth.r
 	}).catch(next);
 });
 
-
-
 module.exports = router;
