@@ -1,7 +1,6 @@
-/* Add Event owners
+/* 
+ * Add Event owners
  * Do not include this file in the main app
-
- 
  */
 
 
@@ -12,11 +11,8 @@ dotenv.config();
 
 var EventOwner = require('../../models/EventOwner');
 
-
-
-
 // Connect database
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }) 
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true })
 	.then(function () {
 		console.log('\x1b[32m%s\x1b[0m', 'Database Connection Established!');
 
@@ -27,7 +23,6 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true })
 		user.cin = '14767162';
 		user.email = 'eventowner123@gmail.com';
 		user.phone = '22018181';
-		//user.setPassword('password'); don't use this function for now : you need to add methods in the eventowner in order to use
 		user.password = 'testpassword';
 		user.save().then(function () {
 		}).catch(function (err) { console.log(err) });

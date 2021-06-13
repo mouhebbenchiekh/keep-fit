@@ -9,14 +9,13 @@ var reservationValidator = require('../helpers/reservationValidator');
 var Reservation = mongoose.model('Reservation');
 var Court = mongoose.model('Court');
 var Customer = mongoose.model('Customer');
-var FacilityOwner = mongoose.model('FacilityOwner');
 var Facility = mongoose.model('Facility');
 
 /*
  * Create a new reservation by logged-id customer
  * Required data: token, facility, reservationFrom   
  */
-router.post('/',  function (req, res, next) { // remove auth.required
+router.post('/', function (req, res, next) { // remove auth.required
     Customer.findById(req.user.id).then(function (customer) {
         if (!customer) return res.sendStatus(401);
 
@@ -27,11 +26,7 @@ router.post('/',  function (req, res, next) { // remove auth.required
         var regExObjectId = /^[a-f\d]{24}$/i;
         if (!regExObjectId.test(payload.facility))
             throwError.validationError();
-/*
-        if (!(payload.noOfPersons = parseInt(payload.noOfPersons))
-            || payload.noOfPersons <= 0)
-            throwError.validationError();
-*/
+
         if (payload.reservationFrom < Date.now())
             throwError.validationError();
 
@@ -81,7 +76,7 @@ router.post('/',  function (req, res, next) { // remove auth.required
                             let len = availableCourts.length;
                             let court = '';
 
-                             court = availableCourts[len]._id;
+                            court = availableCourts[len]._id;
 
                             console.log('Selected court: ', court)
 
@@ -90,7 +85,6 @@ router.post('/',  function (req, res, next) { // remove auth.required
 
                             reservation.customer = req.user.id;
                             reservation.facility = payload.facility;
-                            //reservation.noOfPersons = payload.noOfPersons;
                             reservation.reservationFrom = payload.reservationFrom;
                             reservation.courts = court;
 
@@ -109,7 +103,7 @@ router.post('/',  function (req, res, next) { // remove auth.required
  * Get all reservations of the logged-in customer
  * Required data: Authentication token for customer
  */
-router.get('/',  function (req, res, next) { // remove auth.required
+router.get('/', function (req, res, next) { // remove auth.required
     Customer.findById(req.user.id).then(function (customer) {
         if (!customer) return res.sendStatus(401);
 
@@ -131,7 +125,7 @@ router.get('/',  function (req, res, next) { // remove auth.required
  * Get reservation of the logged-in customer by reservationId
  * Required data: Authentication token
  */
-router.get('/:reservationId',  function (req, res, next) {
+router.get('/:reservationId', function (req, res, next) {
     // if regEx of params do not match procceed to next function
     var regExObjectId = /^[a-f\d]{24}$/i;
     if (!regExObjectId.test(req.params.reservationId)) return next();

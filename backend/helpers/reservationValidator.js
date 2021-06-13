@@ -1,11 +1,6 @@
 var mongoose = require('mongoose');
 
-var helpers = require('./utility');
-
-var Court = mongoose.model('Court');
 var Facility = mongoose.model('Facility');
-//var getDay = helpers.time.getDay;   // didn't work i have to copy and past them here
-//var getTime = helpers.time.get;
 
 let days = [
 	'monday',
@@ -25,9 +20,6 @@ let getTime = function (date) {
 	date = new Date(date)
 	return (date.getHours() * 100 + date.getMinutes());
 }
-
-
-
 
 // Instantiate object to export
 var reservationValidator = {};

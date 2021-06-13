@@ -15,10 +15,10 @@ var FacilityOwner = mongoose.model('FacilityOwner');
  *  description
  *  business hours
  */
-router.post('/',  function (req, res, next) { // remove auth.required
+router.post('/', function (req, res, next) {
 	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
-   
+
 		if (!req.body.facility) return res.sendStatus(400);
 
 		var facility = new Facility();
@@ -27,7 +27,6 @@ router.post('/',  function (req, res, next) { // remove auth.required
 		facility.name = req.body.facility.name;
 		facility.address = req.body.facility.address;
 		facility.description = req.body.facility.description;
-	//	facility.setBusinessHours(req.body.facility.businessHours);   // didn't work ??
 		facility.businessHours = req.body.facility.businessHours;
 
 		facility.save().then(function () {
@@ -43,8 +42,8 @@ router.post('/',  function (req, res, next) { // remove auth.required
  * required data: 
  * 	facility owner id 
  */
-router.get('/',  function (req, res, next) { // remove auth.required
-	
+router.get('/', function (req, res, next) {
+
 	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
 
@@ -72,10 +71,10 @@ router.get('/',  function (req, res, next) { // remove auth.required
  *  	business hours
  */
 
-router.put('/', function (req, res, next) { 
+router.put('/', function (req, res, next) {
 	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);
-		
+
 		let data = req.body.facility;
 		if (!data || !(data.name || data.address || data.description || data.businessHours)) {
 			return res.status(400).json({ errors: 'Provide data to update' });
@@ -97,19 +96,11 @@ router.put('/', function (req, res, next) {
 			if (typeof data.businessHours !== 'undefined')
 				facility.businessHours = data.businessHours;
 
-		// i tried using findOneAndUpdate	 : didn't work		
-		//		let fac = new Facility(facility);
-		//		fac.findOneAndUpdate({ id: req.body.facility.id },
-		//			{ name: data.name, address: data.address, description: data.description, businessHours: data.businessHours })
-
-			
 			facility.save().then(function () {
 				return res.json({ facility: facility.viewByOwnerJSON() });
 			}).catch(next);
 		}).catch(next);
 	}).catch(next);
 });
-
-// TODO delete facility, manage the bookings and other associated data when deleted
 
 module.exports = router;

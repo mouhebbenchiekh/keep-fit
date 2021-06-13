@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
-var uniqueValidator = require('mongoose-unique-validator');
 
-var ObjectId = mongoose.Schema.Types.ObjectId;
+var uniqueValidator = require('mongoose-unique-validator');
 
 var CoachSchema = new mongoose.Schema({
     firstName: {
@@ -32,7 +31,7 @@ var CoachSchema = new mongoose.Schema({
         unique: true,
         match: [/((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})/g, 'is invalid']
     },
-    description:{
+    description: {
         type: String,
         required: [true, "can't be blank"]
     },
@@ -44,7 +43,7 @@ var CoachSchema = new mongoose.Schema({
         type: Number,
         required: [true, "can't be blank"]
     },
-    address:{
+    address: {
         type: String,
         required: [true, "can't be blank"]
     }
@@ -53,33 +52,33 @@ var CoachSchema = new mongoose.Schema({
 
 CoachSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
-// methods to add 
 CoachSchema.methods.viewJSON = function () {
-	return {
-		id: this._id,
+    return {
+        id: this._id,
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
         verified: this.verified,
-		address: this.address,
+        address: this.address,
         description: this.description,
         price: this.price,
-	};
+    };
 };
-
 
 CoachSchema.methods.viewByCoachJSON = function () {
-	return {
-		id: this._id,
+    return {
+        id: this._id,
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
         verified: this.verified,
-		address: this.address,
+        address: this.address,
         description: this.description,
         price: this.price,
-        cin:this.cin
-	};
+        cin: this.cin
+    };
 };
+
 var Coach = mongoose.model('Coach', CoachSchema);
+
 module.exports = Coach;

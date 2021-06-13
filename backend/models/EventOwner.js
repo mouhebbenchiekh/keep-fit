@@ -1,8 +1,6 @@
-
 var mongoose = require('mongoose');
-var uniqueValidator = require('mongoose-unique-validator');
 
-var ObjectId = mongoose.Schema.Types.ObjectId;
+var uniqueValidator = require('mongoose-unique-validator');
 
 var EventOwnerSchema = new mongoose.Schema({
     firstName: {
@@ -18,7 +16,6 @@ var EventOwnerSchema = new mongoose.Schema({
         required: [true, "can't be blank"],
         unique: true,
         match: [/[0-9]{8}$/, 'is invalid']
-
     },
     password: {
         type: String,
@@ -43,8 +40,6 @@ var EventOwnerSchema = new mongoose.Schema({
 
 EventOwnerSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
-// methods to add 
-
-
 var EventOwner = mongoose.model('EventOwner', EventOwnerSchema);
+
 module.exports = EventOwner;

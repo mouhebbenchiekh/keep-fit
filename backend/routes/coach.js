@@ -4,9 +4,9 @@ var router = require('express').Router();
 var Coach = mongoose.model('Coach');
 
 /*
- * Get list of all verified coachs : 
-   public access
-   no data required
+ * Get list of all verified coaches : 
+ *  public access
+ *  no data required
  */
  router.get('/', function(req, res, next) {
 	var query = {verified: true};
@@ -27,7 +27,6 @@ var Coach = mongoose.model('Coach');
 	}).catch(next);
 });
 
-// ----------------------------------------------------------------------------------
 
 /*
  * Create new coach 
@@ -43,7 +42,6 @@ var Coach = mongoose.model('Coach');
  * 
  * TO-DO : restrict access 
  */
-
 router.post('/', function (req, res, next) { 
 
         if (!req.body.coach) return res.sendStatus(400);
@@ -63,8 +61,5 @@ router.post('/', function (req, res, next) {
             return res.json({ coach: coach.viewJSON() });
         }).catch(next);
 });
-
-
-
 
 module.exports = router;

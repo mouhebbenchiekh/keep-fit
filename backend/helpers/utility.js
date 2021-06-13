@@ -45,5 +45,6 @@ var generatePassword = function(len) {
 }
 */
 //module.exports = {time, generatePassword};
+
 module.exports = time;
 

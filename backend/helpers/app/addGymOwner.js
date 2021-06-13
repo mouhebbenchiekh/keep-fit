@@ -1,10 +1,7 @@
-/* Add Gym owners
+/* 
+ * Add Gym owners
  * Do not include this file in the main app
-
- TODO - database connection configuration
-
  */
-
 
 var mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -12,9 +9,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 var GymOwner = require('../../models/GymOwner');
-
-
-
 
 // Connect database
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }) 
@@ -28,7 +22,6 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true })
 		user.cin = '14767162';
 		user.email = 'gymowner123@gmail.com';
 		user.phone = '22018181';
-		//user.setPassword('password'); don't use this function for now : you need to add methods in the gymowner in order to use
 		user.password = 'testpassword';
 		user.save().then(function () {
 		}).catch(function (err) { console.log(err) });

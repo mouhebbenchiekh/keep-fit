@@ -4,7 +4,6 @@ var Reservation = mongoose.model('Reservation');
 var Facility = mongoose.model('Facility');
 
 var config = require('../../config');
-var utility = require('../utility');
 
 let days = [
 	'monday',

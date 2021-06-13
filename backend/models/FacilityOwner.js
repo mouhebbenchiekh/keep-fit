@@ -1,9 +1,5 @@
-
-
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
-
-var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var FacilityOwnerSchema = new mongoose.Schema({
     firstName: {
@@ -24,8 +20,7 @@ var FacilityOwnerSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, "can't be blank"],
-    }
-    ,
+    },
     email: {
         type: String,
         required: [true, "can't be blank"],
@@ -44,8 +39,6 @@ var FacilityOwnerSchema = new mongoose.Schema({
 
 FacilityOwnerSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
-// methods to add 
-
-
 var FacilityOwner = mongoose.model('FacilityOwner', FacilityOwnerSchema);
+
 module.exports = FacilityOwner;

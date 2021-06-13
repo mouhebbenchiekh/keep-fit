@@ -1,26 +1,10 @@
-/*
- * Create and export configuration variables
- */
+
 
 // Container for all the environments
 var environments = {};
-// Staging (default) environments
 environments.staging = {
 	'port' : 5000,
 	'envName' : 'staging',
-	//'secret' : 'ThisIsSecretCodeForJWT',
-	
-	// you can find database info in dotenv file
-	/*
-	'mongodb' : {
-		'URL' : 'mongodb://localhost:27017/',
-		'option' : {
-			'dbName' : 'test',
-			'useNewUrlParser' : true
-		}
-	},
-	*/
-
 	'defaultReservationDuration': 0100 // HHMM format
 };
 
@@ -28,14 +12,6 @@ environments.staging = {
 environments.production = {
 	'port' : 5000,
 	'envName' : 'production',
-	/*'secret' : process.env.JWT_SECRET || 'ThisIsSecretCodeForJWT',
-	'mongodb' : {
-		'URL' : process.env.MONGO_URL || 'mongodb://localhost:27017/',
-		'option' : {
-			'dbName' : 'test',
-			'useNewUrlParser' : true
-		}
-	},*/
 	'defaultReservationDuration': 0100 // HHMM format
 };
 
