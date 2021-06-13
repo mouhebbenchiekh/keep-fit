@@ -23,6 +23,7 @@ const StyledTableCell = withStyles((theme) =>
 const StyledTableRow = withStyles((theme) =>
   createStyles({
     root: {
+      
       '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
       },
@@ -34,7 +35,8 @@ const StyledTableRow = withStyles((theme) =>
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 700,
+    minWidth: 570,
+    
   },
 });
 

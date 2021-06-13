@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -45,6 +45,7 @@ import {
   Appointments,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import ScoreTab from "components/Tables/scoreTab";
+import axios from "axios";
 
 const currentDate = '2018-11-01';
 const schedulerData = [
@@ -64,10 +65,78 @@ const rows = [
   createData('Liverpool', 'Southampton', "LV", "SO", "3-2"),
  
 ];
+var rowsLive=[];
+
 
 const useStyles = makeStyles(styles);
 
 export default function ResultsPage(props) {
+
+  //live matches *******
+
+  const [rowsLive,setRows]=useState([]);
+  
+  
+
+  useEffect(()=>{
+    axios.get('http://api.football-data.org/v2/matches?status=LIVE',{headers :{
+      'X-Auth-Token': '2bf2c7bfb63347f8a83a301df17f95d7'
+    }}).then(res=>res.data).then(
+      data=>{
+       const rowsLive1=[];
+        data.matches.map(match=>{
+          console.log(match);
+          console.log(match.awayTeam);
+         rowsLive1.push( createData(match.awayTeam.name,match.homeTeam.name,"AW","HO",`${match.score.fullTime.awayTeam}-${match.score.fullTime.homeTeam}`));
+        })
+        setRows(rowsLive1);
+      }
+      
+    ).catch(err=>console.log(err))
+    setInterval(()=>{
+    axios.get('http://api.football-data.org/v2/matches?status=LIVE',{headers :{
+      'X-Auth-Token': '2bf2c7bfb63347f8a83a301df17f95d7'
+    }}).then(
+      res=> res.data).then(
+        data=>{
+         const rowsLive=[];
+          data.matches.map(match=>{
+            console.log(match);
+            console.log(match.awayTeam);
+           rowsLive.push( createData(match.awayTeam.name,match.homeTeam.name,"AW","HO",`${match.score.fullTime.awayTeam}-${match.score.fullTime.homeTeam}`));
+          })
+          console.log(rowsLive);
+        }
+    ).catch(err=>console.log(err))},30000)
+  },[])
+
+  // end Live matches ****
+
+  // matches of the day 
+  const [rowsDay,setRowsDay]=useState([]);
+  useEffect(()=>{
+    const date = new Date();
+    console.log(date.getUTCDate());
+    console.log(date.getMonth());
+    
+    axios.get(`http://api.football-data.org/v2/matches`,{headers :{
+      'X-Auth-Token': '2bf2c7bfb63347f8a83a301df17f95d7'
+    }}).then(res=>res.data).then(
+      data=>{
+        console.log(data);
+       const rowsDays=[];
+        data.matches.map(match=>{
+          console.log(match);
+          console.log(match.awayTeam);
+         rowsDays.push( createData(match.awayTeam.name,match.homeTeam.name,"AW","HO",`${match.score.fullTime.awayTeam}-${match.score.fullTime.homeTeam}`));
+        })
+        setRowsDay(rowsDays);
+      }
+      
+    ).catch(err=>console.log(err))
+  },[])
+
+
   const classes = useStyles();
   const { ...rest } = props;
   const imageClasses = classNames(
@@ -107,10 +176,10 @@ export default function ResultsPage(props) {
                       tabContent: (
                         <GridContainer justify="center">
                           <GridItem xs={12} sm={12} md={12}>
-                           <ScoreTab league="Premier league" rows={rows}/>
+                           <ScoreTab league="Live matches" rows={rowsLive}/>
                           </GridItem>
                           <GridItem xs={12} sm={12} md={12}>
-                           <ScoreTab league="Ligue 1" rows={rows}/>
+                           <ScoreTab league="Today matches" rows={rowsDay}/>
                           </GridItem>
                           
                         </GridContainer>
