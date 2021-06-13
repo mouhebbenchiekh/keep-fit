@@ -8,7 +8,18 @@ var config = require('./config');
 const dotenv = require('dotenv');
 
 dotenv.config();
+// Database models
+var FacilityOwner = require('./models/FacilityOwner');
+var Customer = require('./models/Customer');
+var Facility = require('./models/Facility');
+var Court = require('./models/Court');
+var Reservation = require('./models/Reservation');
 
+var Gym = require('./models/Gym');
+var GymOwner = require('./models/GymOwner');
+var Event = require('./models/Event');
+var EventOwner = require('./models/EventOwner');
+var Coach = require('./models/Coach');
 var app = express();
 
 // Middlewares
