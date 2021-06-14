@@ -21,6 +21,14 @@ var Reservation = mongoose.model('Reservation');
  * - sortby (type: array of array, ex: [['reservationFrom', -1], ['reservationStatus', 1]])
  * - countOnly (type: boolean) // To get only the counts of reservations 
  */
+router.get('/court/:id',(req,res,next)=>{
+	Reservation.find({court: [req.params.id]}).then(reservation=>{
+
+		if(!reservation) res.sendStatus(404);
+	return res.send(reservation);
+	}
+	).catch(next)
+})
 router.get('/:facilityId',  function(req, res, next) { // remove auth.required
    // if regEx of params do not match procceed to next function
    var regExObjectId = /^[a-f\d]{24}$/i;

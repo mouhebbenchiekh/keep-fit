@@ -6,6 +6,21 @@ var router = require('express').Router();
 var Facility = mongoose.model('Facility');
 var FacilityOwner = mongoose.model('FacilityOwner');
 
+//get facility by its id 
+
+router.get('/:id',(req,res,next)=>{
+	console.log("it is working for now",req.params.id);
+	Facility.findById(req.params.id).then(
+		
+		facility=>{
+			if(!facility) return res.sendStatus(404);
+			
+			return res.send(facility.viewJSON());
+		}
+	).catch(next)
+
+})
+
 // WORKS
 /*
  * Create new facility by facility owner
@@ -36,13 +51,18 @@ router.post('/', function (req, res, next) {
 });
 
 
+
+
+
 // WORKS
 /*
  * Get facilities owned by facilityOwner
  * required data: 
  * 	facility owner id 
  */
-router.get('/', function (req, res, next) {
+
+
+router.get('/owner', function (req, res, next) {
 
 	FacilityOwner.findById(req.body.user.id).then(function (facilityOwner) {
 		if (!facilityOwner) return res.sendStatus(401);

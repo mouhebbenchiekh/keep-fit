@@ -21,7 +21,8 @@ CourtSchema.methods.viewJSON = function () {
     return {
         id: this._id,
         courtIdentifier: this.courtIdentifier,
-        description: this.description
+        description: this.description,
+        facility:this.facility
     };
 };
 

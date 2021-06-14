@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect ,useState} from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -36,14 +36,22 @@ import work5 from "assets/img/examples/clem-onojegaw.jpg";
 import styles from "assets/jss/material-kit-react/views/profilePage.js";
 
 //schedule dependencies 
-import { ViewState } from '@devexpress/dx-react-scheduler';
+import { ViewState ,EditingState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
-  DayView,
+  WeekView,
   Appointments,
+  AppointmentForm,
+  EditRecurrenceMenu,
+  ConfirmationDialog,
+  
 } from '@devexpress/dx-react-scheduler-material-ui';
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
+import { Context } from "Reducer/Store";
 
-const currentDate = '2018-11-01';
+const currentDate = "2022-10-16";
 const schedulerData = [
   { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
   { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
@@ -51,7 +59,102 @@ const schedulerData = [
 
 const useStyles = makeStyles(styles);
 
+function createData(props){
+  var date = new Date(props.reservationFrom)
+  var date2 = new Date(props.reservationFrom);
+  
+  date2.setHours(date2.getHours()+1);
+  date2.setMinutes(date2.getMinutes()+30);
+  //date2=date2.setMinutes(date.getMinutes()+30);
+  console.log(date,"hhhhhh",date2);
+  return {startDate: date,endDate:date2,title:props.reservationStatus}
+
+}
+
+
+
 export default function ParkPage(props) {
+
+  let {ID}=useParams();
+  let {IDF}=useParams();
+  const [court,setCourt]=useState();
+  const [facility,setFacility]=useState();
+  const [reservations,setReservation]=useState([]);
+  const [schedulerData,setData]=useState([]);
+  const [addedAppointment,setAdd]=useState({});
+  const [state,dispatch]=useContext(Context);
+
+  const changeAddedAppointment=(added)=> {
+    console.log(added);
+            setAdd( added );
+  }
+
+ const  commitChanges=(/*{ added, changed, deleted }*/)=> {
+
+ 
+      let list=schedulerData;
+      console.log(addedAppointment);
+      let createAp ={startDate:addedAppointment.startDate,endDate:addedAppointment.endDate,title:"pending"}  ;
+      console.log(createAp) ;
+      list.push(createAp);  
+
+        setData( list);
+        if (state.user){
+          const body={
+            user:state.user._id,
+            reservation:{
+              reservationFrom:createAp.startDate,
+              court:ID
+            }
+          }
+        
+       axios.post(`http://localhost:5000/facility/reservation/${IDF}`,JSON.stringify(body),{headers:{
+        "Content-Type":"application/json"
+      }}).then(result=>{
+        console.log("new reservation ",result)
+        let list = reservations.push(result.data.reservation);
+        setReservation(list);
+      }).catch(err=>console.log(err))
+        }
+        console.log(schedulerData);
+      
+     
+    };
+
+    useEffect(()=>{console.log("reservation chnaged hhhhhhhh")},[schedulerData,reservations]);
+  
+
+  useEffect(
+    ()=>{
+      axios.get(`http://localhost:5000/facility/facility/${IDF}`,{headers:{
+        "Content-Type":"application/json"
+      }}).then(
+        res=>setFacility(res.data)
+      ).catch(err=>console.log(err))
+
+      axios.get(`http://localhost:5000/facility/court/${ID}`,{headers:{
+        "Content-Type":"application/json"
+      }}).then(
+        res=>setCourt(res.data)
+      ).then(
+        axios.get(`http://localhost:5000/facility/reservations/court/${ID}`,{headers:{
+          "Content-Type":"application/json"
+        }}).then(result=>{setReservation(result.data)
+        console.log(result)
+        return result.data
+      }
+              
+        ).then((data)=>{
+          let list=[];
+          data.map(reser=>{
+            list.push(createData(reser))
+          })
+          setData(list);
+        })
+      ).catch(err=>console.log(err))
+
+    },[]
+  )
   const classes = useStyles();
   const { ...rest } = props;
   const imageClasses = classNames(
@@ -84,9 +187,9 @@ export default function ParkPage(props) {
                     <img src={profile} alt="..." className={imageClasses} />
                   </div>
                   <div className={classes.name}>
-                    <h3 className={classes.title}>Stade Videtto</h3>
+                    <h3 className={classes.title}>{court?court.courtIdentifier:"nth"}</h3>
                     <h5 style={{color:"green"}}>Price: 80dt</h5>
-                    <h6>Football</h6>
+                    <h6>{court?court.description:"nth"}</h6>
                     <Button justIcon link className={classes.margin5}>
                       <i className={"fab fa-twitter"} />
                     </Button>
@@ -107,6 +210,8 @@ export default function ParkPage(props) {
                 and records all of his own music, giving it a warm, intimate
                 feel with a solid groove structure.{" "}
               </p>
+              
+             
             </div>
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
@@ -151,18 +256,30 @@ export default function ParkPage(props) {
                       tabIcon: EventIcon,
                       tabContent: (
                         <GridContainer justify="center">
+                          
                           <Scheduler
                             data={schedulerData}
                           >
                             <ViewState
                               currentDate={currentDate}
                             />
-                            <DayView
-                              startDayHour={9}
-                              endDayHour={14}
+                            <EditingState
+                              onCommitChanges={()=>{commitChanges()}}
+                              addedAppointment={addedAppointment}
+                              onAddedAppointmentChange={(added)=>changeAddedAppointment(added)}
+                             
                             />
+                            <WeekView
+                              startDayHour={9}
+                              endDayHour={23}
+                              cellDuration={90}
+                            />
+                             <EditRecurrenceMenu />
+                              <ConfirmationDialog />
                             <Appointments />
-                          </Scheduler>
+                           <AppointmentForm />
+                    
+                      </Scheduler>
                         </GridContainer>
                       )
                     },

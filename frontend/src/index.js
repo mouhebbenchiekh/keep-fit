@@ -27,7 +27,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/landing-page" component={LandingPage} />
       <Route path="/profile-page" component={ProfilePage} />
-      <Route path="/park-page" component={ParkPage} />
+      <Route path="/park-page/:ID/:IDF" component={ParkPage} />
       <Route path="/gym-page" component={GymPage} />
       <Route path="/login-page" component={LoginPage} />
       <Route path="/signup-page" component={SignupPage} />

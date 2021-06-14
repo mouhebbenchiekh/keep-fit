@@ -423,7 +423,7 @@ exemple : http://localhost:5000/facility/court/60991d691e07392a646f04f8
 			"user": {
 			"id": "6098fba05bf6c24ee4534acb"
 		},
-		"courts":[
+		"courts":[  
 			{
 				"courtIdentifier":"court 1 facility 1",
 				"description": "Football court"

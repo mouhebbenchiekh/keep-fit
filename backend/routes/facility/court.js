@@ -7,6 +7,20 @@ var Court = mongoose.model('Court');
 var Facility = mongoose.model('Facility');
 var FacilityOwner = mongoose.model('FacilityOwner');
 
+//get court by its id 
+
+router.get('/:id',(req,res,next)=>{
+	Court.findById(req.params.id).then(
+		
+		court=>{
+			if(!court) return res.sendStatus(404);
+			
+			return res.send(court.viewJSON());
+		}
+	).catch(next)
+
+})
+
 // WORKS
 /*
  * Add court(s) to their facility by facilityOwner
@@ -85,6 +99,7 @@ router.get('/:facilityId/:courtId', function (req, res, next) {
 		}).catch(next);
 	}).catch(next)
 });
+
 
 
 // Works 

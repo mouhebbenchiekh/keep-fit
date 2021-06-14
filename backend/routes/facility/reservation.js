@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var router = require('express').Router();
+const User = require('../../models/User');
 
 //var auth = require('../../helpers/auth');
 
@@ -10,6 +11,7 @@ var checkAvailability = require('../../helpers/court/checkAvailability');
 
 var Facility = mongoose.model('Facility');
 var Customer = mongoose.model('Customer');
+
 var Reservation = mongoose.model('Reservation');
 
 // WORKS : 
@@ -158,19 +160,19 @@ router.post('/:facilityId', function (req, res, next) {
 	// Authorize if user is the owner of the facility
 	Facility.findOne({
 		_id: req.params.facilityId,
-		admin: req.body.user.id   // facility owner
+		  // facility owner
 	}).then(function (facility) {
 		if (!facility) res.sendStatus(401);
 
 		// Obtain customer id by phone or email
-		let customerQuery = {};
+	/*	let customerQuery = {};
 		if (req.body.userC && req.body.userC.phone) customerQuery.phone = req.body.userC.phone;
 		else if (req.body.userC && req.body.userC.email) customerQuery.email = req.body.userC.email;
 		else throwError.validationError(' provide phone number or email');
 
-		console.log(customerQuery);
-
-		Customer.findOne(customerQuery).then(function (customer) {
+		console.log(customerQuery);*/
+			console.log(req.body);
+		User.findById(req.body.user).then(function (customer) {
 			// If phone or email is not present in customer database
 			if (!customer) throwError.userNotFound();
 
@@ -182,15 +184,16 @@ router.post('/:facilityId', function (req, res, next) {
 
 			if (new Date(parseInt(payload.reservationFrom)) == 'Invalid Date')
 				throwError.validationError('Invalid date');
-
-			payload.reservationFrom = (parseInt(payload.reservationFrom));
-			if (payload.reservationFrom < Date.now())
-				throwError.validationError('Invalid date');
+				console.log(payload.reservationFrom,"helllo1")
+			//payload.reservationFrom = (parseInt(payload.reservationFrom));
+			console.log(payload.reservationFrom,"helllo")
+		/*	if (payload.reservationFrom < Date.now())
+				throwError.validationError('Invalid date');*/
 
 			// Add facility id to payload
 			payload.facility = req.params.facilityId;
 
-			// Validate reservation time with business hours
+			/*// Validate reservation time with business hours
 			reservationValidator.businessHours(payload)
 				.then(async function (valid) {
 					if (!valid) throwError.validationError('Facility will be closed at that time');
@@ -216,7 +219,7 @@ router.post('/:facilityId', function (req, res, next) {
 						if (!court) {
 							throwError.validationError('Court not available');
 						}
-					}
+					}*/
 
 					// Update database
 					var reservation = new Reservation;
@@ -226,8 +229,8 @@ router.post('/:facilityId', function (req, res, next) {
 					reservation.customer = customer._id;
 					reservation.facility = payload.facility;
 					reservation.reservationFrom = payload.reservationFrom;
-					reservation.courts = court;
-					reservation.court = court; // when i added this the court id was added to the reservation i don't know why
+					reservation.courts = payload.court;
+					reservation.court = payload.court; // when i added this the court id was added to the reservation i don't know why
 
 					reservation.save()
 						.then(function () {
@@ -235,7 +238,7 @@ router.post('/:facilityId', function (req, res, next) {
 								return res.json({ reservation: reservation.toFacilityOwnerJSON() });
 							});
 						}).catch(next);
-				}).catch(next);
+			//	}).catch(next);
 		}).catch(next);
 	}).catch(next);
 });

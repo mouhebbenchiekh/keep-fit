@@ -27,3 +27,12 @@
 @import "plugins/plugin-nouislider";
 @import "plugins/plugin-react-datetime";
 @import "plugins/plugin-react-slick";
+
+
+.hello2{
+    .react-swipeable-view-container div:nth-of-type(1){
+        overflow-x: hidden;
+    }
+}
+
+

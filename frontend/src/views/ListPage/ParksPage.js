@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
 import Header from "components/Header/Header.js";
@@ -13,6 +13,7 @@ import Parallax from "components/Parallax/Parallax";
 import MediaCard from "components/Card/mediaCard";
 import photo from "assets/img/football.jpg";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles((theme)=>({
  main:{
@@ -59,6 +60,21 @@ const top100Films=[
 const ParksPage=(props)=>{
     const classes = useStyles();
   const { ...rest } = props;
+  const [courts,setCourts]=useState([]);
+
+  /** */
+  useEffect(()=>{
+      axios.get("http://localhost:5000/facility/courts",{headers:{
+        "Content-Type":"application/json"
+      }}).then(
+        res=>{
+          console.log(res);
+          setCourts(res.data.courts);
+        }
+      ).catch(
+        err=>console.log(err)
+      )
+  },[])
 
     return(
         <div>
@@ -117,6 +133,11 @@ const ParksPage=(props)=>{
       </GridContainer>
 
       <GridContainer justify="center">
+        {courts.map(court=>{
+          return (<GridItem xs={12} sm={12} md={6} lg={4}>
+            <Link to={"/park-page/"+court.id+"/"+court.facility} > <MediaCard im={photo} name={court.Identifier} price="80dt" type={court.description}/></Link>
+         </GridItem>)
+        })}
           <GridItem xs={12} sm={12} md={6} lg={4}>
              <Link to="/park-page"> <MediaCard im={photo} name="Videtto" price="80dt" type="Football"/></Link>
           </GridItem>

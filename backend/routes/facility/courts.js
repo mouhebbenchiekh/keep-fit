@@ -6,6 +6,7 @@ var router = require('express').Router();
 var listCourts = require('../../helpers/court/listCourts');
 
 var Facility = mongoose.model('Facility');
+var Court = mongoose.model('Court');
 
 
 // Works
@@ -20,6 +21,38 @@ var Facility = mongoose.model('Facility');
 
  *	-   reservationId // ignore this reservation id while checking availability
  */
+
+ 
+
+ router.get('/',(req,res,next)=>{
+	Court.find().then(
+		result=>{
+			
+			const list=[];
+			if(result){
+				
+				result.map(court=>{
+				
+				
+							list.push(court.viewJSON());
+							console.log(list);
+						 });
+						 
+					
+					
+					
+			
+
+				
+				console.log(result,"hhheeyy");
+			return	res.json({courts:list});
+			}
+			else 
+			return res.sendStatus(401);
+
+		}
+	).catch(next)
+})
 
  router.get('/:facilityId',  function(req, res, next) { // remove auth.required
 	// Check user is admin of the facility or not

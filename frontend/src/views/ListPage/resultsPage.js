@@ -93,7 +93,7 @@ export default function ResultsPage(props) {
       }
       
     ).catch(err=>console.log(err))
-    setInterval(()=>{
+      const interval= setInterval(()=>{
     axios.get('http://api.football-data.org/v2/matches?status=LIVE',{headers :{
       'X-Auth-Token': '2bf2c7bfb63347f8a83a301df17f95d7'
     }}).then(
@@ -108,6 +108,7 @@ export default function ResultsPage(props) {
           console.log(rowsLive);
         }
     ).catch(err=>console.log(err))},30000)
+    return () => clearInterval(interval);
   },[])
 
   // end Live matches ****
@@ -164,8 +165,8 @@ export default function ResultsPage(props) {
         <div>
           <div className={classes.container}>
            
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
+            <GridContainer justify="center" className="hello">
+              <GridItem xs={12} sm={12} md={8} className={classes.navWrapper} >
                 <NavPills
                   alignCenter
                   color="primary"

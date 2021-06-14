@@ -44,7 +44,7 @@ export default function ScoreTab(props) {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} >
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
